@@ -58,7 +58,7 @@
     var houses_layer = L.layerGroup([]);
     var roads_layer = L.layerGroup([]);
     var bottom_layer = L.layerGroup([]);
-    var layers = [yard_layer, cars_layer, trees_layer]; // from bottom to top
+    var layers = [roads_layer, yard_layer, houses_layer, cars_layer, trees_layer]; // from bottom to top
 
 
     // trees block start
@@ -221,7 +221,7 @@
         }
     }
 
-    bottom_layer.addTo(map);
+{#    bottom_layer.addTo(map);#}
 
 
     {#    var baseMaps = {#}
