@@ -34,7 +34,8 @@
 
     // set up the map
     map = new L.Map('mapid', {
-        renderer: L.canvas()
+        renderer: L.canvas(),
+        maxZoom: 18
     });
 
     // create the tile layer with correct attribution
@@ -44,12 +45,12 @@
     //    map.addLayer(osm);
 
     var OpenMapSurfer_Grayscale = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roadsg/x={x}&y={y}&z={z}', {
-        maxZoom: 19,
+        maxZoom: 18,
         attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
     map.setView(new L.LatLng(50.450779, 30.510317), 16);
-    //    map.addLayer(OpenMapSurfer_Grayscale);
+    map.addLayer(OpenMapSurfer_Grayscale);
 
 
     var yard_layer = L.layerGroup([]);
@@ -57,7 +58,6 @@
     var cars_layer = L.layerGroup([]);
     var houses_layer = L.layerGroup([]);
     var roads_layer = L.layerGroup([]);
-    var bottom_layer = L.layerGroup([]);
     var layers = [roads_layer, yard_layer, houses_layer, cars_layer, trees_layer]; // from bottom to top
 
 
@@ -141,7 +141,6 @@
                 smoothFactor: 1
             });
             houses_layer.addLayer(current_house);
-            bottom_layer.addLayer(current_house);
         }
         houses_layer.addTo(map);
         redraw_all_layers()
@@ -170,7 +169,6 @@
                 smoothFactor: 1,
             });
             roads_layer.addLayer(current_road);
-            bottom_layer.addLayer(current_road);
         }
         roads_layer.addTo(map);
         redraw_all_layers()
@@ -221,62 +219,32 @@
         }
     }
 
-{#    bottom_layer.addTo(map);#}
-
-
-    {#    var baseMaps = {#}
-    {#        "bottom_layer": bottom_layer,#}
-    {#//        "grayscale": OpenMapSurfer_Grayscale#}
-    {#    };#}
-    {#    var overlayMaps = {#}
-    {#        "Trees": trees_layer,#}
-    {#        "Cars": cars_layer,#}
-    {#        "Yards": yard_layer#}
-    {#    };#}
-
-    //    L.control.layers(baseMaps, overlayMaps).addTo(map);
 
     document.getElementById("tree_switch").addEventListener("click", function () {
-        if (this.checked) {
-            if (!map.hasLayer(trees_layer)) {
-                map.addLayer(trees_layer)
-            }
-        }
-        else {
-            if (map.hasLayer(trees_layer)) {
-                map.removeLayer(trees_layer)
-            }
-        }
-        redraw_all_layers()
+        layerSwitcher(this, trees_layer);
     });
 
     document.getElementById("cars_switch").addEventListener("click", function () {
-        if (this.checked) {
-            if (!map.hasLayer(cars_layer)) {
-                map.addLayer(cars_layer)
-            }
-        }
-        else {
-            if (map.hasLayer(cars_layer)) {
-                map.removeLayer(cars_layer)
-            }
-        }
-        redraw_all_layers()
+        layerSwitcher(this, cars_layer);
     });
 
     document.getElementById("yards_switch").addEventListener("click", function () {
-        if (this.checked) {
-            if (!map.hasLayer(yard_layer)) {
-                map.addLayer(yard_layer)
+        layerSwitcher(this, yard_layer);
+    });
+
+    function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
+        if (element.checked) {
+            if (!map.hasLayer(layer)) {
+                map.addLayer(layer)
             }
         }
         else {
-            if (map.hasLayer(yard_layer)) {
-                map.removeLayer(yard_layer)
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer)
             }
         }
         redraw_all_layers()
-    });
+    }
 
 
 </script>
