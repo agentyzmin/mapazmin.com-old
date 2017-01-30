@@ -1,12 +1,14 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Leaflet example</title>
 
     <script>L_PREFER_CANVAS = true;</script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="{% static "leaflet.css" %}"/>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}"/>
+    <script src="{% static "leaflet.js" %}"></script>
 </head>
 <body>
 <style type="text/css">
@@ -21,21 +23,24 @@
     }
 </style>
 
-<div>
-    <label><input type="checkbox" id="tree_switch">Toggle trees</label>
-    <label><input type="checkbox" id="cars_switch">Toggle cars</label>
-    <label><input type="checkbox" id="yards_switch">Toggle yards</label>
+<div class="container" style="height: 100%;">
+
+    <div class="col-md-3">
+        <div><label><input type="checkbox" id="tree_switch"> Toggle trees</label></div>
+        <div><label><input type="checkbox" id="cars_switch"> Toggle cars</label></div>
+        <div><label><input type="checkbox" id="yards_switch"> Toggle yards</label></div>
+
+    </div>
+
+    <div id="mapid" class="col-md-9"></div>
 
 </div>
-
-<div id="mapid"></div>
-
 <script>
 
     // set up the map
     map = new L.Map('mapid', {
         renderer: L.canvas(),
-        maxZoom: 18
+        maxZoom: 19
     });
 
     // create the tile layer with correct attribution
