@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Google Maps Yarval trees</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- <script src="script.js"></script> -->
+</head>
+<body>
+<style type="text/css">
+    /* Always set the map height explicitly to define the size of the div
+   * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div id="map"></div>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3Rkj7-bg8lCozVOsH_ZBrVHbfvSKohWk&callback=initMap">
+</script>
+<script type="text/javascript">
+    houses_global = [];
+    roads_global = [];
+    cars_global = [];
+    trees_global = [];
+
+
+    function initMap() {
+        // Create the map.
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: {lat: 50.450779, lng: 30.510317},
+            mapTypeId: 'terrain'
+        });
+
+
+        // load and show houses block start
+        var client_houses = new XMLHttpRequest();
+        client_houses.open('GET', '/houses_json');
+        client_houses.onreadystatechange = function () {
+            var houseplain = client_houses.responseText;
+            // console.log(houseplain)
+            var houses = JSON.parse(houseplain);
+            // console.log(houses)
+
+
+            for (var i = 0; i < houses.length; i++) {
+                // console.log(houses[i])
+                houses_global += new google.maps.Polygon({
+                    paths: houses[i],
+                    strokeColor: '#AAB3BE',
+                    strokeOpacity: 1,
+                    strokeWeight: 1,
+                    fillColor: '#C9CFD2',
+                    fillOpacity: 0.8,
+                    map: map,
+                    zIndex: 100
+                });
+            }
+
+        };
+        client_houses.send();
+        // load and show houses block end
+
+        // load and show roads block start
+
+        var client_roads = new XMLHttpRequest();
+        client_roads.open('GET', '/roads_json');
+        client_roads.onreadystatechange = function () {
+            var roadsplain = client_roads.responseText;
+            // console.log(roadsplain)
+            var roads = JSON.parse(roadsplain);
+            // console.log(roads)
+
+
+            for (var i = 0; i < roads.length; i++) {
+                // console.log(roads[i])
+                roads_global += new google.maps.Polygon({
+                    paths: roads[i],
+                    strokeOpacity: 0,
+                    fillColor: '#6d6d6d',
+                    fillOpacity: 1,
+                    map: map,
+                    zIndex: 1000
+                });
+            }
+
+            console.log(roads.length)
+
+        };
+        client_roads.send();
+
+        // load and show roads block end
+
+        // load and show cars block start
+
+        var client_cars = new XMLHttpRequest();
+        client_cars.open('GET', '/cars_json');
+        client_cars.onreadystatechange = function () {
+
+            var plainCarsCoo = client_cars.responseText;
+            var carsCoo = JSON.parse(plainCarsCoo);
+
+            for (var i = 0; i < carsCoo.length; i++) {
+                var carCoords = [
+                    {lat: carsCoo[i]['a']['lat'], lng: carsCoo[i]['a']['lon']},
+                    {lat: carsCoo[i]['b']['lat'], lng: carsCoo[i]['b']['lon']},
+                    {lat: carsCoo[i]['c']['lat'], lng: carsCoo[i]['c']['lon']},
+                    {lat: carsCoo[i]['d']['lat'], lng: carsCoo[i]['d']['lon']},
+                    {lat: carsCoo[i]['a']['lat'], lng: carsCoo[i]['a']['lon']},
+                ];
+
+                cars_global += new google.maps.Polygon({
+                    paths: carCoords,
+                    strokeColor: '#242424',
+                    strokeOpacity: 1,
+                    fillColor: '#242424',
+                    fillOpacity: 1,
+                    map: map,
+                    zIndex: 200
+
+                });
+            }
+        };
+        client_cars.send();
+
+        // load and show cars block end
+
+        // load and show trees block start
+
+        var client_trees = new XMLHttpRequest();
+        client_trees.open('GET', '/trees_json');
+        client_trees.onreadystatechange = function () {
+            var plainTreesCoo = client_trees.responseText;
+            var treesCoo = JSON.parse(plainTreesCoo);
+
+            for (var i = 0; i < treesCoo.length; i++) {
+                tree = treesCoo[i];
+                trees_global[i] = new google.maps.Circle({
+                    strokeColor: '#91C497',
+                    strokeOpacity: 0.7,
+                    strokeWeight: 1,
+                    fillColor: '#91C497',
+                    fillOpacity: 0.7,
+                    map: map,
+                    center: {lat: tree['lat'], lng: tree['lon']},
+                    radius: tree['radius'],
+                    zIndex: 300,
+                    //draggable: true
+                });
+            }
+        };
+        client_trees.send();
+        // load and show trees block end
+
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Google Maps Yarval cars</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <!-- <script src="script.js"></script> -->
+  </head>
+  <body>
+  	<style type="text/css">
+  		/* Always set the map height explicitly to define the size of the div
+		 * element that contains the map. */
+		#map {
+		  height: 100%;
+		}
+		/* Optional: Makes the sample page fill the window. */
+		html, body {
+		  height: 100%;
+		  margin: 0;
+		  padding: 0;
+		}
+  	</style>
+  	<div id="map"></div>
+	<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3Rkj7-bg8lCozVOsH_ZBrVHbfvSKohWk&callback=initMap">
+	</script>
+	<script type="text/javascript">
+	var cars_global = []
+	var trees_global = []
+
+		function initMap() {
+  			// Create the map.
+		var client = new XMLHttpRequest();
+		client.open('GET', '/cars_json');
+		client.onreadystatechange = function() {
+
+ 			var plainCarsCoo = client.responseText;
+    		var carsCoo = JSON.parse(plainCarsCoo)
+    		var map = new google.maps.Map(document.getElementById('map'), {
+			    zoom: 16,
+			    center: {lat: 50.450779, lng: 30.510317},
+			    mapTypeId: 'terrain'
+			});
+
+			for (var i=0; i<carsCoo.length; i++){
+				var carCoords = [
+				{lat: carsCoo[i]['a']['lat'],lng:carsCoo[i]['a']['lon'] },
+				{lat: carsCoo[i]['b']['lat'],lng:carsCoo[i]['b']['lon'] },
+				{lat: carsCoo[i]['c']['lat'],lng:carsCoo[i]['c']['lon'] },
+				{lat: carsCoo[i]['d']['lat'],lng:carsCoo[i]['d']['lon'] },
+				{lat: carsCoo[i]['a']['lat'],lng:carsCoo[i]['a']['lon'] },
+				]
+
+				cars_global += new google.maps.Polygon({
+					paths: carCoords,
+			        strokeColor: '#000000',
+			        strokeOpacity: 1,
+			        strokeWeight: 2,
+			        fillColor: '#000000',
+			        fillOpacity: 1,
+			        map: map
+				});
+			}
+
+			var client_inner = new XMLHttpRequest();
+			client_inner.open('GET', '/trees_json');
+			client_inner.onreadystatechange = function() {
+	 			var plainTreesCoo = client_inner.responseText;
+	 			// console.log(plainTreesCoo)
+	    		var treesCoo = JSON.parse(plainTreesCoo)
+
+	    		// console.log(treesCoo)
+				for (var i=0; i<treesCoo.length; i++){
+					tree = treesCoo[i];
+					// console.log(tree);
+					trees_global[i] = new google.maps.Circle({
+					      strokeColor: '#00FF00',
+					      strokeOpacity: 0.8,
+					      strokeWeight: 2,
+					      fillColor: '#00FF00',
+					      fillOpacity: 0.35,
+					      map: map,
+					      center: {lat: tree['lat'], lng: tree['lon']},
+					      radius: tree['radius'],
+					      draggable: true,
+					});
+					// console.log(trees_global[i].getCenter().lat())
+				}
+			}
+			client_inner.send();
+		}
+		client.send();
+
+
+
+	}
+
+ 	</script>
+  </body>
+</html>
