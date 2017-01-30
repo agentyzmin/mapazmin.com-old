@@ -21,6 +21,13 @@
     }
 </style>
 
+<div>
+    <label><input type="checkbox" id="tree_switch">Toggle trees</label>
+    <label><input type="checkbox" id="cars_switch">Toggle cars</label>
+    <label><input type="checkbox" id="yards_switch">Toggle yards</label>
+
+</div>
+
 <div id="mapid"></div>
 
 <script>
@@ -107,7 +114,7 @@
             });
             cars_layer.addLayer(current_car)
         }
-        cars_layer.addTo(map);
+//        cars_layer.addTo(map);
         redraw_all_layers()
     };
     client_cars.send();
@@ -180,10 +187,10 @@
     client_yards.onreadystatechange = function () {
         var yardsplain = client_yards.responseText;
         var yards = JSON.parse(yardsplain);
-        for (var i=0; i<yards.length; i++){
+        for (var i = 0; i < yards.length; i++) {
             yard_type = yards[i][0];
             yardCoos = [];
-            for (var j=0; j<yards[i][1].length; j++){
+            for (var j = 0; j < yards[i][1].length; j++) {
                 yardCoos[j] = [yards[i][1][j]['lat'], yards[i][1][j]['lng']]
             }
             current_yard = L.polygon(yardCoos, {
@@ -196,7 +203,7 @@
             });
             yard_layer.addLayer(current_yard)
         }
-        yard_layer.addTo(map);
+//        yard_layer.addTo(map);
         redraw_all_layers();
 
     };
@@ -206,7 +213,7 @@
 
     function redraw_all_layers() {
         for (var i = 0; i < layers.length; i++) {
-            if (layers[i]) {
+            if (map.hasLayer(layers[i])) {
                 layers[i].eachLayer(function (layer) {
                     layer.bringToFront()
                 })
@@ -217,17 +224,59 @@
     bottom_layer.addTo(map);
 
 
-    var baseMaps = {
-        "bottom_layer": bottom_layer,
-//        "grayscale": OpenMapSurfer_Grayscale
-    };
-    var overlayMaps = {
-        "Trees": trees_layer,
-        "Cars": cars_layer,
-        "Yards": yard_layer
-    };
+    {#    var baseMaps = {#}
+    {#        "bottom_layer": bottom_layer,#}
+    {#//        "grayscale": OpenMapSurfer_Grayscale#}
+    {#    };#}
+    {#    var overlayMaps = {#}
+    {#        "Trees": trees_layer,#}
+    {#        "Cars": cars_layer,#}
+    {#        "Yards": yard_layer#}
+    {#    };#}
 
-    L.control.layers(baseMaps, overlayMaps).addTo(map)
+    //    L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+    document.getElementById("tree_switch").addEventListener("click", function () {
+        if (this.checked) {
+            if (!map.hasLayer(trees_layer)) {
+                map.addLayer(trees_layer)
+            }
+        }
+        else {
+            if (map.hasLayer(trees_layer)) {
+                map.removeLayer(trees_layer)
+            }
+        }
+        redraw_all_layers()
+    });
+
+    document.getElementById("cars_switch").addEventListener("click", function () {
+        if (this.checked) {
+            if (!map.hasLayer(cars_layer)) {
+                map.addLayer(cars_layer)
+            }
+        }
+        else {
+            if (map.hasLayer(cars_layer)) {
+                map.removeLayer(cars_layer)
+            }
+        }
+        redraw_all_layers()
+    });
+
+    document.getElementById("yards_switch").addEventListener("click", function () {
+        if (this.checked) {
+            if (!map.hasLayer(yard_layer)) {
+                map.addLayer(yard_layer)
+            }
+        }
+        else {
+            if (map.hasLayer(yard_layer)) {
+                map.removeLayer(yard_layer)
+            }
+        }
+        redraw_all_layers()
+    });
 
 
 </script>
