@@ -60,3 +60,10 @@ def roads_json(request):
     with open(file_path) as json_file:
         json_roads = json_file.read()
     return HttpResponse(json_roads, content_type="application/json")
+
+def yards_json(request):
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'static/yardsGeo.json')
+    with open(file_path) as json_file:
+        json_yards = json_file.read()
+    return HttpResponse(json_yards, content_type="application/json")

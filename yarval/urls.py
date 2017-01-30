@@ -31,5 +31,6 @@ urlpatterns = [
     url(r'^cars_json$', maps.views.cars_json, name='cars_json'),
     url(r'^houses_json$', maps.views.houses_json, name='houses_json'),
     url(r'^roads_json$', maps.views.roads_json, name='roads_json'),
+    url(r'^yards_json$', maps.views.yards_json, name='yards_json'),
     url(r'^admin/', include(admin.site.urls)),
 ]

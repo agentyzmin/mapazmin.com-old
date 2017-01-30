@@ -45,12 +45,13 @@
     //    map.addLayer(OpenMapSurfer_Grayscale);
 
 
+    var yard_layer = L.layerGroup([]);
     var trees_layer = L.layerGroup([]);
     var cars_layer = L.layerGroup([]);
     var houses_layer = L.layerGroup([]);
     var roads_layer = L.layerGroup([]);
     var bottom_layer = L.layerGroup([]);
-    var layers = [cars_layer, trees_layer]; // from bottom to top
+    var layers = [yard_layer, cars_layer, trees_layer]; // from bottom to top
 
 
     // trees block start
@@ -170,6 +171,38 @@
     client_roads.send();
     // roads block end
 
+    // yards block start
+
+    yard_colors = ["#fcde60", "#898989", "#666666"];
+
+    var client_yards = new XMLHttpRequest();
+    client_yards.open('GET', '/yards_json');
+    client_yards.onreadystatechange = function () {
+        var yardsplain = client_yards.responseText;
+        var yards = JSON.parse(yardsplain);
+        for (var i=0; i<yards.length; i++){
+            yard_type = yards[i][0];
+            yardCoos = [];
+            for (var j=0; j<yards[i][1].length; j++){
+                yardCoos[j] = [yards[i][1][j]['lat'], yards[i][1][j]['lng']]
+            }
+            current_yard = L.polygon(yardCoos, {
+                color: yard_colors[yard_type],
+                opacity: 1,
+                weight: 1,
+                fillColor: yard_colors[yard_type],
+                fillOpacity: 0.8,
+                smoothFactor: 1
+            });
+            yard_layer.addLayer(current_yard)
+        }
+        yard_layer.addTo(map);
+        redraw_all_layers();
+
+    };
+    client_yards.send();
+    // yards block end
+
 
     function redraw_all_layers() {
         for (var i = 0; i < layers.length; i++) {
@@ -190,7 +223,8 @@
     };
     var overlayMaps = {
         "Trees": trees_layer,
-        "Cars": cars_layer
+        "Cars": cars_layer,
+        "Yards": yard_layer
     };
 
     L.control.layers(baseMaps, overlayMaps).addTo(map)
