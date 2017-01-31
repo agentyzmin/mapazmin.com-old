@@ -33,5 +33,7 @@ urlpatterns = [
     url(r'^roads_json$', maps.views.roads_json, name='roads_json'),
     url(r'^yards_json$', maps.views.yards_json, name='yards_json'),
     url(r'^floor1_json$', maps.views.floor1_json, name='floor1_json'),
+    url(r'^cars_day_json$', maps.views.cars_day_json, name='cars_day_json'),
+    url(r'^cars_night_json$', maps.views.cars_night_json, name='cars_night_json'),
     url(r'^admin/', include(admin.site.urls)),
 ]

@@ -32,10 +32,12 @@ function initMap() {
     yard_layer = L.layerGroup([]);
     trees_layer = L.layerGroup([]);
     cars_layer = L.layerGroup([]);
+    cars_day_layer = L.layerGroup([]);
+    cars_night_layer = L.layerGroup([]);
     houses_layer = L.layerGroup([]);
     roads_layer = L.layerGroup([]);
     first_floor_layer = L.layerGroup([]);
-    layers = [roads_layer, yard_layer, houses_layer, first_floor_layer, cars_layer, trees_layer]; // from bottom to top
+    layers = [roads_layer, yard_layer, houses_layer, first_floor_layer, cars_layer, cars_day_layer, cars_night_layer, trees_layer]; // from bottom to top
 
     // trees block start
     var client_trees = new XMLHttpRequest();
@@ -96,6 +98,71 @@ function initMap() {
     client_cars.send();
     // cars block end
 
+    // cars day block start
+    var client_cars_day = new XMLHttpRequest();
+    client_cars_day.open('GET', '/cars_day_json');
+    client_cars_day.onreadystatechange = function () {
+
+        var plainCarsDayCoo = client_cars_day.responseText;
+        var carsDayCoo = JSON.parse(plainCarsDayCoo);
+
+        for (var i = 0; i < carsDayCoo.length; i++) {
+            var carCoords = [
+                [carsDayCoo[i]['a']['lat'], carsDayCoo[i]['a']['lon']],
+                [carsDayCoo[i]['b']['lat'], carsDayCoo[i]['b']['lon']],
+                [carsDayCoo[i]['c']['lat'], carsDayCoo[i]['c']['lon']],
+                [carsDayCoo[i]['d']['lat'], carsDayCoo[i]['d']['lon']],
+            ];
+
+            current_car = L.polygon(carCoords, {
+                color: '#242424',
+                opacity: 1,
+                weight: 1,
+                fillColor: '#242424',
+                fillOpacity: 1,
+                smoothFactor: 1,
+                zIndex: 200
+            });
+            cars_day_layer.addLayer(current_car)
+        }
+        redraw_all_layers()
+    };
+    client_cars_day.send();
+    // cars day block end
+
+    // cars night block start
+    var client_cars_night = new XMLHttpRequest();
+    client_cars_night.open('GET', '/cars_night_json');
+    client_cars_night.onreadystatechange = function () {
+
+        var plainCarsNightCoo = client_cars_night.responseText;
+        var carsNightCoo = JSON.parse(plainCarsNightCoo);
+
+        for (var i = 0; i < carsNightCoo.length; i++) {
+            var carCoords = [
+                [carsNightCoo[i]['a']['lat'], carsNightCoo[i]['a']['lon']],
+                [carsNightCoo[i]['b']['lat'], carsNightCoo[i]['b']['lon']],
+                [carsNightCoo[i]['c']['lat'], carsNightCoo[i]['c']['lon']],
+                [carsNightCoo[i]['d']['lat'], carsNightCoo[i]['d']['lon']],
+            ];
+
+            current_car = L.polygon(carCoords, {
+                color: '#242424',
+                opacity: 1,
+                weight: 1,
+                fillColor: '#242424',
+                fillOpacity: 1,
+                smoothFactor: 1,
+                zIndex: 200
+            });
+            cars_night_layer.addLayer(current_car)
+        }
+        redraw_all_layers()
+    };
+    client_cars_night.send();
+    // cars day block end
+
+
     // houses block start
     var client_houses = new XMLHttpRequest();
     client_houses.open('GET', '/houses_json');
@@ -137,9 +204,9 @@ function initMap() {
                 roadCoos[j] = [roads[i][j]['lat'], roads[i][j]['lng']]
             }
             current_road = L.polygon(roadCoos, {
-                color: '#AAB3BE',
-                opacity: 0,
-                weight: 0,
+                color: '#6D6D6D',
+                opacity: 1,
+                weight: 1,
                 fillColor: '#6D6D6D',
                 fillOpacity: 1,
                 smoothFactor: 1,
@@ -169,8 +236,8 @@ function initMap() {
             }
             current_yard = L.polygon(yardCoos, {
                 color: yard_colors[yard_type],
-                opacity: 1,
-                weight: 0,
+                opacity: 0.8,
+                weight: 1,
                 fillColor: yard_colors[yard_type],
                 fillOpacity: 0.8,
                 smoothFactor: 1
@@ -201,8 +268,8 @@ function initMap() {
             }
             current_floor1 = L.polygon(floor1Coos, {
                 color: floor_colors[floor_function],
-                opacity: 1,
-                weight: 0,
+                opacity: 0.8,
+                weight: 1,
                 fillColor: floor_colors[floor_function],
                 fillOpacity: 0.8,
                 smoothFactor: 1
@@ -230,6 +297,14 @@ function initMap() {
 
     document.getElementById("first_floor_switch").addEventListener("click", function () {
         layerSwitcher(this, first_floor_layer);
+    });
+
+    document.getElementById("cars_day_switch").addEventListener("click", function () {
+        layerSwitcher(this, cars_day_layer);
+    });
+
+    document.getElementById("cars_night_switch").addEventListener("click", function () {
+        layerSwitcher(this, cars_night_layer);
     });
 
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer

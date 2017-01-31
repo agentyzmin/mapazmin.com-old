@@ -80,3 +80,19 @@ def floor1_json(request):
     with open(file_path) as json_file:
         json_floor1 = json_file.read()
     return HttpResponse(json_floor1, content_type="application/json")
+
+
+def cars_day_json(request):
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'static/Yarvalcars_day_GeoCoo.json')
+    with open(file_path) as json_file:
+        json_cars_day = json_file.read()
+    return HttpResponse(json_cars_day, content_type="application/json")
+
+
+def cars_night_json(request):
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'static/Yarvalcars_night_GeoCoo.json')
+    with open(file_path) as json_file:
+        json_cars_night = json_file.read()
+    return HttpResponse(json_cars_night, content_type="application/json")
