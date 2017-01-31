@@ -21,11 +21,14 @@ def cars(request):
 def carsandtrees(request):
     return render(request, 'carsandtrees.html')
 
+
 def houses(request):
     return render(request, 'houses.html')
 
+
 def united(request):
     return render(request, 'united.html')
+
 
 def leaflet(request):
     return render(request, 'leaflet.html')
@@ -54,6 +57,7 @@ def houses_json(request):
         json_houses = json_file.read()
     return HttpResponse(json_houses, content_type="application/json")
 
+
 def roads_json(request):
     module_dir = os.path.dirname(__file__)  # get current directory
     file_path = os.path.join(module_dir, 'static/roadsGeo.json')
@@ -61,9 +65,18 @@ def roads_json(request):
         json_roads = json_file.read()
     return HttpResponse(json_roads, content_type="application/json")
 
+
 def yards_json(request):
     module_dir = os.path.dirname(__file__)  # get current directory
     file_path = os.path.join(module_dir, 'static/yardsGeo.json')
     with open(file_path) as json_file:
         json_yards = json_file.read()
     return HttpResponse(json_yards, content_type="application/json")
+
+
+def floor1_json(request):
+    module_dir = os.path.dirname(__file__)  # get current directory
+    file_path = os.path.join(module_dir, 'static/firstFloorFunctionGeo.json')
+    with open(file_path) as json_file:
+        json_floor1 = json_file.read()
+    return HttpResponse(json_floor1, content_type="application/json")
