@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd17ff7a-6724-45d9-ab38-29ec83c2e297" name="Default" comment="">
+    <list default="true" id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/Chart.bundle.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson" afterPath="$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/yarval.iml" afterPath="$PROJECT_DIR$/.idea/yarval.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/leaflet.css" afterPath="$PROJECT_DIR$/maps/static/leaflet.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/script.js" afterPath="$PROJECT_DIR$/maps/static/script.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/templates/leaflet.html" afterPath="$PROJECT_DIR$/maps/templates/leaflet.html" />
     </list>
     <ignored path="yarval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -17,60 +20,45 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/yarval$Test__maps_static_Chart_bundle_js.coverage" NAME="Test: maps.static.Chart.bundle.js Coverage Results" MODIFIED="1486053927035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
-  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
-    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="yarval" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/yarval/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="36" column="74" selection-start-line="36" selection-start-column="74" selection-end-line="36" selection-end-column="74" />
-              <folding>
-                <element signature="e#639#680#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cars_GeoCoo.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1332">
-              <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="leaflet.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="30" column="62" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="62" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
+    <leaf>
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/maps/static/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1695">
-              <caret line="303" column="9" selection-start-line="303" selection-start-column="9" selection-end-line="303" selection-end-column="9" />
+            <state relative-caret-position="161">
+              <caret line="416" column="0" selection-start-line="416" selection-start-column="0" selection-end-line="416" selection-end-column="0" />
               <folding>
-                <element signature="e#0#42#0" expanded="false" />
-                <marker date="1486028677664" expanded="true" signature="907:914" ph="—" />
-                <marker date="1486028677664" expanded="true" signature="924:930" ph="©" />
+                <element signature="e#1845#2446#0" expanded="false" />
+                <element signature="e#2687#3053#0" expanded="false" />
+                <element signature="e#3318#3692#0" expanded="false" />
+                <element signature="e#3975#4353#0" expanded="false" />
+                <element signature="e#4608#5134#0" expanded="false" />
+                <element signature="e#5378#5756#0" expanded="false" />
+                <element signature="e#5999#7154#0" expanded="false" />
+                <element signature="e#7579#9109#0" expanded="false" />
+                <marker date="1486057983564" expanded="true" signature="796:803" ph="—" />
+                <marker date="1486057983564" expanded="true" signature="813:819" ph="©" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Yarvalcars_day_GeoCoo.json.geojson" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/Yarvalcars_day_GeoCoo.json.geojson">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -85,51 +73,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="yardsGeo.json.geojson" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson">
+      <file leaf-file-name="leaflet.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="0" column="2934" selection-start-line="0" selection-start-column="2934" selection-end-line="0" selection-end-column="2934" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cars_GeoCoo.json.geojson" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/cars_GeoCoo.json.geojson">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="36" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="firstFloorFunctionGeo.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/static/firstFloorFunctionGeo.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="1370" selection-start-line="0" selection-start-column="1370" selection-end-line="0" selection-end-column="1370" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="bootstrap.min.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/static/bootstrap.min.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="1523" selection-start-line="4" selection-start-column="1523" selection-end-line="4" selection-end-column="1523" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="houses.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/maps/templates/houses.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="126">
+              <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -137,25 +85,12 @@
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/maps/static/cars_GeoCoo.json" />
-        <option value="$PROJECT_DIR$/maps/static/script.py" />
-        <option value="$PROJECT_DIR$/maps/static/cars_GeoCoon.json" />
-        <option value="$PROJECT_DIR$/maps/static/trees_GeoCoo.json" />
-        <option value="$PROJECT_DIR$/yarval/urls.py" />
-        <option value="$PROJECT_DIR$/maps/views.py" />
         <option value="$PROJECT_DIR$/maps/templates/leaflet.html" />
         <option value="$PROJECT_DIR$/maps/static/script.js" />
       </list>
@@ -172,14 +107,36 @@
     <option name="width" value="1366" />
     <option name="height" value="746" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>UnterminatedStatementJS</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="1" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
@@ -198,7 +155,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -305,25 +261,39 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.templateLanguages.PyTemplateLanguageModulesConfigurable" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js-jscs-nodeInterpreter" value="/usr/bin/node" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/maps/static/geoJSON" />
       <recent name="$PROJECT_DIR$/maps/static" />
-      <recent name="$PROJECT_DIR$/maps/templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Django server.yarval">
+  <component name="RunManager" selected="Django tests.Test: maps.static.Chart.bundle.js">
+    <configuration default="false" name="Test: maps.static.Chart.bundle.js" type="DjangoTestsConfigurationType" factoryName="Django tests" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="yarval" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="maps.static.Chart.bundle.js" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -430,12 +400,6 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -579,154 +543,65 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
-    <list size="1">
+    <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Django server.yarval" />
+      <item index="1" class="java.lang.String" itemvalue="Django tests.Test: maps.static.Chart.bundle.js" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Django tests.Test: maps.static.Chart.bundle.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
-  <component name="SvnConfiguration">
-    <configuration />
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bd17ff7a-6724-45d9-ab38-29ec83c2e297" name="Default" comment="" />
-      <created>1485766470367</created>
+      <changelist id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="" />
+      <created>1486050642481</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1485766470367</updated>
+      <updated>1486050642481</updated>
     </task>
-    <task id="LOCAL-00001" summary="fix allowed hosts for heroku to work">
-      <created>1485772923253</created>
+    <task id="LOCAL-00001" summary="implement comparison of areas">
+      <created>1486052522132</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1485772923273</updated>
+      <updated>1486052522132</updated>
     </task>
-    <task id="LOCAL-00002" summary="rearrange layers&#10;minor bug fixes">
-      <created>1485775621459</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1485775621459</updated>
-    </task>
-    <task id="LOCAL-00003" summary="add yard layer">
-      <created>1485779612427</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1485779612446</updated>
-    </task>
-    <task id="LOCAL-00004" summary="data optimization(round)">
-      <created>1485783143611</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1485783143611</updated>
-    </task>
-    <task id="LOCAL-00005" summary="new layer switch system(preview)">
-      <created>1485785580400</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1485785580400</updated>
-    </task>
-    <task id="LOCAL-00006" summary="layers reordered">
-      <created>1485785834673</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1485785834673</updated>
-    </task>
-    <task id="LOCAL-00007" summary="add background map&#10;minor fixes&#10;code cleaning">
-      <created>1485790045118</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1485790045118</updated>
-    </task>
-    <task id="LOCAL-00008" summary="leaflet.js is now stored locally&#10;toggle buttons shifted left">
-      <created>1485791772126</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1485791772126</updated>
-    </task>
-    <task id="LOCAL-00009" summary="add layer first floor function&#10;code cleaning">
-      <created>1485854974683</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1485854974683</updated>
-    </task>
-    <task id="LOCAL-00010" summary="add car day/night layers&#10;drawing misoverlapping fix">
-      <created>1485880107843</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1485880107843</updated>
-    </task>
-    <task id="LOCAL-00011" summary="upload geoJson options with areas">
-      <created>1485950591173</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1485950591173</updated>
-    </task>
-    <task id="LOCAL-00012" summary="shift trees to GeoJSON">
-      <created>1486025375284</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1486025375284</updated>
-    </task>
-    <option name="localTasksCounter" value="13" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Test__maps_static_Chart_bundle_js - 2017.02.02 at 18h 45m 33s.xml">
+      <configuration name="Test: maps.static.Chart.bundle.js" configurationId="DjangoTestsConfigurationType" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1366" height="746" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1366" height="746" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22885196" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5030211" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.49697885" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5030211" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.49697885" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09969789" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -740,427 +615,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix allowed hosts for heroku to work" />
-    <MESSAGE value="rearrange layers&#10;minor bug fixes" />
-    <MESSAGE value="add yard layer" />
-    <MESSAGE value="data optimization(round)" />
-    <MESSAGE value="new layer switch system(preview)" />
-    <MESSAGE value="layers reordered" />
-    <MESSAGE value="add background map&#10;minor fixes&#10;code cleaning" />
-    <MESSAGE value="leaflet.js is now stored locally&#10;toggle buttons shifted left" />
-    <MESSAGE value="add layer first floor function&#10;code cleaning" />
-    <MESSAGE value="add car day/night layers&#10;drawing misoverlapping fix" />
-    <MESSAGE value="upload geoJson options with areas" />
-    <MESSAGE value="shift trees to GeoJSON" />
-    <option name="LAST_COMMIT_MESSAGE" value="shift trees to GeoJSON" />
+    <MESSAGE value="implement comparison of areas" />
+    <MESSAGE value="add pie chart visualization" />
+    <option name="LAST_COMMIT_MESSAGE" value="add pie chart visualization" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#42#0" expanded="false" />
-            <marker date="1486028677664" expanded="true" signature="907:914" ph="—" />
-            <marker date="1486028677664" expanded="true" signature="924:930" ph="©" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/roadsGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1415" selection-start-line="0" selection-start-column="1415" selection-end-line="0" selection-end-column="1415" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/firstFloorFunctionGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1370" selection-start-line="0" selection-start-column="1370" selection-end-line="0" selection-end-column="1370" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="1523" selection-start-line="4" selection-start-column="1523" selection-end-line="4" selection-end-column="1523" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/houses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="36" column="74" selection-start-line="36" selection-start-column="74" selection-end-line="36" selection-end-column="74" />
-          <folding>
-            <element signature="e#639#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1332">
-          <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="62" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#42#0" expanded="false" />
-            <marker date="1486028677664" expanded="true" signature="907:914" ph="—" />
-            <marker date="1486028677664" expanded="true" signature="924:930" ph="©" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/roadsGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1415" selection-start-line="0" selection-start-column="1415" selection-end-line="0" selection-end-column="1415" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/firstFloorFunctionGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1370" selection-start-line="0" selection-start-column="1370" selection-end-line="0" selection-end-column="1370" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="1523" selection-start-line="4" selection-start-column="1523" selection-end-line="4" selection-end-column="1523" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/houses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#639#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1332">
-          <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="33" column="31" selection-start-line="33" selection-start-column="31" selection-end-line="33" selection-end-column="31" />
-          <folding>
-            <element signature="e#639#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="65" column="64" selection-start-line="65" selection-start-column="64" selection-end-line="65" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1332">
-          <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="1523" selection-start-line="4" selection-start-column="1523" selection-end-line="4" selection-end-column="1523" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/houses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/leaflet.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/united.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" column="10" selection-start-line="11" selection-start-column="10" selection-end-line="11" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="20" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/script.py" />
-    <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="74" column="9" selection-start-line="74" selection-start-column="9" selection-end-line="74" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/yardsGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/trees_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-18">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/housesGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/migrations/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/leaflet.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1674">
-          <caret line="97" column="39" selection-start-line="97" selection-start-column="39" selection-end-line="97" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/yarval/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="36" column="74" selection-start-line="36" selection-start-column="74" selection-end-line="36" selection-end-column="74" />
-          <folding>
-            <element signature="e#639#680#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/cars_GeoCoo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1332">
-          <caret line="74" column="10" selection-start-line="74" selection-start-column="10" selection-end-line="74" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/firstFloorFunctionGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="1370" selection-start-line="0" selection-start-column="1370" selection-end-line="0" selection-end-column="1370" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/bootstrap.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="1523" selection-start-line="4" selection-start-column="1523" selection-end-line="4" selection-end-column="1523" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/houses.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/roadsGeo.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="0" column="3318" selection-start-line="0" selection-start-column="3318" selection-end-line="0" selection-end-column="3318" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/cars_GeoCoo.json.geojson">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="36" selection-start-line="0" selection-start-column="36" selection-end-line="0" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="0" column="2934" selection-start-line="0" selection-start-column="2934" selection-end-line="0" selection-end-column="2934" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="30" column="62" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="62" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/firstFloorFunctionGeo.json.geojson">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1169,14 +634,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/Yarvalcars_day_GeoCoo.json.geojson">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/maps/static/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1695">
-          <caret line="303" column="9" selection-start-line="303" selection-start-column="9" selection-end-line="303" selection-end-column="9" />
+        <state relative-caret-position="161">
+          <caret line="416" column="0" selection-start-line="416" selection-start-column="0" selection-end-line="416" selection-end-column="0" />
           <folding>
-            <element signature="e#0#42#0" expanded="false" />
-            <marker date="1486028677664" expanded="true" signature="907:914" ph="—" />
-            <marker date="1486028677664" expanded="true" signature="924:930" ph="©" />
+            <element signature="e#1845#2446#0" expanded="false" />
+            <element signature="e#2687#3053#0" expanded="false" />
+            <element signature="e#3318#3692#0" expanded="false" />
+            <element signature="e#3975#4353#0" expanded="false" />
+            <element signature="e#4608#5134#0" expanded="false" />
+            <element signature="e#5378#5756#0" expanded="false" />
+            <element signature="e#5999#7154#0" expanded="false" />
+            <element signature="e#7579#9109#0" expanded="false" />
+            <marker date="1486057983564" expanded="true" signature="796:803" ph="—" />
+            <marker date="1486057983564" expanded="true" signature="813:819" ph="©" />
           </folding>
         </state>
       </provider>

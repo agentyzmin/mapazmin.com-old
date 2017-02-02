@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static "leaflet.css" %}"/>
     <link rel="stylesheet" href="{% static "bootstrap.min.css" %}"/>
     <script src="{% static "leaflet.js" %}"></script>
+    <script src="{% static "Chart.bundle.js" %}"></script>
 </head>
 <body>
 <style type="text/css">
@@ -38,6 +39,9 @@
             <p id="p_roads_area"></p>
             <p id="p_yards_area"></p>
             <p id="p_first_floor_area"></p>
+        </div>
+        <div>
+            <canvas id="piechart" width="200", height="200"></canvas>
         </div>
 
 

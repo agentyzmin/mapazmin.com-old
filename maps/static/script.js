@@ -1,13 +1,7 @@
-/**
- * Created by proggeo on 31.01.17.
- */
-
-
-
 var map;
 var layers;
-//    var yard_layer, trees_layer, cars_layer, houses_layer, roads_layer, first_floor_layer;
-
+var area_data;
+var pieChart;
 
 function initMap() {
     // set up the map
@@ -29,7 +23,6 @@ function initMap() {
     map.setView(new L.LatLng(50.450779, 30.510317), 16);
     map.addLayer(OpenMapSurfer_Grayscale);
 
-    var files_loading = 0;
     yard_layer = L.layerGroup([]);
     trees_layer = L.layerGroup([]);
     cars_layer = L.layerGroup([]);
@@ -285,22 +278,6 @@ function initMap() {
         layerSwitcher(this, cars_night_layer);
     });
 
-    // document.getElementById("only_cafes").addEventListener("click", function () {
-    //     filter = function (layer) {
-    //         return layer.feature.properties.category == "cafe"
-    //     };
-    //     if(this.checked) {
-    //         var filtered_layerGroup = filter_layer_group_by_feature(first_floor_layer, filter)
-    //         layers[layers.indexOf(first_floor_layer)] = filtered_layerGroup;
-    //         filtered_layerGroup.addTo(map)
-    //     }
-    //     else {
-    //         map.removeLayer(layers[3]);
-    //         layers[3] = first_floor_layer
-    //     }
-    //     redraw_all_layers()
-    // });
-
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
         if (element.checked) {
             if (!map.hasLayer(layer)) {
@@ -318,10 +295,9 @@ function initMap() {
 
 initMap();
 
-
 function load_stats() {
     var wrapper = document.getElementById("stats");
-    wrapper.innerHTML = ""
+    wrapper.innerHTML = "";
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layers.length; i++) {
@@ -332,73 +308,33 @@ function load_stats() {
             groups.push(layers[i])
         }
     }
-    console.log(groups);
+    var data = [];
     for (var i = 0; i < groups.length; i++) {
         var layerGroupDIV = document.createElement("div");
         layerGroupDIV.id = "stats_" + groups[i].name;
         var curr_area = (groups[i].area / totalArea * 100).toPrecision(4);
+        data.push({
+            name: groups[i].name,
+            area: curr_area
+        });
         var layerGroupP = document.createElement("p");
         layerGroupP.innerHTML = groups[i].name + ": " + curr_area + "%";
         layerGroupDIV.appendChild(layerGroupP);
-        console.log(groups[i].categories);
-        console.log(groups[i].categories != undefined);
         if (groups[i].categories != undefined) {
             for (var j = 0; j < groups[i].categories.length; j++) {
                 curr_area = count_layer_group_area(filter_layer_group_by_feature(groups[i], function (layer) {
                     return layer.feature.properties.category == groups[i].categories[j]
                 }));
-                curr_area = (curr_area / totalArea * 100).toPrecision(4)
+                curr_area = (curr_area / totalArea * 100).toPrecision(4);
                 var categoryLI = document.createElement('li');
                 categoryLI.innerHTML = groups[i].categories[j] + ": " + curr_area + "%";
                 layerGroupDIV.appendChild(categoryLI)
             }
         }
-        // console.log(layerGroupDIV)
+        area_data = data;
         wrapper.appendChild(layerGroupDIV)
     }
-    console.log(wrapper)
-
-    // var houses_area = count_layer_group_area(houses_layer);
-    // var roads_area = count_layer_group_area(roads_layer);
-    // var yards_area = count_layer_group_area(yard_layer);
-    // var open_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
-    //     return layer.feature.properties.category == 'open'
-    // }));
-    // var hard_to_reach_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
-    //     return layer.feature.properties.category == "hard to reach"
-    // }));
-    // var unreachable_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
-    //     return layer.feature.properties.category == "unreachable"
-    // }));
-    // var first_floor_area = count_layer_group_area(first_floor_layer);
-    // var functions = ["office", "cafe", "garage", "culture", "housing", "ruin"];
-    // var first_floor_areas = {};
-    //
-    // for (var i = 0; i < functions.length; i++) {
-    //     first_floor_areas[functions[i]] = count_layer_group_area(filter_layer_group_by_feature(first_floor_layer, function (layer) {
-    //         return layer.feature.properties.category == functions[i]
-    //     }))
-    // }
-    //
-
-    //
-    // document.getElementById("p_houses_area").innerHTML = "Area of all houses: "
-    //     + houses_area.toPrecision(7);
-    // document.getElementById("p_roads_area").innerHTML = "Area of all roads: "
-    //     + roads_area.toPrecision(7);
-    // document.getElementById("p_yards_area").innerHTML = "Area of all yards: "
-    //     + yards_area.toPrecision(7)
-    //     + " ;\n \tOpen - " + (open_yards_area / yards_area * 100).toPrecision(4) + "%"
-    //     + " ;\n \tHard to reach - " + (hard_to_reach_yards_area / yards_area * 100).toPrecision(4) + "%"
-    //     + " ;\n \tUnreachable - " + (unreachable_yards_area / yards_area * 100).toPrecision(4) + "%";
-    //
-    // document.getElementById("p_first_floor_area").innerHTML = "Area of all first floors: " + first_floor_area.toPrecision(7);
-    // for (var p in first_floor_areas) {
-    //     document.getElementById("p_first_floor_area").innerHTML
-    //         += "<li>" + p + ": " + (first_floor_areas[p] / first_floor_area * 100).toPrecision(4) + "% </li>"
-    // }
 }
-
 
 function redraw_all_layers() {
     for (var i = 0; i < layers.length; i++) {
@@ -409,6 +345,7 @@ function redraw_all_layers() {
         }
     }
     load_stats();
+    init_pieChart();
 }
 
 function count_layer_group_area(layerGroup) {
@@ -439,3 +376,48 @@ function filter_layer_group_by_feature(layerGroup, filter) {
     return result_group
 }
 
+function init_pieChart() {
+    var ctx = document.getElementById('piechart');
+    var parent = ctx.parentElement;
+    var newctx = document.createElement("canvas");
+    newctx.width = ctx.width;
+    newctx.height = ctx.height;
+    ctx.remove();
+    ctx = newctx;
+    ctx.id = 'piechart'
+    parent.appendChild(ctx);
+    var colors_by_name = {
+        "Roads": '#50514F',
+        "Yards": '#247BA0',
+        "Buildings": '#F25F5C',
+        "First Floor Function": "#9463C2",
+        "Cars": '#70C1B3',
+        "Cars(day)": '#95F9E3',
+        "Cars(night)": '#247BA0 ',
+        "Trees": '#91C497',
+    };
+    if (area_data == undefined) return;
+    var labels = [];
+    var data = [];
+    var colors = [];
+    for (var i = 0; i < area_data.length; i++) {
+        labels.push(area_data[i].name);
+        data.push(area_data[i].area);
+        colors.push(colors_by_name[area_data[i].name])
+    }
+    var pieData = {
+        labels: labels,
+        datasets: [
+            {
+                data: data,
+                backgroundColor: colors
+            }
+        ]
+    };
+
+    pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: pieData
+    });
+
+}
