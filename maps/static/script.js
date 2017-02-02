@@ -43,7 +43,7 @@ function initMap() {
     var client_trees = new XMLHttpRequest();
     client_trees.open('GET', '/static/geoJSON/trees_GeoCoo.json.geojson');
     client_trees.onreadystatechange = function () {
-        geoJSON = JSON.parse(client_trees.responseText);
+        var geoJSON = JSON.parse(client_trees.responseText);
         var geoJSONLayer = L.geoJson(geoJSON, {
             pointToLayer: function (feature, latlng) {
                 return L.circle(latlng, {
@@ -65,32 +65,19 @@ function initMap() {
 
     // cars block start
     var client_cars = new XMLHttpRequest();
-    client_cars.open('GET', '/cars_json');
+    client_cars.open('GET', '/static/geoJSON/cars_GeoCoo.json.geojson');
     client_cars.onreadystatechange = function () {
 
-        var plainCarsCoo = client_cars.responseText;
-        var carsCoo = JSON.parse(plainCarsCoo);
-
-        for (var i = 0; i < carsCoo.length; i++) {
-            var carCoords = [
-                [carsCoo[i]['a']['lat'], carsCoo[i]['a']['lon']],
-                [carsCoo[i]['b']['lat'], carsCoo[i]['b']['lon']],
-                [carsCoo[i]['c']['lat'], carsCoo[i]['c']['lon']],
-                [carsCoo[i]['d']['lat'], carsCoo[i]['d']['lon']],
-            ];
-
-            current_car = L.polygon(carCoords, {
-                color: '#242424',
-                opacity: 1,
-                weight: 1,
-                fillColor: '#242424',
-                fillOpacity: 1,
-                smoothFactor: 1,
-                zIndex: 200
-            });
-            cars_layer.addLayer(current_car)
-        }
-//        cars_layer.addTo(map);
+        var geoJSON = JSON.parse(client_cars.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            color: '#242424',
+            opacity: 1,
+            weight: 1,
+            fillColor: '#242424',
+            fillOpacity: 1,
+            smoothFactor: 1
+        });
+        cars_layer.addLayer(geoJSONlayer);
         redraw_all_layers()
     };
     client_cars.send();
@@ -98,31 +85,19 @@ function initMap() {
 
     // cars day block start
     var client_cars_day = new XMLHttpRequest();
-    client_cars_day.open('GET', '/cars_day_json');
+    client_cars_day.open('GET', '/static/geoJSON/Yarvalcars_day_GeoCoo.json.geojson');
     client_cars_day.onreadystatechange = function () {
 
-        var plainCarsDayCoo = client_cars_day.responseText;
-        var carsDayCoo = JSON.parse(plainCarsDayCoo);
-
-        for (var i = 0; i < carsDayCoo.length; i++) {
-            var carCoords = [
-                [carsDayCoo[i]['a']['lat'], carsDayCoo[i]['a']['lon']],
-                [carsDayCoo[i]['b']['lat'], carsDayCoo[i]['b']['lon']],
-                [carsDayCoo[i]['c']['lat'], carsDayCoo[i]['c']['lon']],
-                [carsDayCoo[i]['d']['lat'], carsDayCoo[i]['d']['lon']],
-            ];
-
-            current_car = L.polygon(carCoords, {
-                color: '#242424',
-                opacity: 1,
-                weight: 1,
-                fillColor: '#242424',
-                fillOpacity: 1,
-                smoothFactor: 1,
-                zIndex: 200
-            });
-            cars_day_layer.addLayer(current_car)
-        }
+        var geoJSON = JSON.parse(client_cars_day.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            color: '#242424',
+            opacity: 1,
+            weight: 1,
+            fillColor: '#242424',
+            fillOpacity: 1,
+            smoothFactor: 1
+        });
+        cars_day_layer.addLayer(geoJSONlayer);
         redraw_all_layers()
     };
     client_cars_day.send();
@@ -130,88 +105,57 @@ function initMap() {
 
     // cars night block start
     var client_cars_night = new XMLHttpRequest();
-    client_cars_night.open('GET', '/cars_night_json');
+    client_cars_night.open('GET', '/static/geoJSON/Yarvalcars_night_GeoCoo.json.geojson');
     client_cars_night.onreadystatechange = function () {
 
-        var plainCarsNightCoo = client_cars_night.responseText;
-        var carsNightCoo = JSON.parse(plainCarsNightCoo);
-
-        for (var i = 0; i < carsNightCoo.length; i++) {
-            var carCoords = [
-                [carsNightCoo[i]['a']['lat'], carsNightCoo[i]['a']['lon']],
-                [carsNightCoo[i]['b']['lat'], carsNightCoo[i]['b']['lon']],
-                [carsNightCoo[i]['c']['lat'], carsNightCoo[i]['c']['lon']],
-                [carsNightCoo[i]['d']['lat'], carsNightCoo[i]['d']['lon']],
-            ];
-
-            current_car = L.polygon(carCoords, {
-                color: '#242424',
-                opacity: 1,
-                weight: 1,
-                fillColor: '#242424',
-                fillOpacity: 1,
-                smoothFactor: 1,
-                zIndex: 200
-            });
-            cars_night_layer.addLayer(current_car)
-        }
+        var geoJSON = JSON.parse(client_cars_night.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            color: '#242424',
+            opacity: 1,
+            weight: 1,
+            fillColor: '#242424',
+            fillOpacity: 1,
+            smoothFactor: 1
+        });
+        cars_night_layer.addLayer(geoJSONlayer);
         redraw_all_layers()
     };
     client_cars_night.send();
     // cars day block end
 
-
     // houses block start
     var client_houses = new XMLHttpRequest();
-    client_houses.open('GET', '/houses_json');
+    client_houses.open('GET', '/static/geoJSON/housesGeo.json.geojson');
     client_houses.onreadystatechange = function () {
-        var houseplain = client_houses.responseText;
-        var houses = JSON.parse(houseplain);
-        for (var i = 0; i < houses.length; i++) {
-            houseCoos = [];
-            for (var j = 0; j < houses[i].length; j++) {
-                houseCoos[j] = [houses[i][j]['lat'], houses[i][j]['lng']]
-            }
-
-            current_house = L.polygon(houseCoos, {
-                color: '#AAB3BE',
-                opacity: 1,
-                weight: 1,
-                fillColor: '#C9CFD2',
-                fillOpacity: 0.8,
-                smoothFactor: 1
-            });
-            houses_layer.addLayer(current_house);
-        }
-        houses_layer.addTo(map);
+        var geoJSON = JSON.parse(client_houses.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            color: '#AAB3BE',
+            opacity: 1,
+            weight: 1,
+            fillColor: '#C9CFD2',
+            fillOpacity: 0.8,
+            smoothFactor: 1
+        });
+        houses_layer.addLayer(geoJSONlayer).addTo(map);
         redraw_all_layers()
-
     };
     client_houses.send();
     // houses block end
 
     // roads block start
     var client_roads = new XMLHttpRequest();
-    client_roads.open('GET', '/roads_json');
+    client_roads.open('GET', '/static/geoJSON/roadsGeo.json.geojson');
     client_roads.onreadystatechange = function () {
-        var roadsplain = client_roads.responseText;
-        var roads = JSON.parse(roadsplain);
-        for (var i = 0; i < roads.length; i++) {
-            roadCoos = [];
-            for (var j = 0; j < roads[i].length; j++) {
-                roadCoos[j] = [roads[i][j]['lat'], roads[i][j]['lng']]
-            }
-            current_road = L.polygon(roadCoos, {
-                color: '#6D6D6D',
-                opacity: 1,
-                weight: 1,
-                fillColor: '#6D6D6D',
-                fillOpacity: 1,
-                smoothFactor: 1,
-            });
-            roads_layer.addLayer(current_road);
-        }
-        roads_layer.addTo(map);
+        var geoJSON = JSON.parse(client_roads.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            color: '#6D6D6D',
+            opacity: 1,
+            weight: 1,
+            fillColor: '#6D6D6D',
+            fillOpacity: 1,
+            smoothFactor: 1
+        });
+        roads_layer.addLayer(geoJSONlayer).addTo(map);
         redraw_all_layers()
     };
     client_roads.send();
@@ -219,32 +163,39 @@ function initMap() {
 
     // yards block start
 
-    yard_colors = ["#fcde60", "#898989", "#666666"]; // 0 - open yards, 1 - hard to reach, 2 - unreachable
-
     var client_yards = new XMLHttpRequest();
-    client_yards.open('GET', '/yards_json');
+    client_yards.open('GET', '/static/geoJSON/yardsGeo.json.geojson');
     client_yards.onreadystatechange = function () {
-        var yardsplain = client_yards.responseText;
-        var yards = JSON.parse(yardsplain);
-        for (var i = 0; i < yards.length; i++) {
-            yard_type = yards[i][0];
-            yardCoos = [];
-            for (var j = 0; j < yards[i][1].length; j++) {
-                yardCoos[j] = [yards[i][1][j]['lat'], yards[i][1][j]['lng']]
-            }
-            current_yard = L.polygon(yardCoos, {
-                color: yard_colors[yard_type],
-                opacity: 0.8,
-                weight: 1,
-                fillColor: yard_colors[yard_type],
-                fillOpacity: 0.8,
-                smoothFactor: 1
-            });
-            yard_layer.addLayer(current_yard)
-        }
-//        yard_layer.addTo(map);
-        redraw_all_layers();
+        var geoJSON = JSON.parse(client_yards.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            style: function (feature) {
+                var function_color;
+                switch (feature.properties.category) {
+                    case 'open':
+                        function_color = "#fcde60";
+                        break;
+                    case 'hard to reach':
+                        function_color = "#898989";
+                        break;
+                    case 'unreachable' :
+                        function_color = "#666666";
+                        break;
+                    default:
+                        function_color = "#000000"
+                }
 
+                return {
+                    color: function_color,
+                    opacity: 0.8,
+                    weight: 1,
+                    fillColor: function_color,
+                    fillOpacity: 0.8,
+                    smoothFactor: 1
+                }
+            }
+        });
+        yard_layer.addLayer(geoJSONlayer);
+        redraw_all_layers();
     };
     client_yards.send();
     // yards block end
@@ -254,26 +205,46 @@ function initMap() {
     floor_colors = ['#9463C2', '#FD6E70', '#AAAAAA', '#4390FC', '#FFF6CF', '#565656']; // 0 - office, 1 - cafe, 2 - garage, 3 - culture, 4 - housing, 5 - ruin
 
     var client_1floor = new XMLHttpRequest();
-    client_1floor.open('GET', '/floor1_json');
+    client_1floor.open('GET', '/static/geoJSON/firstFloorFunctionGeo.json.geojson');
     client_1floor.onreadystatechange = function () {
-        var floor1plain = client_1floor.responseText;
-        var floors1 = JSON.parse(floor1plain);
-        for (var i = 0; i < floors1.length; i++) {
-            floor_function = floors1[i][0];
-            floor1Coos = [];
-            for (var j = 0; j < floors1[i][1].length; j++) {
-                floor1Coos[j] = [floors1[i][1][j]['lat'], floors1[i][1][j]['lng']]
+        var geoJSON = JSON.parse(client_1floor.responseText);
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            style: function (feature) {
+                var function_color;
+                switch (feature.properties.function) {
+                    case 'office':
+                        function_color = '#9463C2';
+                        break;
+                    case 'cafe':
+                        function_color = '#FD6E70';
+                        break;
+                    case 'garage':
+                        function_color = '#AAAAAA';
+                        break;
+                    case 'culture':
+                        function_color = '#4390FC';
+                        break;
+                    case 'housing':
+                        function_color = '#FFF6CF';
+                        break;
+                    case 'ruin':
+                        function_color = '#565656';
+                        break;
+                    default:
+                        function_color = '#000000'
+                }
+
+                return {
+                    color: function_color,
+                    opacity: 0.8,
+                    weight: 1,
+                    fillColor: function_color,
+                    fillOpacity: 0.8,
+                    smoothFactor: 1
+                }
             }
-            current_floor1 = L.polygon(floor1Coos, {
-                color: floor_colors[floor_function],
-                opacity: 0.8,
-                weight: 1,
-                fillColor: floor_colors[floor_function],
-                fillOpacity: 0.8,
-                smoothFactor: 1
-            });
-            first_floor_layer.addLayer(current_floor1)
-        }
+        });
+        first_floor_layer.addLayer(geoJSONlayer);
         redraw_all_layers();
 
     };
