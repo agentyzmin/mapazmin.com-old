@@ -41,26 +41,24 @@ function initMap() {
 
     // trees block start
     var client_trees = new XMLHttpRequest();
-    client_trees.open('GET', '/trees_json');
+    client_trees.open('GET', '/static/geoJSON/trees_GeoCoo.json.geojson');
     client_trees.onreadystatechange = function () {
-        var plainTreesCoo = client_trees.responseText;
-        var treesCoo = JSON.parse(plainTreesCoo);
-
-        for (var i = 0; i < treesCoo.length; i++) {
-            tree = treesCoo[i];
-            current_tree = L.circle([tree['lat'], tree['lon']], {
-                radius: tree['radius'],
-                color: '#91C497',
-                weight: 1,
-                opacity: 0.8,
-                fillColor: '#91C497',
-                fillOpacity: 0.8,
-                zIndex: 200
-            });
-            trees_layer.addLayer(current_tree)
-        }
-//        trees_layer.addTo(map);
-        redraw_all_layers()
+        geoJSON = JSON.parse(client_trees.responseText);
+        var geoJSONLayer = L.geoJson(geoJSON, {
+            pointToLayer: function (feature, latlng) {
+                return L.circle(latlng, {
+                    radius: feature.properties.radius,
+                    color: '#91C497',
+                    weight: 1,
+                    opacity: 0.8,
+                    fillColor: '#91C497',
+                    fillOpacity: 0.8,
+                    zIndex: 200
+                })
+            }
+        });
+        trees_layer.addLayer(geoJSONLayer);
+        redraw_all_layers();
     };
     client_trees.send();
     // trees block end
@@ -328,6 +326,7 @@ initMap();
 function redraw_all_layers() {
     for (var i = 0; i < layers.length; i++) {
         if (map.hasLayer(layers[i])) {
+            console.log(layers[i]);
             layers[i].eachLayer(function (layer) {
                 layer.bringToFront()
             })
