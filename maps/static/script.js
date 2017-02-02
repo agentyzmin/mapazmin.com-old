@@ -29,6 +29,7 @@ function initMap() {
     map.setView(new L.LatLng(50.450779, 30.510317), 16);
     map.addLayer(OpenMapSurfer_Grayscale);
 
+    var files_loading = 0;
     yard_layer = L.layerGroup([]);
     trees_layer = L.layerGroup([]);
     cars_layer = L.layerGroup([]);
@@ -38,6 +39,9 @@ function initMap() {
     roads_layer = L.layerGroup([]);
     first_floor_layer = L.layerGroup([]);
     layers = [roads_layer, yard_layer, houses_layer, first_floor_layer, cars_layer, cars_day_layer, cars_night_layer, trees_layer]; // from bottom to top
+    layer_names = ["Roads", "Yards", "Buildings", "First Floor Function", "Cars", "Cars(day)", "Cars(night)", "Trees"];
+
+    for (var i = 0; i < layers.length; i++)layers[i].name = layer_names[i]
 
     // trees block start
     var client_trees = new XMLHttpRequest();
@@ -136,6 +140,9 @@ function initMap() {
             fillOpacity: 0.8,
             smoothFactor: 1
         });
+        geoJSONlayer.eachLayer(function (layer) {
+            layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
+        });
         houses_layer.addLayer(geoJSONlayer).addTo(map);
         redraw_all_layers()
     };
@@ -195,6 +202,7 @@ function initMap() {
             }
         });
         yard_layer.addLayer(geoJSONlayer);
+        yard_layer.categories = ["open", "hard to reach", "unreachable"];
         redraw_all_layers();
     };
     client_yards.send();
@@ -211,7 +219,7 @@ function initMap() {
         var geoJSONlayer = L.geoJSON(geoJSON, {
             style: function (feature) {
                 var function_color;
-                switch (feature.properties.function) {
+                switch (feature.properties.category) {
                     case 'office':
                         function_color = '#9463C2';
                         break;
@@ -245,6 +253,7 @@ function initMap() {
             }
         });
         first_floor_layer.addLayer(geoJSONlayer);
+        first_floor_layer.categories = ["office", "cafe", "garage", "culture", "housing", "ruin"];
         redraw_all_layers();
 
     };
@@ -276,6 +285,22 @@ function initMap() {
         layerSwitcher(this, cars_night_layer);
     });
 
+    // document.getElementById("only_cafes").addEventListener("click", function () {
+    //     filter = function (layer) {
+    //         return layer.feature.properties.category == "cafe"
+    //     };
+    //     if(this.checked) {
+    //         var filtered_layerGroup = filter_layer_group_by_feature(first_floor_layer, filter)
+    //         layers[layers.indexOf(first_floor_layer)] = filtered_layerGroup;
+    //         filtered_layerGroup.addTo(map)
+    //     }
+    //     else {
+    //         map.removeLayer(layers[3]);
+    //         layers[3] = first_floor_layer
+    //     }
+    //     redraw_all_layers()
+    // });
+
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
         if (element.checked) {
             if (!map.hasLayer(layer)) {
@@ -294,13 +319,123 @@ function initMap() {
 initMap();
 
 
+function load_stats() {
+    var wrapper = document.getElementById("stats");
+    wrapper.innerHTML = ""
+    var totalArea = 0;
+    var groups = [];
+    for (var i = 0; i < layers.length; i++) {
+        if (map.hasLayer(layers[i])) {
+            var area = count_layer_group_area(layers[i]);
+            totalArea += area;
+            layers[i].area = area;
+            groups.push(layers[i])
+        }
+    }
+    console.log(groups);
+    for (var i = 0; i < groups.length; i++) {
+        var layerGroupDIV = document.createElement("div");
+        layerGroupDIV.id = "stats_" + groups[i].name;
+        var curr_area = (groups[i].area / totalArea * 100).toPrecision(4);
+        var layerGroupP = document.createElement("p");
+        layerGroupP.innerHTML = groups[i].name + ": " + curr_area + "%";
+        layerGroupDIV.appendChild(layerGroupP);
+        console.log(groups[i].categories);
+        console.log(groups[i].categories != undefined);
+        if (groups[i].categories != undefined) {
+            for (var j = 0; j < groups[i].categories.length; j++) {
+                curr_area = count_layer_group_area(filter_layer_group_by_feature(groups[i], function (layer) {
+                    return layer.feature.properties.category == groups[i].categories[j]
+                }));
+                curr_area = (curr_area / totalArea * 100).toPrecision(4)
+                var categoryLI = document.createElement('li');
+                categoryLI.innerHTML = groups[i].categories[j] + ": " + curr_area + "%";
+                layerGroupDIV.appendChild(categoryLI)
+            }
+        }
+        // console.log(layerGroupDIV)
+        wrapper.appendChild(layerGroupDIV)
+    }
+    console.log(wrapper)
+
+    // var houses_area = count_layer_group_area(houses_layer);
+    // var roads_area = count_layer_group_area(roads_layer);
+    // var yards_area = count_layer_group_area(yard_layer);
+    // var open_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
+    //     return layer.feature.properties.category == 'open'
+    // }));
+    // var hard_to_reach_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
+    //     return layer.feature.properties.category == "hard to reach"
+    // }));
+    // var unreachable_yards_area = count_layer_group_area(filter_layer_group_by_feature(yard_layer, function (layer) {
+    //     return layer.feature.properties.category == "unreachable"
+    // }));
+    // var first_floor_area = count_layer_group_area(first_floor_layer);
+    // var functions = ["office", "cafe", "garage", "culture", "housing", "ruin"];
+    // var first_floor_areas = {};
+    //
+    // for (var i = 0; i < functions.length; i++) {
+    //     first_floor_areas[functions[i]] = count_layer_group_area(filter_layer_group_by_feature(first_floor_layer, function (layer) {
+    //         return layer.feature.properties.category == functions[i]
+    //     }))
+    // }
+    //
+
+    //
+    // document.getElementById("p_houses_area").innerHTML = "Area of all houses: "
+    //     + houses_area.toPrecision(7);
+    // document.getElementById("p_roads_area").innerHTML = "Area of all roads: "
+    //     + roads_area.toPrecision(7);
+    // document.getElementById("p_yards_area").innerHTML = "Area of all yards: "
+    //     + yards_area.toPrecision(7)
+    //     + " ;\n \tOpen - " + (open_yards_area / yards_area * 100).toPrecision(4) + "%"
+    //     + " ;\n \tHard to reach - " + (hard_to_reach_yards_area / yards_area * 100).toPrecision(4) + "%"
+    //     + " ;\n \tUnreachable - " + (unreachable_yards_area / yards_area * 100).toPrecision(4) + "%";
+    //
+    // document.getElementById("p_first_floor_area").innerHTML = "Area of all first floors: " + first_floor_area.toPrecision(7);
+    // for (var p in first_floor_areas) {
+    //     document.getElementById("p_first_floor_area").innerHTML
+    //         += "<li>" + p + ": " + (first_floor_areas[p] / first_floor_area * 100).toPrecision(4) + "% </li>"
+    // }
+}
+
+
 function redraw_all_layers() {
     for (var i = 0; i < layers.length; i++) {
         if (map.hasLayer(layers[i])) {
-            console.log(layers[i]);
             layers[i].eachLayer(function (layer) {
                 layer.bringToFront()
             })
         }
     }
+    load_stats();
 }
+
+function count_layer_group_area(layerGroup) {
+    total_area = 0;
+    layerGroup.eachLayer(function (layer) {
+        if (typeof layer.feature === "undefined") {
+            total_area += count_layer_group_area(layer)
+        }
+        else {
+            total_area += layer.feature.properties.area
+        }
+    });
+    return total_area
+}
+
+function filter_layer_group_by_feature(layerGroup, filter) {
+    result_group = L.layerGroup([]);
+    layerGroup.eachLayer(function (layer) {
+        if (typeof layer.feature === "undefined") {
+            result_group.addLayer(filter_layer_group_by_feature(layer, filter))
+        }
+        else {
+            if (filter(layer)) {
+                result_group.addLayer(layer);
+            }
+        }
+    });
+    return result_group
+}
+
