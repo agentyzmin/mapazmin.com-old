@@ -310,30 +310,39 @@ function load_stats() {
     }
     var data = [];
     for (var i = 0; i < groups.length; i++) {
-        var layerGroupDIV = document.createElement("div");
-        layerGroupDIV.id = "stats_" + groups[i].name;
         var curr_area = (groups[i].area / totalArea * 100).toPrecision(4);
-        data.push({
+        var curr_data = {
             name: groups[i].name,
             area: curr_area
-        });
+        }
+
+        var layerGroupDIV = document.createElement("div");
+        layerGroupDIV.id = "stats_" + groups[i].name;
         var layerGroupP = document.createElement("p");
         layerGroupP.innerHTML = groups[i].name + ": " + curr_area + "%";
         layerGroupDIV.appendChild(layerGroupP);
+
         if (groups[i].categories != undefined) {
+            curr_data['categories'] = [];
             for (var j = 0; j < groups[i].categories.length; j++) {
                 curr_area = count_layer_group_area(filter_layer_group_by_feature(groups[i], function (layer) {
                     return layer.feature.properties.category == groups[i].categories[j]
                 }));
                 curr_area = (curr_area / totalArea * 100).toPrecision(4);
+                curr_data['categories'].push({
+                    name: groups[i].categories[j],
+                    area: curr_area}
+                );
+
                 var categoryLI = document.createElement('li');
                 categoryLI.innerHTML = groups[i].categories[j] + ": " + curr_area + "%";
                 layerGroupDIV.appendChild(categoryLI)
             }
         }
-        area_data = data;
+        data.push(curr_data);
         wrapper.appendChild(layerGroupDIV)
     }
+    area_data = data;
 }
 
 function redraw_all_layers() {
@@ -376,16 +385,24 @@ function filter_layer_group_by_feature(layerGroup, filter) {
     return result_group
 }
 
-function init_pieChart() {
-    var ctx = document.getElementById('piechart');
+function reload_canvas(canvas_id) {
+    // destroying previously drawn chart and creating new one instead, keep this block to avoid overlapping on redrawing(it gets ugly, really)
+    var ctx = document.getElementById(canvas_id);
     var parent = ctx.parentElement;
     var newctx = document.createElement("canvas");
     newctx.width = ctx.width;
     newctx.height = ctx.height;
     ctx.remove();
     ctx = newctx;
-    ctx.id = 'piechart'
+    ctx.id = canvas_id;
     parent.appendChild(ctx);
+    // end of destroying
+}
+
+function init_pieChart() {
+    reload_canvas('piechart');
+    reload_canvas('barchart');
+    reload_canvas('hbarchart');
     var colors_by_name = {
         "Roads": '#50514F',
         "Yards": '#247BA0',
@@ -397,6 +414,19 @@ function init_pieChart() {
         "Trees": '#91C497',
     };
     if (area_data == undefined) return;
+
+    area_data.sort(function (a, b) {
+        if (Number(a.area) > Number(b.area)) {
+            return -1
+        }
+        else if (Number(a.area) < Number(b.area)) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    });
+
     var labels = [];
     var data = [];
     var colors = [];
@@ -409,15 +439,58 @@ function init_pieChart() {
         labels: labels,
         datasets: [
             {
+                label: "Area allocation",
                 data: data,
                 backgroundColor: colors
             }
         ]
     };
 
-    pieChart = new Chart(ctx, {
+    var ctx_pie = document.getElementById('piechart');
+    var ctx_bar = document.getElementById('barchart');
+    var ctx_hbar = document.getElementById('hbarchart');
+
+
+    pieChart = new Chart(ctx_pie, {
         type: 'pie',
         data: pieData
+    });
+
+    barChart = new Chart(ctx_bar, {
+        type: 'bar',
+        data: pieData,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        // max: 100,
+                        min: 0,
+                    }
+                }]
+            },
+            legend:{
+                display: false
+            }
+        }
+    });
+
+    hbarChart = new Chart(ctx_hbar, {
+        type: 'horizontalBar',
+        data: pieData,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        // max: 100,
+                        min: 0,
+
+                    }
+                }]
+            },
+            legend:{
+                display: false
+            }
+        }
     });
 
 }

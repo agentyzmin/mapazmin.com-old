@@ -24,24 +24,35 @@
     }
 </style>
 
+<div class="container">
+    <div style="display: inline-block"><label><input type="checkbox" id="tree_switch"> Toggle trees</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="cars_switch"> Toggle cars</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="cars_day_switch"> Toggle cars(day)</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="cars_night_switch"> Toggle cars(night)</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="yards_switch"> Toggle yards</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="first_floor_switch"> Toggle first floor function</label></div>
+</div>
+
 <div class="container" style="height: 100%;">
 
     <div class="col-md-3">
-        <div><label><input type="checkbox" id="tree_switch"> Toggle trees</label></div>
-        <div><label><input type="checkbox" id="cars_switch"> Toggle cars</label></div>
-        <div><label><input type="checkbox" id="cars_day_switch"> Toggle cars(day)</label></div>
-        <div><label><input type="checkbox" id="cars_night_switch"> Toggle cars(night)</label></div>
-        <div><label><input type="checkbox" id="yards_switch"> Toggle yards</label></div>
-        <div><label><input type="checkbox" id="first_floor_switch"> Toggle first floor function</label></div>
-{#        <div><label><input type="checkbox" id="only_cafes"> Show only cafes</label></div>#}
         <div id="stats">
             <p id="p_houses_area"></p>
             <p id="p_roads_area"></p>
             <p id="p_yards_area"></p>
             <p id="p_first_floor_area"></p>
         </div>
-        <div>
-            <canvas id="piechart" width="200", height="200"></canvas>
+        <p>Pie:</p>
+        <div style="width: 200px; height: 200px;">
+            <canvas id="piechart" width="200" height="200"></canvas>
+        </div>
+        <p>Bar:</p>
+        <div style="width: 200px; height: 200px;">
+            <canvas id="barchart" width="200" height="200"></canvas>
+        </div>
+        <p>Horizontal bar:</p>
+        <div style="width: 200px; height: 200px;">
+            <canvas id="hbarchart" width="200" height="200"></canvas>
         </div>
 
 
