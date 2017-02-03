@@ -258,6 +258,14 @@ function initMap() {
         layerSwitcher(this, carsNightLayerGroup);
     });
 
+    document.getElementById("buildings_switch").addEventListener("click", function () {
+        layerSwitcher(this, housesLayerGroup);
+    });
+
+    document.getElementById("roads_switch").addEventListener("click", function () {
+        layerSwitcher(this, roadsLayerGroup);
+    });
+
     // defines switch behaviour(turning layerGroups on and off)
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
         if (element.checked) {

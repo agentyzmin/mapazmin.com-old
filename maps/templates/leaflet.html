@@ -27,38 +27,45 @@
 <div class="container">
     <div style="display: inline-block"><label><input type="checkbox" id="tree_switch"> Toggle trees</label></div>
     <div style="display: inline-block"><label><input type="checkbox" id="cars_switch"> Toggle cars</label></div>
-    <div style="display: inline-block"><label><input type="checkbox" id="cars_day_switch"> Toggle cars(day)</label></div>
-    <div style="display: inline-block"><label><input type="checkbox" id="cars_night_switch"> Toggle cars(night)</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="cars_day_switch"> Toggle cars(day)</label>
+    </div>
+    <div style="display: inline-block"><label><input type="checkbox" id="cars_night_switch"> Toggle cars(night)</label>
+    </div>
     <div style="display: inline-block"><label><input type="checkbox" id="yards_switch"> Toggle yards</label></div>
-    <div style="display: inline-block"><label><input type="checkbox" id="first_floor_switch"> Toggle first floor function</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="first_floor_switch"> Toggle first floor
+        function</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="buildings_switch" checked> Toggle
+        buildings</label></div>
+    <div style="display: inline-block"><label><input type="checkbox" id="roads_switch" checked> Toggle roads</label>
+    </div>
 </div>
 
-<div class="container" style="height: 100%;">
+<div class="container-fluid" style="height: 100%;">
 
-    <div class="col-md-3">
+    <div class="col-md-5">
+
+        <p>Pie:</p>
+        <div style="width: 400px; height: 300px;"   >
+            <canvas id="piechart" width="400" height="300"></canvas>
+        </div>
+        <p>Bar:</p>
+        <div style="width: 400px; height: 300px;">
+            <canvas id="barchart" width="400" height="300"></canvas>
+        </div>
+        <p>Horizontal bar:</p>
+        <div style="width: 400px; height: 300px;">
+            <canvas id="hbarchart" width="400" height="300"></canvas>
+        </div>
         <div id="stats">
             <p id="p_houses_area"></p>
             <p id="p_roads_area"></p>
             <p id="p_yards_area"></p>
             <p id="p_first_floor_area"></p>
         </div>
-        <p>Pie:</p>
-        <div style="width: 200px; height: 200px;">
-            <canvas id="piechart" width="200" height="200"></canvas>
-        </div>
-        <p>Bar:</p>
-        <div style="width: 200px; height: 200px;">
-            <canvas id="barchart" width="200" height="200"></canvas>
-        </div>
-        <p>Horizontal bar:</p>
-        <div style="width: 200px; height: 200px;">
-            <canvas id="hbarchart" width="200" height="200"></canvas>
-        </div>
-
 
     </div>
 
-    <div id="mapid" class="col-md-9"></div>
+    <div id="mapid" class="col-md-7"></div>
 
 </div>
 <script src="{% static "script.js" %}"></script>
