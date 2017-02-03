@@ -1,18 +1,18 @@
 var map;
 var layerGroups;
 var areaData;
-
+var pieChart;
 
 var COLORS = {
-    "Roads": '#6D6D6D',
-    "Yards": '#fcde60', //not shown on a map
-    "Buildings": '#C9CFD2',
-    "First Floor Function": "#9463C2",//not shown on a map
-    "Cars": '#242424',
-    "Cars(day)": '#242424',
-    "Cars(night)": '#242424',
-    "Trees": '#91C497',
-    "hard to reach": '#898989',
+    "roads": '#6D6D6D',
+    "yards": '#fcde60', //not shown on a map
+    "buildings": '#C9CFD2',
+    "firstFloorFunction": "#9463C2",//not shown on a map
+    "cars": '#242424',
+    "carsDay": '#242424',
+    "carsNight": '#242424',
+    "trees": '#91C497',
+    "hard_to_reach": '#898989',
     "open": '#fcde60',
     "unreachable": '#666666',
     "office": '#9463C2',
@@ -53,7 +53,7 @@ function initMap() {
     roadsLayerGroup = L.layerGroup([]);
     firstFloorLayerGroup = L.layerGroup([]);
     layerGroups = [roadsLayerGroup, yardsLayerGroup, housesLayerGroup, firstFloorLayerGroup, carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup, treesLayerGroup]; // from bottom to top
-    layerNames = ["Roads", "Yards", "Buildings", "First Floor Function", "Cars", "Cars(day)", "Cars(night)", "Trees"];
+    layerNames = ["roads", "yards", "buildings", "firstFloorFunction", "cars", "carsDay", "carsNight", "trees"];
 
     for (var i = 0; i < layerGroups.length; i++)layerGroups[i].name = layerNames[i]
 
@@ -198,7 +198,7 @@ function initMap() {
             }
         });
         yardsLayerGroup.addLayer(geoJSONlayer);
-        yardsLayerGroup.categories = ["open", "hard to reach", "unreachable"];
+        yardsLayerGroup.categories = ["open", "hard_to_reach", "unreachable"];
         refreshMap();
     });
 
@@ -234,55 +234,56 @@ function initMap() {
 
     // first floor block end
 
-    document.getElementById("tree_switch").addEventListener("click", function () {
-        layerSwitcher(this, treesLayerGroup);
-    });
-
-    document.getElementById("cars_switch").addEventListener("click", function () {
-        layerSwitcher(this, carsLayerGroup);
-    });
-
-    document.getElementById("yards_switch").addEventListener("click", function () {
-        layerSwitcher(this, yardsLayerGroup);
-    });
-
-    document.getElementById("first_floor_switch").addEventListener("click", function () {
-        layerSwitcher(this, firstFloorLayerGroup);
-    });
-
-    document.getElementById("cars_day_switch").addEventListener("click", function () {
-        layerSwitcher(this, carsDayLayerGroup);
-    });
-
-    document.getElementById("cars_night_switch").addEventListener("click", function () {
-        layerSwitcher(this, carsNightLayerGroup);
-    });
-
-    document.getElementById("buildings_switch").addEventListener("click", function () {
-        layerSwitcher(this, housesLayerGroup);
-    });
-
-    document.getElementById("roads_switch").addEventListener("click", function () {
-        layerSwitcher(this, roadsLayerGroup);
-    });
-
     // defines switch behaviour(turning layerGroups on and off)
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
+        //console.log(element);
+        //console.log(layer);
+        if (typeof layer === 'undefined') return;
         if (element.checked) {
             if (!map.hasLayer(layer)) {
+                //console.log(layer)
                 map.addLayer(layer)
+                refreshMap()
             }
         }
         else {
             if (map.hasLayer(layer)) {
                 map.removeLayer(layer)
+                refreshMap()
             }
+            // recursion, fix later
+            // else if (typeof layer.eachLayer != 'undefined'){
+            //     layer.eachLayer(function (layer) {
+            //         layerSwitcher(element, layer)
+            //     })
+            // }
         }
-        refreshMap()
     }
+
+    function switchConstructor(j, currSwitchINPUT) {
+        return function () {
+            layerSwitcher(currSwitchINPUT, layerGroups[j]);
+        }
+    }
+
+    function loadSwitches() {
+        var wrapper = document.getElementById("switchContainer");
+        wrapper.innerHTML = "";
+        for (var i = 0; i < layerGroups.length; i++) {
+            var currSwitchDIV = document.createElement('div');
+            currSwitchDIV.style.display = 'inline-block';
+            currSwitchDIV.id = layerGroups[i].name + "Switch";
+            currSwitchDIV.innerHTML = "<label><input type='checkbox'> Toggle " + layerGroups[i].name + "    </label>  ";
+            var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
+            currSwitchINPUT.addEventListener('click', switchConstructor(i, currSwitchINPUT));
+            wrapper.appendChild(currSwitchDIV)
+        }
+    }
+    loadSwitches()
 }
 
 initMap();
+
 
 // updates stats based on current data
 function loadStats() {
@@ -337,14 +338,30 @@ function loadStats() {
     areaData = data;
 }
 
+//recursiveBringToFront
+// function recursiveBringToFront(layerGroup) {
+//     if (map.hasLayer(layerGroup) && typeof layerGroup.bringToFront != 'undefined'){
+//         layerGroup.bringToFront()
+//     }
+//     else if(typeof layerGroup.eachLayer != 'undefined'){
+//         layerGroup.eachLayer(function (layer) {
+//             recursiveBringToFront(layer)
+//         })
+//     }
+// }
+
 //refresh function - implements z-index(based on layerGroups array), updates stats and builds charts
 function refreshMap() {
     for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i])) {
+        if(map.hasLayer(layerGroups[i])){
             layerGroups[i].eachLayer(function (layer) {
                 layer.bringToFront()
-            })
+            });
+            document.getElementById(layerGroups[i].name + "Switch").childNodes[0].childNodes[0].checked=true;
+            //TODO: fix ids for switches!!!
         }
+        // recursion, fix later
+        // recursiveBringToFront(layerGroups[i]);
     }
     loadStats();
     drawCharts();
@@ -355,6 +372,7 @@ function layerGroupArea(layerGroup) {
     totalArea = 0;
     layerGroup.eachLayer(function (layer) {
         if (typeof layer.feature != "undefined") {
+            // console.log(map.hasLayer(layer));
             totalArea += layer.feature.properties.area
         }
         else if (typeof layer.eachLayer != 'undefined') {
@@ -432,6 +450,10 @@ function drawCharts() {
         colors.push(COLORS[dataset[i].name])
     }
 
+    if(typeof pieChart != 'undefined' && pieChart.data.datasets[0].data[0] == data[0]){
+        return;
+    }
+
     reloadCanvas('piechart');
     reloadCanvas('barchart');
     reloadCanvas('hbarchart');
@@ -480,11 +502,10 @@ function drawCharts() {
         data: pieData,
         options: {
             scales: {
-                yAxes: [{
+                xAxes: [{
                     ticks: {
                         // max: 100,
                         min: 0
-
                     }
                 }]
             },

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes">
+    <list default="true" id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="add switchesloader instead of hardcoding&#10;minor performance improvements&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson" afterPath="$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/leaflet.css" afterPath="$PROJECT_DIR$/maps/static/leaflet.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/leaflet.js" afterPath="$PROJECT_DIR$/maps/static/leaflet.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/script.js" afterPath="$PROJECT_DIR$/maps/static/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/gdal/datasource.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/gdal/datasource.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/templates/gis/admin/openlayers.js" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/templates/gis/admin/openlayers.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/utils/ogrinfo.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/utils/ogrinfo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/db/models/sql/query.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/db/models/sql/query.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/pandas/io/pytables.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/pandas/io/pytables.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/templates/leaflet.html" afterPath="$PROJECT_DIR$/maps/templates/leaflet.html" />
     </list>
     <ignored path="yarval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,17 +33,27 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/maps/static/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="-2358">
+              <caret line="351" column="0" selection-start-line="351" selection-start-column="0" selection-end-line="351" selection-end-column="0" />
               <folding>
-                <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
-                <element signature="e#4138#4485#0" expanded="false" />
-                <element signature="e#4640#4993#0" expanded="false" />
-                <element signature="e#5131#5612#0" expanded="false" />
-                <element signature="e#7214#8068#0" expanded="false" />
-                <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
-                <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
+                <marker date="1486146742300" expanded="true" signature="1361:1368" ph="—" />
+                <marker date="1486146742300" expanded="true" signature="1378:1384" ph="©" />
+                <marker date="1486146742300" expanded="false" signature="2386:2835" ph="{...}" />
+                <marker date="1486146742300" expanded="false" signature="4138:4485" ph="{...}" />
+                <marker date="1486146742300" expanded="false" signature="4640:4993" ph="{...}" />
+                <marker date="1486146742300" expanded="false" signature="5131:5612" ph="{...}" />
+                <marker date="1486146742300" expanded="false" signature="7214:8068" ph="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="yardsGeo.json.geojson" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -55,20 +61,9 @@
       <file leaf-file-name="leaflet.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="53" column="50" selection-start-line="53" selection-start-column="50" selection-end-line="53" selection-end-column="50" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="95">
+              <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -81,6 +76,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson" />
         <option value="$PROJECT_DIR$/maps/templates/leaflet.html" />
         <option value="$PROJECT_DIR$/maps/static/script.js" />
       </list>
@@ -144,8 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -252,6 +246,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -584,7 +580,28 @@
       <option name="project" value="LOCAL" />
       <updated>1486103562175</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes">
+      <created>1486112223361</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1486112223361</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add suppresion of Chart.js errors">
+      <created>1486113447757</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1486113447758</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add switches for buildings and roads&#10;&#10;now you can compare any layer with any other layer">
+      <created>1486114328746</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1486114328746</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -592,7 +609,7 @@
       <configuration name="Test: maps.static.Chart.bundle.js" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
-  <component name="TodoView" selected-index="4">
+  <component name="TodoView">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -605,8 +622,8 @@
     <frame x="0" y="22" width="1366" height="746" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11102719" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11404834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -641,7 +658,9 @@
     <MESSAGE value="add pie chart visualization" />
     <MESSAGE value="add bar and horizontal bar chart visualization&#10;minor bug fixes" />
     <MESSAGE value="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes" />
+    <MESSAGE value="add suppresion of Chart.js errors" />
+    <MESSAGE value="add switches for buildings and roads&#10;&#10;now you can compare any layer with any other layer" />
+    <option name="LAST_COMMIT_MESSAGE" value="add switches for buildings and roads&#10;&#10;now you can compare any layer with any other layer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -655,13 +674,61 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
-            <element signature="e#4138#4485#0" expanded="false" />
-            <element signature="e#4640#4993#0" expanded="false" />
-            <element signature="e#5131#5612#0" expanded="false" />
-            <element signature="e#7214#8068#0" expanded="false" />
-            <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
-            <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
+            <marker date="1486146742300" expanded="true" signature="1361:1368" ph="—" />
+            <marker date="1486146742300" expanded="true" signature="1378:1384" ph="©" />
+            <marker date="1486146742300" expanded="false" signature="2386:2835" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4138:4485" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4640:4993" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="5131:5612" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="7214:8068" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" column="16" selection-start-line="27" selection-start-column="16" selection-end-line="27" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1486146742300" expanded="true" signature="1361:1368" ph="—" />
+            <marker date="1486146742300" expanded="true" signature="1378:1384" ph="©" />
+            <marker date="1486146742300" expanded="false" signature="2386:2835" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4138:4485" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4640:4993" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="5131:5612" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="7214:8068" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="846">
+          <caret line="47" column="52" selection-start-line="47" selection-start-column="52" selection-end-line="47" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1486146742300" expanded="true" signature="1361:1368" ph="—" />
+            <marker date="1486146742300" expanded="true" signature="1378:1384" ph="©" />
+            <marker date="1486146742300" expanded="false" signature="2386:2835" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4138:4485" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4640:4993" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="5131:5612" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="7214:8068" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -670,7 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -678,7 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -686,18 +751,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="810">
           <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -705,7 +759,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -713,7 +766,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -725,37 +777,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/leaflet.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="6" column="18500" selection-start-line="6" selection-start-column="18500" selection-end-line="6" selection-end-column="18500" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="53" column="50" selection-start-line="53" selection-start-column="50" selection-end-line="53" selection-end-column="50" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#4;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#5;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#2;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="95">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/yardsGeo.json.geojson">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maps/static/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        <state relative-caret-position="-2358">
+          <caret line="351" column="0" selection-start-line="351" selection-start-column="0" selection-end-line="351" selection-end-column="0" />
           <folding>
-            <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
-            <element signature="e#4138#4485#0" expanded="false" />
-            <element signature="e#4640#4993#0" expanded="false" />
-            <element signature="e#5131#5612#0" expanded="false" />
-            <element signature="e#7214#8068#0" expanded="false" />
-            <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
-            <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
+            <marker date="1486146742300" expanded="true" signature="1361:1368" ph="—" />
+            <marker date="1486146742300" expanded="true" signature="1378:1384" ph="©" />
+            <marker date="1486146742300" expanded="false" signature="2386:2835" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4138:4485" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="4640:4993" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="5131:5612" ph="{...}" />
+            <marker date="1486146742300" expanded="false" signature="7214:8068" ph="{...}" />
           </folding>
         </state>
       </provider>
