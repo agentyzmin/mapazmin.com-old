@@ -10,7 +10,7 @@ var COLORS = {
     "First Floor Function": "#9463C2",//not shown on a map
     "Cars": '#242424',
     "Cars(day)": '#242424',
-    "Cars(night)": '#242424 ',
+    "Cars(night)": '#242424',
     "Trees": '#91C497',
     "hard to reach": '#898989',
     "open": '#fcde60',
@@ -485,5 +485,8 @@ function drawCharts() {
             }
         }
     });
-
 }
+
+window.onerror = function (message, url, lineNumber) {
+    if (url.includes('Chart.')) return true;
+};
