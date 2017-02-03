@@ -29,7 +29,7 @@
 .leaflet-safari .leaflet-tile {
 	image-rendering: -webkit-optimize-contrast;
 	}
-/* hack that prevents hw layers "stretching" when loading new tiles */
+/* hack that prevents hw layerGroups "stretching" when loading new tiles */
 .leaflet-safari .leaflet-tile-container {
 	width: 1600px;
 	height: 1600px;
@@ -324,7 +324,7 @@
 	}
 
 
-/* layers control */
+/* layerGroups control */
 
 .leaflet-control-layers {
 	box-shadow: 0 1px 5px rgba(0,0,0,0.4);

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="">
+    <list default="true" id="d25ea678-3f58-4d0c-9307-8886d17c7f10" name="Default" comment="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/leaflet.css" afterPath="$PROJECT_DIR$/maps/static/leaflet.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/leaflet.js" afterPath="$PROJECT_DIR$/maps/static/leaflet.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/script.js" afterPath="$PROJECT_DIR$/maps/static/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/templates/leaflet.html" afterPath="$PROJECT_DIR$/maps/templates/leaflet.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/gdal/datasource.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/gdal/datasource.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/templates/gis/admin/openlayers.js" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/templates/gis/admin/openlayers.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/utils/ogrinfo.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/contrib/gis/utils/ogrinfo.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/db/models/sql/query.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/django/db/models/sql/query.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/pandas/io/pytables.py" afterPath="$PROJECT_DIR$/venv/lib/python2.7/site-packages/pandas/io/pytables.py" />
     </list>
     <ignored path="yarval.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,19 +37,16 @@
       <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/maps/static/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-252">
-              <caret line="355" column="17" selection-start-line="355" selection-start-column="17" selection-end-line="355" selection-end-column="17" />
+            <state relative-caret-position="72">
+              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
               <folding>
-                <element signature="e#1845#2446#0" expanded="false" />
-                <element signature="e#2687#3053#0" expanded="false" />
-                <element signature="e#3318#3692#0" expanded="false" />
-                <element signature="e#3975#4353#0" expanded="false" />
-                <element signature="e#4608#5134#0" expanded="false" />
-                <element signature="e#5378#5756#0" expanded="false" />
-                <element signature="e#5999#7154#0" expanded="false" />
-                <element signature="e#7579#9109#0" expanded="false" />
-                <marker date="1486103465325" expanded="true" signature="796:803" ph="—" />
-                <marker date="1486103465325" expanded="true" signature="813:819" ph="©" />
+                <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
+                <element signature="e#4138#4485#0" expanded="false" />
+                <element signature="e#4640#4993#0" expanded="false" />
+                <element signature="e#5131#5612#0" expanded="false" />
+                <element signature="e#7214#8068#0" expanded="false" />
+                <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
+                <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
               </folding>
             </state>
           </provider>
@@ -575,7 +577,14 @@
       <option name="project" value="LOCAL" />
       <updated>1486057993485</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add bar and horizontal bar chart visualization&#10;minor bug fixes">
+      <created>1486103562175</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1486103562175</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -583,17 +592,27 @@
       <configuration name="Test: maps.static.Chart.bundle.js" configurationId="DjangoTestsConfigurationType" />
     </history-entry>
   </component>
+  <component name="TodoView" selected-index="4">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1366" height="746" extended-state="0" />
+    <frame x="0" y="22" width="1366" height="746" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25377643" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.11102719" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901135" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -603,7 +622,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -621,11 +639,13 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="implement comparison of areas" />
     <MESSAGE value="add pie chart visualization" />
-    <option name="LAST_COMMIT_MESSAGE" value="add pie chart visualization" />
+    <MESSAGE value="add bar and horizontal bar chart visualization&#10;minor bug fixes" />
+    <MESSAGE value="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="major bug fix with XmlHttpRequest&#10;major refactoring&#10;minor bug fixes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -635,16 +655,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1845#2446#0" expanded="false" />
-            <element signature="e#2687#3053#0" expanded="false" />
-            <element signature="e#3318#3692#0" expanded="false" />
-            <element signature="e#3975#4353#0" expanded="false" />
-            <element signature="e#4608#5134#0" expanded="false" />
-            <element signature="e#5378#5756#0" expanded="false" />
-            <element signature="e#5999#7154#0" expanded="false" />
-            <element signature="e#7579#9109#0" expanded="false" />
-            <marker date="1486103465325" expanded="true" signature="796:803" ph="—" />
-            <marker date="1486103465325" expanded="true" signature="813:819" ph="©" />
+            <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
+            <element signature="e#4138#4485#0" expanded="false" />
+            <element signature="e#4640#4993#0" expanded="false" />
+            <element signature="e#5131#5612#0" expanded="false" />
+            <element signature="e#7214#8068#0" expanded="false" />
+            <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
+            <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
           </folding>
         </state>
       </provider>
@@ -729,19 +746,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/maps/static/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-252">
-          <caret line="355" column="17" selection-start-line="355" selection-start-column="17" selection-end-line="355" selection-end-column="17" />
+        <state relative-caret-position="72">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="e#1845#2446#0" expanded="false" />
-            <element signature="e#2687#3053#0" expanded="false" />
-            <element signature="e#3318#3692#0" expanded="false" />
-            <element signature="e#3975#4353#0" expanded="false" />
-            <element signature="e#4608#5134#0" expanded="false" />
-            <element signature="e#5378#5756#0" expanded="false" />
-            <element signature="e#5999#7154#0" expanded="false" />
-            <element signature="e#7579#9109#0" expanded="false" />
-            <marker date="1486103465325" expanded="true" signature="796:803" ph="—" />
-            <marker date="1486103465325" expanded="true" signature="813:819" ph="©" />
+            <element signature="n#!!block;n#processGeoJson#0;n#!!block;n#initMap#0" expanded="false" />
+            <element signature="e#4138#4485#0" expanded="false" />
+            <element signature="e#4640#4993#0" expanded="false" />
+            <element signature="e#5131#5612#0" expanded="false" />
+            <element signature="e#7214#8068#0" expanded="false" />
+            <marker date="1486112216610" expanded="true" signature="1355:1362" ph="—" />
+            <marker date="1486112216610" expanded="true" signature="1372:1378" ph="©" />
           </folding>
         </state>
       </provider>
