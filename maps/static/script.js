@@ -247,7 +247,7 @@ function initMap() {
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
                 layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString())
-                if(layer.feature.properties.area == 6869.51245491596){
+                if (layer.feature.properties.area == 6869.51245491596) {
                     console.log(layer);
                 }
             }
@@ -283,8 +283,8 @@ function initMap() {
         //if there are categories of this layer, we simply go through them
         else {
             for (var i = 0; i < layer.categories.length; i++) {
-                document.getElementById(layer.categories[i] + "Switch").childNodes[0].childNodes[0].checked = element.checked;
-                document.getElementById(layer.categories[i] + "Switch").childNodes[0].childNodes[0].onchange();
+                document.getElementById(layer.categories[i] + "Switch").checked = element.checked;
+                document.getElementById(layer.categories[i] + "Switch").onchange();
             }
         }
     }
@@ -301,15 +301,14 @@ function initMap() {
         for (var i = 0; i < layerGroups.length; i++) {
             var currSwitchDIV = document.createElement('div');
             currSwitchDIV.style.display = 'inline-block';
-            currSwitchDIV.id = layerGroups[i].name + "Switch";
+            currSwitchDIV.id = layerGroups[i].name + "SwitchContainer";
             currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + layerGroups[i].name + " </label>  ";
             var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
-            // currSwitchINPUT.addEventListener('change', switchConstructor(i, currSwitchINPUT));
+            currSwitchINPUT.id = layerGroups[i].name + "Switch";
             currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
             wrapper.appendChild(currSwitchDIV);
         }
     }
-
     loadSwitches();
 }
 
@@ -362,7 +361,7 @@ function refreshMap() {
             layerGroups[i].eachLayer(function (layer) {
                 layer.bringToFront()
             });
-            document.getElementById(layerGroups[i].name + "Switch").childNodes[0].childNodes[0].checked = true;
+            document.getElementById(layerGroups[i].name + "Switch").checked = true;
             //TODO: fix ids for switches!!!
         }
     }
@@ -454,15 +453,16 @@ function drawCharts() {
     };
 
 
-
     // pieChart drawing block start
     var ctxPie = document.getElementById('piechart');
     if (typeof pieChart === 'undefined') {
         pieChart = new Chart(ctxPie, {
             type: 'pie',
             data: pieData,
-            animation: {
-                animateRotate: false
+            options: {
+                animation: {
+                    animateRotate: false
+                }
             }
         });
     }
