@@ -152,7 +152,8 @@ function initMap() {
             smoothFactor: 1
         });
         geoJSONlayer.eachLayer(function (layer) {
-            layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
+            // layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
+            layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString())
         });
         housesLayerGroup.addLayer(geoJSONlayer).addTo(map);
         refreshMap()
@@ -201,7 +202,7 @@ function initMap() {
             onEachFeature: function (feature, layer) {
                 if (typeof yardsLayerGroup.layers[feature.properties.category] === 'undefined') {
                     yardsLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
-                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup)+1   , 0, yardsLayerGroup.layers[feature.properties.category])
+                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup) + 1, 0, yardsLayerGroup.layers[feature.properties.category])
                     yardsLayerGroup.layers[feature.properties.category].name = feature.properties.category
                 }
                 yardsLayerGroup.layers[feature.properties.category].addLayer(layer);
@@ -241,10 +242,14 @@ function initMap() {
             onEachFeature: function (feature, layer) {
                 if (typeof firstFloorLayerGroup.layers[feature.properties.category] === 'undefined') {
                     firstFloorLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
-                    layerGroups.splice(layerGroups.indexOf(firstFloorLayerGroup)+1, 0, firstFloorLayerGroup.layers[feature.properties.category]);
+                    layerGroups.splice(layerGroups.indexOf(firstFloorLayerGroup) + 1, 0, firstFloorLayerGroup.layers[feature.properties.category]);
                     firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
+                layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString())
+                if(layer.feature.properties.area == 6869.51245491596){
+                    console.log(layer);
+                }
             }
         });
         firstFloorLayerGroup.addLayer(geoJSONlayer);
@@ -313,9 +318,6 @@ initMap();
 
 // updates stats based on current data
 function loadStats() {
-    // clear previous data
-    var wrapper = document.getElementById("stats");
-    wrapper.innerHTML = "";
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layerGroups.length; i++) {
@@ -333,13 +335,6 @@ function loadStats() {
             name: groups[i].name,
             area: currArea
         };
-
-        var layerGroupDIV = document.createElement("div");
-        layerGroupDIV.id = groups[i].name + "Stats";
-        var layerGroupP = document.createElement("p");
-        layerGroupP.innerHTML = groups[i].name + ": " + currArea + "%";
-        layerGroupDIV.appendChild(layerGroupP);
-
         if (groups[i].categories != undefined) {
             currData['categories'] = [];
             for (var j = 0; j < groups[i].categories.length; j++) {
@@ -352,16 +347,12 @@ function loadStats() {
                         area: currArea
                     }
                 );
-
-                var categoryLI = document.createElement('li');
-                categoryLI.innerHTML = groups[i].categories[j] + ": " + currArea + "%";
-                layerGroupDIV.appendChild(categoryLI)
             }
         }
         data.push(currData);
-        wrapper.appendChild(layerGroupDIV)
     }
-    areaData = data;
+    // areaData = data;
+    return data;
 }
 
 //refresh function - implements z-index(based on layerGroups array), updates stats and builds charts
@@ -375,7 +366,7 @@ function refreshMap() {
             //TODO: fix ids for switches!!!
         }
     }
-    loadStats();
+    areaData = loadStats();
     drawCharts();
 }
 
@@ -462,12 +453,10 @@ function drawCharts() {
         ]
     };
 
-    var ctxPie = document.getElementById('piechart');
-    var ctxBar = document.getElementById('barchart');
-    var ctxHbar = document.getElementById('hbarchart');
 
 
     // pieChart drawing block start
+    var ctxPie = document.getElementById('piechart');
     if (typeof pieChart === 'undefined') {
         pieChart = new Chart(ctxPie, {
             type: 'pie',
@@ -495,6 +484,7 @@ function drawCharts() {
     // pieChart drawing block end
 
     // barChart drawing block start
+    var ctxBar = document.getElementById('barchart');
     if (typeof barChart === 'undefined') {
         barChart = new Chart(ctxBar, {
             type: 'bar',
@@ -534,6 +524,7 @@ function drawCharts() {
     // barChart drawing block end
 
     // hbarChart drawing block start
+    var ctxHbar = document.getElementById('hbarchart');
     if (typeof hbarChart === 'undefined') {
         hbarChart = new Chart(ctxHbar, {
             type: 'horizontalBar',
