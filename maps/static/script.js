@@ -201,7 +201,7 @@ function initMap() {
             onEachFeature: function (feature, layer) {
                 if (typeof yardsLayerGroup.layers[feature.properties.category] === 'undefined') {
                     yardsLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
-                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup), 0, yardsLayerGroup.layers[feature.properties.category])
+                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup)+1   , 0, yardsLayerGroup.layers[feature.properties.category])
                     yardsLayerGroup.layers[feature.properties.category].name = feature.properties.category
                 }
                 yardsLayerGroup.layers[feature.properties.category].addLayer(layer);
@@ -241,7 +241,7 @@ function initMap() {
             onEachFeature: function (feature, layer) {
                 if (typeof firstFloorLayerGroup.layers[feature.properties.category] === 'undefined') {
                     firstFloorLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
-                    layerGroups.splice(layerGroups.indexOf(firstFloorLayerGroup), 0, firstFloorLayerGroup.layers[feature.properties.category]);
+                    layerGroups.splice(layerGroups.indexOf(firstFloorLayerGroup)+1, 0, firstFloorLayerGroup.layers[feature.properties.category]);
                     firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
@@ -297,7 +297,7 @@ function initMap() {
             var currSwitchDIV = document.createElement('div');
             currSwitchDIV.style.display = 'inline-block';
             currSwitchDIV.id = layerGroups[i].name + "Switch";
-            currSwitchDIV.innerHTML = "<label><input type='checkbox'> Toggle " + layerGroups[i].name + "    </label>  ";
+            currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + layerGroups[i].name + " </label>  ";
             var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
             // currSwitchINPUT.addEventListener('change', switchConstructor(i, currSwitchINPUT));
             currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
@@ -364,18 +364,6 @@ function loadStats() {
     areaData = data;
 }
 
-//recursiveBringToFront
-// function recursiveBringToFront(layerGroup) {
-//     if (map.hasLayer(layerGroup) && typeof layerGroup.bringToFront != 'undefined'){
-//         layerGroup.bringToFront()
-//     }
-//     else if(typeof layerGroup.eachLayer != 'undefined'){
-//         layerGroup.eachLayer(function (layer) {
-//             recursiveBringToFront(layer)
-//         })
-//     }
-// }
-
 //refresh function - implements z-index(based on layerGroups array), updates stats and builds charts
 function refreshMap() {
     for (var i = 0; i < layerGroups.length; i++) {
@@ -386,10 +374,7 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").childNodes[0].childNodes[0].checked = true;
             //TODO: fix ids for switches!!!
         }
-        // recursion, fix later
-        // recursiveBringToFront(layerGroups[i]);
     }
-    //TODO: fix RAM leak for Chart.js (https://github.com/chartjs/Chart.js/issues/462)
     loadStats();
     drawCharts();
 }
@@ -428,19 +413,6 @@ function layerGroupFilter(layerGroup, filter) {
     return resultGroup
 }
 
-// destroying previously drawn chart and creating new one instead, keep this function to avoid overlapping on redrawing(it gets ugly, really)
-function reloadCanvas(canvasId) {
-    var ctx = document.getElementById(canvasId);
-    var parent = ctx.parentElement;
-    var newctx = document.createElement("canvas");
-    newctx.width = ctx.width;
-    newctx.height = ctx.height;
-    ctx.remove();
-    ctx = newctx;
-    ctx.id = canvasId;
-    parent.appendChild(ctx);
-}
-
 // draws charts via Chart.js
 function drawCharts() {
     if (areaData == undefined) return;
@@ -463,9 +435,7 @@ function drawCharts() {
             }
         }
     }
-
     dataset.sort(sortByArea);
-
 
     var labels = [];
     var data = [];
@@ -480,10 +450,6 @@ function drawCharts() {
     if (typeof pieChart != 'undefined' && pieChart.data.datasets[0].data[0] == data[0]) {
         return;
     }
-
-    reloadCanvas('piechart');
-    reloadCanvas('barchart');
-    reloadCanvas('hbarchart');
 
     var pieData = {
         labels: labels,
@@ -501,48 +467,113 @@ function drawCharts() {
     var ctxHbar = document.getElementById('hbarchart');
 
 
-    pieChart = new Chart(ctxPie, {
-        type: 'pie',
-        data: pieData
-    });
-
-    barChart = new Chart(ctxBar, {
-        type: 'bar',
-        data: pieData,
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        // max: 100,
-                        min: 0
-                    }
-                }]
-            },
-            legend: {
-                display: false
+    // pieChart drawing block start
+    if (typeof pieChart === 'undefined') {
+        pieChart = new Chart(ctxPie, {
+            type: 'pie',
+            data: pieData,
+            animation: {
+                animateRotate: false
             }
+        });
+    }
+    else {
+        var newDatasetLength = pieData.datasets[0].data.length;
+        var oldDatasetLength = pieChart.data.datasets[0].data.length;
+        for (var i = 0; i < newDatasetLength; i++) {
+            pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
+            pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
+            pieChart.data.labels[i] = pieData.labels[i];
         }
-    });
+        if (newDatasetLength < oldDatasetLength) {
+            pieChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            pieChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            pieChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        }
+        pieChart.update();
+    }
+    // pieChart drawing block end
 
-    hbarChart = new Chart(ctxHbar, {
-        type: 'horizontalBar',
-        data: pieData,
-        options: {
-            scales: {
-                xAxes: [{
-                    ticks: {
-                        // max: 100,
-                        min: 0
-                    }
-                }]
-            },
-            legend: {
-                display: false
+    // barChart drawing block start
+    if (typeof barChart === 'undefined') {
+        barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: pieData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            min: 0
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                animation: {
+                    // duration: 0
+                }
             }
+        });
+    }
+    else {
+        var newDatasetLength = pieData.datasets[0].data.length;
+        var oldDatasetLength = barChart.data.datasets[0].data.length;
+        for (var i = 0; i < newDatasetLength; i++) {
+            barChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
+            barChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
+            barChart.data.labels[i] = pieData.labels[i];
         }
-    });
+        if (newDatasetLength < oldDatasetLength) {
+            barChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            barChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            barChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        }
+        barChart.update();
+    }
+    // barChart drawing block end
+
+    // hbarChart drawing block start
+    if (typeof hbarChart === 'undefined') {
+        hbarChart = new Chart(ctxHbar, {
+            type: 'horizontalBar',
+            data: pieData,
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            // max: 100,
+                            min: 0
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                animation: {
+                    // duration: 0
+                }
+            }
+        });
+    }
+    else {
+        var newDatasetLength = pieData.datasets[0].data.length;
+        var oldDatasetLength = hbarChart.data.datasets[0].data.length;
+        for (var i = 0; i < newDatasetLength; i++) {
+            hbarChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
+            hbarChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
+            hbarChart.data.labels[i] = pieData.labels[i];
+        }
+        if (newDatasetLength < oldDatasetLength) {
+            hbarChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            hbarChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+            hbarChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        }
+        hbarChart.update();
+    }
+
 }
 
 window.onerror = function (message, url, lineNumber) {
-    if (url.includes('Chart.')) return true;
+    // if (url.includes('Chart.')) return true;
 };
