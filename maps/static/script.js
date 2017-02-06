@@ -1,7 +1,7 @@
 var map;
 var layerGroups;
 var areaData;
-var pieChart;
+var pieChart, barChart, hbarChart;
 
 var COLORS = {
     "roads": '#6D6D6D',
@@ -177,6 +177,8 @@ function initMap() {
     // yards block start
 
     processGeoJson('/static/geoJSON/yardsGeo.json.geojson', function (geoJSON) {
+        yardsLayerGroup.categories = ["open", "hard_to_reach", "unreachable"];
+        yardsLayerGroup.layers = {};
         var geoJSONlayer = L.geoJSON(geoJSON, {
             style: function (feature) {
                 var functionColor;
@@ -195,11 +197,19 @@ function initMap() {
                     fillOpacity: 0.8,
                     smoothFactor: 1
                 }
+            },
+            onEachFeature: function (feature, layer) {
+                if (typeof yardsLayerGroup.layers[feature.properties.category] === 'undefined') {
+                    yardsLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
+                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup), 0, yardsLayerGroup.layers[feature.properties.category])
+                    yardsLayerGroup.layers[feature.properties.category].name = feature.properties.category
+                }
+                yardsLayerGroup.layers[feature.properties.category].addLayer(layer);
             }
         });
         yardsLayerGroup.addLayer(geoJSONlayer);
-        yardsLayerGroup.categories = ["open", "hard_to_reach", "unreachable"];
         refreshMap();
+        loadSwitches();
     });
 
     // yards block end
@@ -207,6 +217,8 @@ function initMap() {
     // first floor block start
 
     processGeoJson('/static/geoJSON/firstFloorFunctionGeo.json.geojson', function (geoJSON) {
+        firstFloorLayerGroup.categories = ["office", "cafe", "garage", "culture", "housing", "ruin"];
+        firstFloorLayerGroup.layers = {};
         var geoJSONlayer = L.geoJSON(geoJSON, {
             style: function (feature) {
 
@@ -225,11 +237,19 @@ function initMap() {
                     fillOpacity: 0.8,
                     smoothFactor: 1
                 }
+            },
+            onEachFeature: function (feature, layer) {
+                if (typeof firstFloorLayerGroup.layers[feature.properties.category] === 'undefined') {
+                    firstFloorLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
+                    layerGroups.splice(layerGroups.indexOf(firstFloorLayerGroup), 0, firstFloorLayerGroup.layers[feature.properties.category]);
+                    firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
+                }
+                firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
             }
         });
         firstFloorLayerGroup.addLayer(geoJSONlayer);
-        firstFloorLayerGroup.categories = ["office", "cafe", "garage", "culture", "housing", "ruin"];
         refreshMap();
+        loadSwitches()
     });
 
     // first floor block end
@@ -239,24 +259,28 @@ function initMap() {
         //console.log(element);
         //console.log(layer);
         if (typeof layer === 'undefined') return;
-        if (element.checked) {
-            if (!map.hasLayer(layer)) {
-                //console.log(layer)
-                map.addLayer(layer)
-                refreshMap()
+        if (typeof layer.categories === 'undefined') { // if this is a layer without subcategories
+
+            if (element.checked) {
+                if (!map.hasLayer(layer)) {
+                    //console.log(layer)
+                    map.addLayer(layer);
+                    refreshMap()
+                }
+            }
+            else {
+                if (map.hasLayer(layer)) {
+                    map.removeLayer(layer);
+                    refreshMap()
+                }
             }
         }
+        //if there are categories of this layer, we simply go through them
         else {
-            if (map.hasLayer(layer)) {
-                map.removeLayer(layer)
-                refreshMap()
+            for (var i = 0; i < layer.categories.length; i++) {
+                document.getElementById(layer.categories[i] + "Switch").childNodes[0].childNodes[0].checked = element.checked;
+                document.getElementById(layer.categories[i] + "Switch").childNodes[0].childNodes[0].onchange();
             }
-            // recursion, fix later
-            // else if (typeof layer.eachLayer != 'undefined'){
-            //     layer.eachLayer(function (layer) {
-            //         layerSwitcher(element, layer)
-            //     })
-            // }
         }
     }
 
@@ -275,11 +299,13 @@ function initMap() {
             currSwitchDIV.id = layerGroups[i].name + "Switch";
             currSwitchDIV.innerHTML = "<label><input type='checkbox'> Toggle " + layerGroups[i].name + "    </label>  ";
             var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
-            currSwitchINPUT.addEventListener('click', switchConstructor(i, currSwitchINPUT));
-            wrapper.appendChild(currSwitchDIV)
+            // currSwitchINPUT.addEventListener('change', switchConstructor(i, currSwitchINPUT));
+            currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
+            wrapper.appendChild(currSwitchDIV);
         }
     }
-    loadSwitches()
+
+    loadSwitches();
 }
 
 initMap();
@@ -353,16 +379,17 @@ function loadStats() {
 //refresh function - implements z-index(based on layerGroups array), updates stats and builds charts
 function refreshMap() {
     for (var i = 0; i < layerGroups.length; i++) {
-        if(map.hasLayer(layerGroups[i])){
+        if (map.hasLayer(layerGroups[i])) {
             layerGroups[i].eachLayer(function (layer) {
                 layer.bringToFront()
             });
-            document.getElementById(layerGroups[i].name + "Switch").childNodes[0].childNodes[0].checked=true;
+            document.getElementById(layerGroups[i].name + "Switch").childNodes[0].childNodes[0].checked = true;
             //TODO: fix ids for switches!!!
         }
         // recursion, fix later
         // recursiveBringToFront(layerGroups[i]);
     }
+    //TODO: fix RAM leak for Chart.js (https://github.com/chartjs/Chart.js/issues/462)
     loadStats();
     drawCharts();
 }
@@ -450,7 +477,7 @@ function drawCharts() {
         colors.push(COLORS[dataset[i].name])
     }
 
-    if(typeof pieChart != 'undefined' && pieChart.data.datasets[0].data[0] == data[0]){
+    if (typeof pieChart != 'undefined' && pieChart.data.datasets[0].data[0] == data[0]) {
         return;
     }
 
