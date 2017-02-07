@@ -3,6 +3,7 @@ var layerGroups;
 var areaData;
 var pieChart, barChart, hbarChart;
 
+var AREA_DIVISOR = 0;
 var COLORS = {
     "roads": '#6D6D6D',
     "yards": '#fcde60', //not shown on a map
@@ -153,7 +154,7 @@ function initMap() {
         });
         geoJSONlayer.eachLayer(function (layer) {
             // layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
-            layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString())
+            layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Площа: " + layer.feature.properties.area.toString())
         });
         housesLayerGroup.addLayer(geoJSONlayer).addTo(map);
         refreshMap()
@@ -168,7 +169,10 @@ function initMap() {
             weight: 1,
             fillColor: COLORS[roadsLayerGroup.name],
             fillOpacity: 1,
-            smoothFactor: 1
+            smoothFactor: 1,
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Площа: " + layer.feature.properties.area.toString());
+            }
         });
         roadsLayerGroup.addLayer(geoJSONlayer).addTo(map);
         refreshMap()
@@ -202,7 +206,7 @@ function initMap() {
             onEachFeature: function (feature, layer) {
                 if (typeof yardsLayerGroup.layers[feature.properties.category] === 'undefined') {
                     yardsLayerGroup.layers[feature.properties.category] = L.layerGroup([]);
-                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup) + 1, 0, yardsLayerGroup.layers[feature.properties.category])
+                    layerGroups.splice(layerGroups.indexOf(yardsLayerGroup) + 1, 0, yardsLayerGroup.layers[feature.properties.category]);
                     yardsLayerGroup.layers[feature.properties.category].name = feature.properties.category
                 }
                 yardsLayerGroup.layers[feature.properties.category].addLayer(layer);
@@ -246,10 +250,7 @@ function initMap() {
                     firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
-                layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString())
-                if (layer.feature.properties.area == 6869.51245491596) {
-                    console.log(layer);
-                }
+                layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString());
             }
         });
         firstFloorLayerGroup.addLayer(geoJSONlayer);
@@ -309,6 +310,7 @@ function initMap() {
             wrapper.appendChild(currSwitchDIV);
         }
     }
+
     loadSwitches();
 }
 
@@ -316,7 +318,7 @@ initMap();
 
 
 // updates stats based on current data
-function loadStats() {
+function loadStats(absoluteArea) {
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layerGroups.length; i++) {
@@ -327,9 +329,12 @@ function loadStats() {
             groups.push(layerGroups[i])
         }
     }
+    if(absoluteArea !=0){
+        totalArea = absoluteArea;
+    }
     var data = [];
     for (var i = 0; i < groups.length; i++) {
-        var currArea = (groups[i].area / totalArea * 100).toPrecision(4);
+        var currArea = (groups[i].area / totalArea * 100).toFixed(2);
         var currData = {
             name: groups[i].name,
             area: currArea
@@ -340,7 +345,7 @@ function loadStats() {
                 currArea = layerGroupArea(layerGroupFilter(groups[i], function (layer) {
                     return layer.feature.properties.category == groups[i].categories[j]
                 }));
-                currArea = (currArea / totalArea * 100).toPrecision(4);
+                currArea = (currArea / totalArea * 100).toFixed(2);
                 currData['categories'].push({
                         name: groups[i].categories[j],
                         area: currArea
@@ -354,6 +359,12 @@ function loadStats() {
     return data;
 }
 
+//update divisor from radio button
+function updateDivisor(newDivisor) {
+    AREA_DIVISOR = newDivisor;
+    refreshMap();
+}
+
 //refresh function - implements z-index(based on layerGroups array), updates stats and builds charts
 function refreshMap() {
     for (var i = 0; i < layerGroups.length; i++) {
@@ -362,16 +373,15 @@ function refreshMap() {
                 layer.bringToFront()
             });
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
-            //TODO: fix ids for switches!!!
         }
     }
-    areaData = loadStats();
+    areaData = loadStats(AREA_DIVISOR);
     drawCharts();
 }
 
 //counts area of all elements of layerGroup
 function layerGroupArea(layerGroup) {
-    totalArea = 0;
+    var totalArea = 0;
     layerGroup.eachLayer(function (layer) {
         if (typeof layer.feature != "undefined") {
             // console.log(map.hasLayer(layer));
@@ -389,7 +399,7 @@ function layerGroupArea(layerGroup) {
 
 //filters group by filter function
 function layerGroupFilter(layerGroup, filter) {
-    resultGroup = L.layerGroup([]);
+    var resultGroup = L.layerGroup([]);
     layerGroup.eachLayer(function (layer) {
         if (typeof layer.eachLayer != "undefined") {
             resultGroup.addLayer(layerGroupFilter(layer, filter))
@@ -437,9 +447,10 @@ function drawCharts() {
         colors.push(COLORS[dataset[i].name])
     }
 
-    if (typeof pieChart != 'undefined' && pieChart.data.datasets[0].data[0] == data[0]) {
+    if (typeof pieChart != 'undefined' && pieChart.data.datasets[0].data.length == data.length && pieChart.data.datasets[0].data[0] == data[0]) {
         return;
     }
+
 
     var pieData = {
         labels: labels,
