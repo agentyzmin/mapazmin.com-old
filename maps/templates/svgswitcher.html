@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Switcher</title>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}"/>
+</head>
+<body>
+
+<div class="container">
+    <div class="row" style="padding: 10px">
+        <button id="treesSwitch">Дерева</button>
+        <button id="functionsSwitch">Функція першого поверху</button>
+        <button id="yardsSwitch">Подвір'я</button>
+        <button id="carsAllSwitch">Автомобілі</button>
+        <button id="carsDaySwitch">Автомобілі вдень</button>
+        <button id="carsNightSwitch">Автомобілі вночі</button>
+        <button id="activeFacadesSwitch">Активні фасади</button>
+        <button id="basicsSwitch">Основи</button>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {% include "layers.svg" %}
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function switcher(element) {
+        if (element.style.display == 'none') {
+            element.style.display = 'inline'
+        }
+        else {
+            element.style.display = 'none'
+        }
+    }
+
+    document.getElementById('basicsSwitch').onclick = function () {
+        var basicsGroup = document.getElementById("basics_group");
+        switcher(basicsGroup)
+    }
+
+    document.getElementById('functionsSwitch').onclick = function () {
+        var functionsGroup = document.getElementById('function_group');
+        switcher(functionsGroup)
+    }
+
+    document.getElementById('yardsSwitch').onclick = function () {
+        var yardsGroup = document.getElementById('yards_group');
+        switcher(yardsGroup)
+    }
+
+    document.getElementById('carsAllSwitch').onclick = function () {
+        var carsAllGroup = document.getElementById('cars_all_group');
+        switcher(carsAllGroup)
+    }
+
+    document.getElementById('carsDaySwitch').onclick = function () {
+        var carsDayGroup = document.getElementById('cars_day_group');
+        switcher(carsDayGroup)
+    }
+
+    document.getElementById('carsNightSwitch').onclick = function () {
+        var carsNightGroup = document.getElementById('cars_night_group');
+        switcher(carsNightGroup)
+    }
+
+    document.getElementById('activeFacadesSwitch').onclick = function () {
+        var activeFacadesGroup = document.getElementById('active_facades_group');
+        switcher(activeFacadesGroup)
+    }
+
+    document.getElementById("treesSwitch").onclick = function () {
+        var treesGroup = document.getElementById("trees_group");
+        switcher(treesGroup)
+    }
+</script>
+
+</body>
+</html>
