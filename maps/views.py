@@ -33,6 +33,9 @@ def united(request):
 def leaflet(request):
     return render(request, 'leaflet.html')
 
+def svgswitcher(request):
+    return render(request, 'svgswitcher.html')
+
 
 def trees_json(request):
     module_dir = os.path.dirname(__file__)  # get current directory

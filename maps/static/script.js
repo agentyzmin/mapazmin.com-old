@@ -1,6 +1,7 @@
 var map;
 var layerGroups;
-var areaData;
+var areaDataCharts;
+var dataset;
 var pieChart, barChart, hbarChart;
 
 var AREA_DIVISOR = 0;
@@ -212,7 +213,7 @@ function initMap() {
                 yardsLayerGroup.layers[feature.properties.category].addLayer(layer);
             }
         });
-        yardsLayerGroup.addLayer(geoJSONlayer);
+        // yardsLayerGroup.addLayer(geoJSONlayer);
         refreshMap();
         loadSwitches();
     });
@@ -253,7 +254,7 @@ function initMap() {
                 layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString());
             }
         });
-        firstFloorLayerGroup.addLayer(geoJSONlayer);
+        // firstFloorLayerGroup.addLayer(geoJSONlayer);
         refreshMap();
         loadSwitches()
     });
@@ -329,7 +330,7 @@ function loadStats(absoluteArea) {
             groups.push(layerGroups[i])
         }
     }
-    if(absoluteArea !=0){
+    if (absoluteArea != 0) {
         totalArea = absoluteArea;
     }
     var data = [];
@@ -355,7 +356,7 @@ function loadStats(absoluteArea) {
         }
         data.push(currData);
     }
-    // areaData = data;
+    // areaDataCharts = data;
     return data;
 }
 
@@ -375,7 +376,7 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
-    areaData = loadStats(AREA_DIVISOR);
+    areaDataCharts = loadStats(AREA_DIVISOR);
     drawCharts();
 }
 
@@ -415,7 +416,7 @@ function layerGroupFilter(layerGroup, filter) {
 
 // draws charts via Chart.js
 function drawCharts() {
-    if (areaData == undefined) return;
+    if (areaDataCharts == undefined) return;
 
     var sortByArea = function (a, b) {
         if (Number(a.area) > Number(b.area)) return -1;
@@ -425,13 +426,13 @@ function drawCharts() {
 
     var dataset = [];
 
-    for (var i = 0; i < areaData.length; i++) {
-        if (areaData[i].categories == undefined) {
-            dataset.push(areaData[i]);
+    for (var i = 0; i < areaDataCharts.length; i++) {
+        if (areaDataCharts[i].categories == undefined) {
+            dataset.push(areaDataCharts[i]);
         }
         else {
-            for (var j = 0; j < areaData[i].categories.length; j++) {
-                dataset.push(areaData[i].categories[j]);
+            for (var j = 0; j < areaDataCharts[i].categories.length; j++) {
+                dataset.push(areaDataCharts[i].categories[j]);
             }
         }
     }
@@ -579,3 +580,36 @@ function drawCharts() {
 window.onerror = function (message, url, lineNumber) {
     // if (url.includes('Chart.')) return true;
 };
+
+function recursiveLayerData(name, layer) {
+    if (typeof layer.feature != 'undefined'){
+        dataset.push({
+            'type': name,
+            'area': layer.feature.properties.area
+        })
+    }
+    else if (typeof layer.eachLayer != 'undefined'){
+        var layerName;
+        if (typeof layer.name != 'undefined'){
+
+        }
+        layer.eachLayer(function (layer) {
+
+        })
+    }
+}
+
+function loadDataset() {
+    dataset = [];
+    for (var i = 0; i < layerGroups.length; i++) {
+        layerGroups[i].eachLayer(function (layer) {
+            if (typeof layer.feature != 'undefined') {
+                dataset.push({
+                    'type': layerGroups[i].name,
+                    'area': layer.feature.properties.area,
+                })
+            }
+        })
+    }
+    return dataset
+}

@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^houses$', maps.views.houses, name='houses'),
     url(r'^united$', maps.views.united, name='united'),
     url(r'^leaflet$', maps.views.leaflet, name='leaflet'),
+    url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
     url(r'^trees_json$', maps.views.trees_json, name='trees_json'),
     url(r'^cars_json$', maps.views.cars_json, name='cars_json'),
     url(r'^houses_json$', maps.views.houses_json, name='houses_json'),
