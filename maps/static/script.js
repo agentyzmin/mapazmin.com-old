@@ -5,6 +5,7 @@ var dataset;
 var pieChart, barChart, hbarChart;
 
 var AREA_DIVISOR = 0;
+var POPULATION = 9000;
 var COLORS = {
     "roads": '#6D6D6D',
     "yards": '#fcde60', //not shown on a map
@@ -377,6 +378,7 @@ function refreshMap() {
         }
     }
     areaDataCharts = loadStats(AREA_DIVISOR);
+    loadAreabyPopulation()
     drawCharts();
 }
 
@@ -577,39 +579,63 @@ function drawCharts() {
 
 }
 
+function loadAreabyPopulation() {
+    var areaByPopulationData = []
+    for (var i = 0; i < layerGroups.length; i++) {
+        if (map.hasLayer(layerGroups[i])) {
+            areaByPopulationData.push({
+                name: layerGroups[i].name,
+                areaPerHuman: layerGroups[i].area / POPULATION
+            })
+        }
+    }
+    console.log(areaByPopulationData)
+    var parentElement = document.getElementById("populationData");
+    parentElement.innerHTML = "";
+    for (var i = 0; i < areaByPopulationData.length; i++) {
+        var currElement = document.createElement("p");
+        currElement.innerHTML = areaByPopulationData[i].name + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м."
+        parentElement.appendChild(currElement)
+    }
+}
+
+
+
+
 window.onerror = function (message, url, lineNumber) {
     // if (url.includes('Chart.')) return true;
 };
 
-function recursiveLayerData(name, layer) {
-    if (typeof layer.feature != 'undefined'){
-        dataset.push({
-            'type': name,
-            'area': layer.feature.properties.area
-        })
-    }
-    else if (typeof layer.eachLayer != 'undefined'){
-        var layerName;
-        if (typeof layer.name != 'undefined'){
+// function recursiveLayerData(name, layer) {
+//     if (typeof layer.feature != 'undefined'){
+//         dataset.push({
+//             'type': name,
+//             'area': layer.feature.properties.area
+//         })
+//     }
+//     else if (typeof layer.eachLayer != 'undefined'){
+//         var layerName;
+//         if (typeof layer.name != 'undefined'){
+//
+//         }
+//         layer.eachLayer(function (layer) {
+//
+//         })
+//     }
+// }
 
-        }
-        layer.eachLayer(function (layer) {
-
-        })
-    }
-}
-
-function loadDataset() {
-    dataset = [];
-    for (var i = 0; i < layerGroups.length; i++) {
-        layerGroups[i].eachLayer(function (layer) {
-            if (typeof layer.feature != 'undefined') {
-                dataset.push({
-                    'type': layerGroups[i].name,
-                    'area': layer.feature.properties.area,
-                })
-            }
-        })
-    }
-    return dataset
-}
+// for future (d3.js)
+// function loadDataset() {
+//     dataset = [];
+//     for (var i = 0; i < layerGroups.length; i++) {
+//         layerGroups[i].eachLayer(function (layer) {
+//             if (typeof layer.feature != 'undefined') {
+//                 dataset.push({
+//                     'type': layerGroups[i].name,
+//                     'area': layer.feature.properties.area,
+//                 })
+//             }
+//         })
+//     }
+//     return dataset
+// }

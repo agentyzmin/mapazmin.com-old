@@ -36,24 +36,33 @@
 <div class="container" style="height: 100%;">
 
     <div class="col-md-5">
-        <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> Relative stats(each
-            other)</label>
-        <label><input type="radio" name="area_divisor" onchange="updateDivisor(1144983.94417)" value=1144983.94417>
-            Relative stats(to researched
-            territory)</label>
-        <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> Absolute stats</label>
 
-        <p>Pie:</p>
-        <div style="width: 400px; height: 300px;">
-            <canvas id="piechart" width="400" height="300"></canvas>
+        <div id="populationBlock">
+            <p>В дослідженому районі живе 9000 людей. На кожного з них припадає:</p>
+            <div id="populationData"></div>
         </div>
-        <p>Bar:</p>
-        <div style="width: 400px; height: 300px;">
-            <canvas id="barchart" width="400" height="300"></canvas>
-        </div>
-        <p>Horizontal bar:</p>
-        <div style="width: 400px; height: 300px;">
-            <canvas id="hbarchart" width="400" height="300"></canvas>
+
+        <div id="charts">
+            <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> Relative
+                stats(each
+                other)</label>
+            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1144983.94417)" value=1144983.94417>
+                Relative stats(to researched
+                territory)</label>
+            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> Absolute stats</label>
+
+            <p>Pie:</p>
+            <div style="width: 400px; height: 300px;">
+                <canvas id="piechart" width="400" height="300"></canvas>
+            </div>
+            <p>Bar:</p>
+            <div style="width: 400px; height: 300px;">
+                <canvas id="barchart" width="400" height="300"></canvas>
+            </div>
+            <p>Horizontal bar:</p>
+            <div style="width: 400px; height: 300px;">
+                <canvas id="hbarchart" width="400" height="300"></canvas>
+            </div>
         </div>
 
     </div>
