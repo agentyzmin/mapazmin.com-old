@@ -43,23 +43,22 @@
         </div>
 
         <div id="charts">
-            <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> Relative
-                stats(each
-                other)</label>
+            <h3>Статистика</h3>
+            <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> % (відносно одне
+                одного)</label>
             <label><input type="radio" name="area_divisor" onchange="updateDivisor(1144983.94417)" value=1144983.94417>
-                Relative stats(to researched
-                territory)</label>
-            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> Absolute stats</label>
+                % (до досліджуваної території)</label>
+            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> кв.м.</label>
 
-            <p>Pie:</p>
+            <p>Секторна:</p>
             <div style="width: 400px; height: 300px;">
                 <canvas id="piechart" width="400" height="300"></canvas>
             </div>
-            <p>Bar:</p>
+            <p>Гістограма(вертикальна):</p>
             <div style="width: 400px; height: 300px;">
                 <canvas id="barchart" width="400" height="300"></canvas>
             </div>
-            <p>Horizontal bar:</p>
+            <p>Гістограма(горизонтальна):</p>
             <div style="width: 400px; height: 300px;">
                 <canvas id="hbarchart" width="400" height="300"></canvas>
             </div>

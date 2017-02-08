@@ -305,7 +305,7 @@ function initMap() {
             var currSwitchDIV = document.createElement('div');
             currSwitchDIV.style.display = 'inline-block';
             currSwitchDIV.id = layerGroups[i].name + "SwitchContainer";
-            currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + layerGroups[i].name + " </label>  ";
+            currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + i18n(layerGroups[i].name) + " </label>  ";
             var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
             currSwitchINPUT.id = layerGroups[i].name + "Switch";
             currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
@@ -445,7 +445,7 @@ function drawCharts() {
     var colors = [];
 
     for (var i = 0; i < dataset.length; i++) {
-        labels.push(dataset[i].name);
+        labels.push(i18n(dataset[i].name));
         data.push(dataset[i].area);
         colors.push(COLORS[dataset[i].name])
     }
@@ -476,6 +476,9 @@ function drawCharts() {
             options: {
                 animation: {
                     animateRotate: false
+                },
+                legend: {
+                    position: 'bottom'
                 }
             }
         });
@@ -594,17 +597,38 @@ function loadAreabyPopulation() {
     parentElement.innerHTML = "";
     for (var i = 0; i < areaByPopulationData.length; i++) {
         var currElement = document.createElement("p");
-        currElement.innerHTML = areaByPopulationData[i].name + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м."
+        currElement.innerHTML = i18n(areaByPopulationData[i].name) + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м."
         parentElement.appendChild(currElement)
     }
 }
 
-
-
-
 window.onerror = function (message, url, lineNumber) {
     // if (url.includes('Chart.')) return true;
 };
+
+//to human-readable interface
+function i18n(string) {
+    var dict = {
+        "roads": 'Дороги',
+        "yards": 'Подвір\'я', //not shown on a map
+        "buildings": 'Будівлі',
+        "firstFloorFunction": "Функція першого поверху",//not shown on a map
+        "cars": 'Автомобілі',
+        "carsDay": 'Автомобілі(вдень)',
+        "carsNight": 'Автомобілі(вночі)',
+        "trees": 'Дерева',
+        "hard_to_reach": 'Важкодоступні',
+        "open": 'Відкриті',
+        "unreachable": 'Недосяжні',
+        "office": 'Офіси',
+        "cafe": 'Кафе',
+        "garage": 'Гаражі',
+        "culture": 'Культура',
+        "housing": 'Житло',
+        "ruin": 'Руїни'
+    };
+    return dict[string];
+}
 
 // function recursiveLayerData(name, layer) {
 //     if (typeof layer.feature != 'undefined'){
