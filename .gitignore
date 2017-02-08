@@ -24,6 +24,11 @@
 nbproject
 Thumbs.db
 
+# Python byte-compiled / optimized
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 .Python
