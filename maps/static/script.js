@@ -295,7 +295,9 @@ function initMap() {
                 }
             },
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Category: " + layer.feature.properties.category);
+                // layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Category: " + layer.feature.properties.category);
+                layer.options.lineCap = 'butt'
+                layer.options.lineJoin = 'butt'
             }
         });
         facadesLayerGroup.addLayer(geoJSONlayer).addTo(map);
