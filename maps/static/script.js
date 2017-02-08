@@ -23,7 +23,16 @@ var COLORS = {
     "garage": '#AAAAAA',
     "culture": '#4390FC',
     "housing": '#FFF6CF',
-    "ruin": '#565656'
+    "ruin": '#565656',
+    'tolerable': '#84B7E3',
+    'inactive': '#F06251',
+    'monument': '#A082A3',
+    'dopey': '#EDA156',
+    'hole': '#E2E2E2',
+    'active': '#0990C6',
+    'green': '#478456',
+    'nothing': '#EFD8B8'
+
 };
 
 // creates a map, loads data, defines switch behaviour
@@ -56,8 +65,9 @@ function initMap() {
     housesLayerGroup = L.layerGroup([]);
     roadsLayerGroup = L.layerGroup([]);
     firstFloorLayerGroup = L.layerGroup([]);
-    layerGroups = [roadsLayerGroup, yardsLayerGroup, housesLayerGroup, firstFloorLayerGroup, carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup, treesLayerGroup]; // from bottom to top
-    layerNames = ["roads", "yards", "buildings", "firstFloorFunction", "cars", "carsDay", "carsNight", "trees"];
+    facadesLayerGroup = L.layerGroup([]);
+    layerGroups = [roadsLayerGroup, yardsLayerGroup, housesLayerGroup, firstFloorLayerGroup, carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup, treesLayerGroup, facadesLayerGroup]; // from bottom to top
+    layerNames = ["roads", "yards", "buildings", "firstFloorFunction", "cars", "carsDay", "carsNight", "trees", "facades"];
 
     for (var i = 0; i < layerGroups.length; i++)layerGroups[i].name = layerNames[i]
 
@@ -263,6 +273,39 @@ function initMap() {
 
     // first floor block end
 
+    // active facades block start
+
+    processGeoJson('/static/geoJSON/facades.geoJSON', function (geoJSON) {
+        // facadesLayerGroup.categories = ['tolerable', 'inactive', 'monument', 'dopey', 'hole', 'active', 'green', 'nothing']
+        // facadesLayerGroup.layers = {};
+        var geoJSONlayer = L.geoJSON(geoJSON, {
+            style: function (feature) {
+                var functionColor;
+                if (COLORS[feature.properties.category] != undefined) {
+                    functionColor = COLORS[feature.properties.category];
+                }
+                else {
+                    functionColor = '#000000'
+                }
+                return {
+                    color: functionColor,
+                    opacity: 1,
+                    weight: 5,
+                    smoothFactor: 0.5
+                }
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Category: " + layer.feature.properties.category);
+            }
+        });
+        facadesLayerGroup.addLayer(geoJSONlayer).addTo(map);
+        refreshMap();
+        loadSwitches();
+
+    });
+
+    // active facades block end
+
     // defines switch behaviour(turning layerGroups on and off)
     function layerSwitcher(element, layer) {  // element - checkbox, layer - corresponding layer
         //console.log(element);
@@ -319,7 +362,7 @@ function initMap() {
 
 // updates stats for charts based on current data
 function loadStats(absoluteArea) {
-    var EXCLUSIONS = ['cars', 'carsDay', 'carsNight']; //layers which do not require area calculation
+    var EXCLUSIONS = ['cars', 'carsDay', 'carsNight', 'facades']; //layers which do not require area calculation
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layerGroups.length; i++) {
@@ -621,7 +664,8 @@ function i18n(string) {
         "garage": 'Гаражі',
         "culture": 'Культура',
         "housing": 'Житло',
-        "ruin": 'Руїни'
+        "ruin": 'Руїни',
+        "facades": 'Фасади'
     };
     return dict[string];
 }
