@@ -27,6 +27,7 @@ var COLORS = {
 };
 
 // creates a map, loads data, defines switch behaviour
+initMap();
 function initMap() {
     // set up the map
     map = new L.Map('mapid', {
@@ -316,15 +317,13 @@ function initMap() {
     loadSwitches();
 }
 
-initMap();
-
-
-// updates stats based on current data
+// updates stats for charts based on current data
 function loadStats(absoluteArea) {
+    var EXCLUSIONS = ['cars', 'carsDay', 'carsNight']; //layers which do not require area calculation
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i])) {
+        if (map.hasLayer(layerGroups[i]) && !EXCLUSIONS.includes(layerGroups[i].name)) {
             var area = layerGroupArea(layerGroups[i]);
             totalArea += area;
             layerGroups[i].area = area;
@@ -357,11 +356,10 @@ function loadStats(absoluteArea) {
         }
         data.push(currData);
     }
-    // areaDataCharts = data;
     return data;
 }
 
-//update divisor from radio button
+// update divisor from radio button
 function updateDivisor(newDivisor) {
     AREA_DIVISOR = newDivisor;
     refreshMap();
@@ -378,7 +376,7 @@ function refreshMap() {
         }
     }
     areaDataCharts = loadStats(AREA_DIVISOR);
-    loadAreabyPopulation()
+    loadAreabyPopulation();
     drawCharts();
 }
 
@@ -484,17 +482,17 @@ function drawCharts() {
         });
     }
     else {
-        var newDatasetLength = pieData.datasets[0].data.length;
-        var oldDatasetLength = pieChart.data.datasets[0].data.length;
-        for (var i = 0; i < newDatasetLength; i++) {
+        var newLength = pieData.datasets[0].data.length;
+        var oldLength = pieChart.data.datasets[0].data.length;
+        for (var i = 0; i < newLength; i++) {
             pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
             pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
             pieChart.data.labels[i] = pieData.labels[i];
         }
-        if (newDatasetLength < oldDatasetLength) {
-            pieChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            pieChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            pieChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        if (newLength < oldLength) {
+            pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+            pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+            pieChart.data.labels.splice(newLength, oldLength - newLength);
         }
         pieChart.update();
     }
@@ -524,17 +522,17 @@ function drawCharts() {
         });
     }
     else {
-        var newDatasetLength = pieData.datasets[0].data.length;
-        var oldDatasetLength = barChart.data.datasets[0].data.length;
-        for (var i = 0; i < newDatasetLength; i++) {
+        var newLength = pieData.datasets[0].data.length;
+        var oldLength = barChart.data.datasets[0].data.length;
+        for (var i = 0; i < newLength; i++) {
             barChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
             barChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
             barChart.data.labels[i] = pieData.labels[i];
         }
-        if (newDatasetLength < oldDatasetLength) {
-            barChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            barChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            barChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        if (newLength < oldLength) {
+            barChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+            barChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+            barChart.data.labels.splice(newLength, oldLength - newLength);
         }
         barChart.update();
     }
@@ -550,7 +548,6 @@ function drawCharts() {
                 scales: {
                     xAxes: [{
                         ticks: {
-                            // max: 100,
                             min: 0
                         }
                     }]
@@ -565,39 +562,38 @@ function drawCharts() {
         });
     }
     else {
-        var newDatasetLength = pieData.datasets[0].data.length;
-        var oldDatasetLength = hbarChart.data.datasets[0].data.length;
-        for (var i = 0; i < newDatasetLength; i++) {
+        var newLength = pieData.datasets[0].data.length;
+        var oldLength = hbarChart.data.datasets[0].data.length;
+        for (var i = 0; i < newLength; i++) {
             hbarChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
             hbarChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
             hbarChart.data.labels[i] = pieData.labels[i];
         }
-        if (newDatasetLength < oldDatasetLength) {
-            hbarChart.data.datasets[0].data.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            hbarChart.data.datasets[0].backgroundColor.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
-            hbarChart.data.labels.splice(newDatasetLength, oldDatasetLength - newDatasetLength);
+        if (newLength < oldLength) {
+            hbarChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+            hbarChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+            hbarChart.data.labels.splice(newLength, oldLength - newLength);
         }
         hbarChart.update();
     }
-
 }
 
+// loading area by population data and putting it into DOM
 function loadAreabyPopulation() {
-    var areaByPopulationData = []
+    var areaByPopulationData = [];
     for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i])) {
+        if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area!= 'undefined') {
             areaByPopulationData.push({
                 name: layerGroups[i].name,
                 areaPerHuman: layerGroups[i].area / POPULATION
             })
         }
     }
-    console.log(areaByPopulationData)
     var parentElement = document.getElementById("populationData");
     parentElement.innerHTML = "";
     for (var i = 0; i < areaByPopulationData.length; i++) {
         var currElement = document.createElement("p");
-        currElement.innerHTML = i18n(areaByPopulationData[i].name) + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м."
+        currElement.innerHTML = i18n(areaByPopulationData[i].name) + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м.";
         parentElement.appendChild(currElement)
     }
 }

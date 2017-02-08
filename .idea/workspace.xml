@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b95c6fd-7cb2-4375-a4f8-e9968812ccc8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/layers-2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/layers.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/marker-icon-2x.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/marker-icon.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/marker-shadow.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/static/images/layers.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/templates/layers.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maps/templates/svgswitcher.html" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/yarval.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+    <list default="true" id="8b95c6fd-7cb2-4375-a4f8-e9968812ccc8" name="Default" comment="add human readable interface&#10;minor UX improvements">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/geoJSON/housesGeo.json.geojson" afterPath="$PROJECT_DIR$/maps/static/geoJSON/housesGeo.json.geojson" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maps/static/script.js" afterPath="$PROJECT_DIR$/maps/static/script.js" />
     </list>
+    <ignored path=".idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,30 +17,55 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="script.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="script.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/maps/static/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="314" column="19" lean-forward="true" selection-start-line="314" selection-start-column="19" selection-end-line="315" selection-end-column="1" />
+            <state relative-caret-position="319">
+              <caret line="588" column="14" lean-forward="true" selection-start-line="588" selection-start-column="14" selection-end-line="588" selection-end-column="14" />
               <folding>
-                <marker date="1486476884111" expanded="true" signature="1423:1430" ph="—" />
-                <marker date="1486476884111" expanded="true" signature="1440:1446" ph="©" />
+                <element signature="n#!!block;n#initMap#0" expanded="false" />
+                <element signature="n#!!block;n#loadStats#0" expanded="false" />
+                <element signature="n#!!block;n#updateDivisor#0" expanded="false" />
+                <element signature="n#!!block;n#refreshMap#0" expanded="false" />
+                <element signature="n#!!block;n#layerGroupArea#0" expanded="false" />
+                <element signature="n#!!block;n#layerGroupFilter#0" expanded="false" />
+                <element signature="n#!!block;n#drawCharts#0" expanded="false" />
+                <element signature="e#21601#21652#0" expanded="false" />
+                <element signature="n#!!block;n#i18n#0" expanded="false" />
+                <element signature="e#22355#22400#0" expanded="false" />
+                <element signature="e#22807#22828#0" expanded="false" />
+                <marker date="1486547335596" expanded="true" signature="1457:1464" ph="—" />
+                <marker date="1486547335596" expanded="true" signature="1474:1480" ph="©" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="svgswitcher.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/maps/templates/svgswitcher.html">
+      <file leaf-file-name="script.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/script.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+            <state relative-caret-position="476">
+              <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="132" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#64#1624#0" expanded="false" />
+                <element signature="e#1634#5816#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="housesGeo.json.geojson" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/housesGeo.json.geojson">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="0" column="3009" lean-forward="false" selection-start-line="0" selection-start-column="3009" selection-end-line="0" selection-end-column="3009" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -57,8 +73,8 @@
       <file leaf-file-name="leaflet.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="37" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="17">
+              <caret line="42" column="14" lean-forward="false" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -78,6 +94,11 @@
       <find>areaData</find>
       <find>loadSta</find>
       <find>yard</find>
+      <find>loadS</find>
+      <find>loadsw</find>
+      <find>pie</find>
+      <find>247.20666212281606</find>
+      <find>5016.228170953031</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -86,11 +107,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/maps/templates/leaflet.html" />
-        <option value="$PROJECT_DIR$/maps/static/script.js" />
         <option value="$PROJECT_DIR$/maps/views.py" />
         <option value="$PROJECT_DIR$/yarval/urls.py" />
         <option value="$PROJECT_DIR$/maps/templates/svgswitcher.html" />
+        <option value="$PROJECT_DIR$/maps/templates/leaflet.html" />
+        <option value="$PROJECT_DIR$/maps/static/geoJSON/housesGeo.json.geojson" />
+        <option value="$PROJECT_DIR$/maps/static/geoJSON/script.py" />
+        <option value="$PROJECT_DIR$/maps/static/script.js" />
       </list>
     </option>
   </component>
@@ -222,22 +245,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yarval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yarval" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="maps" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="geoJSON" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\yurii\PycharmProjects\yarval\maps\templates" />
-      <recent name="C:\Users\yurii\PycharmProjects\yarval\maps\static\images" />
-    </key>
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.idea" />
   </component>
   <component name="RunManager" selected="Django server.yarval">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
@@ -523,31 +564,52 @@
       <option name="project" value="LOCAL" />
       <updated>1486481821667</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add svgswitcher">
+      <created>1486482117981</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1486482117981</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add area per human parameter">
+      <created>1486486283604</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1486486283604</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add human readable interface&#10;minor UX improvements">
+      <created>1486542829121</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1486542829121</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26096824" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,22 +620,95 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add svgswitcher" />
-    <option name="LAST_COMMIT_MESSAGE" value="add svgswitcher" />
+    <MESSAGE value="add area per human parameter" />
+    <MESSAGE value="add human readable interface&#10;minor UX improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="add human readable interface&#10;minor UX improvements" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="6" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/maps/static/script.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#initMap#0" expanded="false" />
+            <element signature="n#!!block;n#loadStats#0" expanded="false" />
+            <element signature="n#!!block;n#updateDivisor#0" expanded="false" />
+            <element signature="n#!!block;n#refreshMap#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupArea#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupFilter#0" expanded="false" />
+            <element signature="n#!!block;n#drawCharts#0" expanded="false" />
+            <element signature="e#21601#21652#0" expanded="false" />
+            <element signature="n#!!block;n#i18n#0" expanded="false" />
+            <element signature="e#22355#22400#0" expanded="false" />
+            <element signature="e#22807#22828#0" expanded="false" />
+            <marker date="1486547335596" expanded="true" signature="1457:1464" ph="—" />
+            <marker date="1486547335596" expanded="true" signature="1474:1480" ph="©" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="42" column="14" lean-forward="true" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#initMap#0" expanded="false" />
+            <element signature="n#!!block;n#loadStats#0" expanded="false" />
+            <element signature="n#!!block;n#updateDivisor#0" expanded="false" />
+            <element signature="n#!!block;n#refreshMap#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupArea#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupFilter#0" expanded="false" />
+            <element signature="n#!!block;n#drawCharts#0" expanded="false" />
+            <element signature="e#21601#21652#0" expanded="false" />
+            <element signature="n#!!block;n#i18n#0" expanded="false" />
+            <element signature="e#22355#22400#0" expanded="false" />
+            <element signature="e#22807#22828#0" expanded="false" />
+            <marker date="1486547335596" expanded="true" signature="1457:1464" ph="—" />
+            <marker date="1486547335596" expanded="true" signature="1474:1480" ph="©" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="40" column="80" lean-forward="false" selection-start-line="40" selection-start-column="80" selection-end-line="40" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4369">
           <caret line="257" column="21" lean-forward="true" selection-start-line="257" selection-start-column="21" selection-end-line="257" selection-end-column="21" />
           <folding>
-            <marker date="1486476884111" expanded="true" signature="1423:1430" ph="—" />
-            <marker date="1486476884111" expanded="true" signature="1440:1446" ph="©" />
+            <element signature="n#!!block;n#initMap#0" expanded="false" />
+            <element signature="n#!!block;n#loadStats#0" expanded="false" />
+            <element signature="n#!!block;n#updateDivisor#0" expanded="false" />
+            <element signature="n#!!block;n#refreshMap#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupArea#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupFilter#0" expanded="false" />
+            <element signature="n#!!block;n#drawCharts#0" expanded="false" />
+            <element signature="e#21601#21652#0" expanded="false" />
+            <element signature="n#!!block;n#i18n#0" expanded="false" />
+            <element signature="e#22355#22400#0" expanded="false" />
+            <element signature="e#22807#22828#0" expanded="false" />
+            <marker date="1486547335596" expanded="true" signature="1457:1464" ph="—" />
+            <marker date="1486547335596" expanded="true" signature="1474:1480" ph="©" />
           </folding>
         </state>
       </provider>
@@ -582,9 +717,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -600,7 +732,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -617,27 +748,8 @@
         <state relative-caret-position="408">
           <caret line="36" column="46" lean-forward="false" selection-start-line="36" selection-start-column="46" selection-end-line="36" selection-end-column="46" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="314" column="19" lean-forward="true" selection-start-line="314" selection-start-column="19" selection-end-line="315" selection-end-column="1" />
-          <folding>
-            <marker date="1486476884111" expanded="true" signature="1423:1430" ph="—" />
-            <marker date="1486476884111" expanded="true" signature="1440:1446" ph="©" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="37" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -645,16 +757,69 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/maps/templates/svgswitcher.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+        <state relative-caret-position="-188">
+          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/firstFloorFunctionGeo.json.geojson">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/templates/leaflet.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="42" column="14" lean-forward="false" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/script.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="86" column="4" lean-forward="false" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="132" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#64#1624#0" expanded="false" />
+            <element signature="e#1634#5816#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/geoJSON/housesGeo.json.geojson">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="0" column="3009" lean-forward="false" selection-start-line="0" selection-start-column="3009" selection-end-line="0" selection-end-column="3009" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maps/static/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="588" column="14" lean-forward="true" selection-start-line="588" selection-start-column="14" selection-end-line="588" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!block;n#initMap#0" expanded="false" />
+            <element signature="n#!!block;n#loadStats#0" expanded="false" />
+            <element signature="n#!!block;n#updateDivisor#0" expanded="false" />
+            <element signature="n#!!block;n#refreshMap#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupArea#0" expanded="false" />
+            <element signature="n#!!block;n#layerGroupFilter#0" expanded="false" />
+            <element signature="n#!!block;n#drawCharts#0" expanded="false" />
+            <element signature="e#21601#21652#0" expanded="false" />
+            <element signature="n#!!block;n#i18n#0" expanded="false" />
+            <element signature="e#22355#22400#0" expanded="false" />
+            <element signature="e#22807#22828#0" expanded="false" />
+            <marker date="1486547335596" expanded="true" signature="1457:1464" ph="—" />
+            <marker date="1486547335596" expanded="true" signature="1474:1480" ph="©" />
           </folding>
         </state>
       </provider>
