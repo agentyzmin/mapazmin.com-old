@@ -11,7 +11,12 @@
 
 <div class="container">
     <div id="pedestrianChart"></div>
-    <div id="charts"></div>
+    <div id="chartsPoints">
+        <h3>За точками:</h3>
+    </div>
+    <div id="chartsTimes">
+        <h3>За часом:</h3>
+    </div>
 </div>
 
 <script type="text/javascript" src="{% static "d3.js" %}"></script>
@@ -21,16 +26,18 @@
     var ndx, pointDimension;
     d3.csv("{% static "data.csv" %}", function (error, pedestrians) {
 
+        var timeFormat = d3.time.format("%H:%M")
         var chart = dc.barChart('#pedestrianChart');
         pedestrians.forEach(function (x) {
             x.count = +x.count;
+            x.time = timeFormat.parse(x.time);
         });
         console.log(pedestrians);
         ndx = crossfilter(pedestrians),
             pointDimension = ndx.dimension(function (d) {
                 return d.point
             }),
-            countPeopleGroup = pointDimension.group().reduce(function (p, v) {
+            countPeopleOnPointGroup = pointDimension.group().reduce(function (p, v) {
                 p[v.side] = (p[v.side] || 0) + v.count;
                 return p;
             }, function (p, v) {
@@ -41,16 +48,27 @@
             }),
             timeDimension = ndx.dimension(function (d) {
                 return d.time;
-            });
+            }),
+            countPeopleOnTimeGroup = timeDimension.group().reduce(function (p, v) {
+                p[v.side] = (p[v.side] || 0) + v.count;
+                return p;
+            }, function (p, v) {
+                p[v.side] = (p[v.side] || 0) - v.count;
+                return p;
+            }, function () {
+                return {};
+            })
+        ;
 
+        // grouped on time block start
         var timeGroups = timeDimension.group().all();
-        var parentDiv = d3.select('#charts');
+        var parentDivPoints = d3.select('#chartsPoints');
         for (var i = 0; i < timeGroups.length; i++) {
             var time = timeGroups[i].key;
             var length = timeGroups[i].value / 2;
-            var currBlock = parentDiv.insert('div').style('width', '100%').attr('class', 'container');
-            currBlock.insert('h3').html(time);
-            var id = 'chart' + time.replace(':','_');
+            var currBlock = parentDivPoints.insert('div').style('width', '100%').attr('class', 'container');
+            currBlock.insert('h4').html(time.getHours() + ':00');
+            var id = 'chart' + time.getHours();
             currBlock.insert('div').html(' ').attr('id', id);
             var chart = dc.barChart('#' + id);
             console.log(chart);
@@ -66,16 +84,70 @@
                     return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
                 })
                 .dimension(pointDimension)
-                .group(countPeopleGroup, "E", function (d) {
+                .group(countPeopleOnPointGroup, "E", function (d) {
                     return d.value['E'];
                 })
                 .renderLabel(true);
             chart.legend(dc.legend());
-            chart.stack(countPeopleGroup, "O", function (d) {
+            chart.xAxis().ticks(4)
+            chart.stack(countPeopleOnPointGroup, "O", function (d) {
                 return d.value['O'];
             });
             chart.render();
         }
+        // grouped on time block start
+
+        // grouped on point block start
+
+        var pointGroups = pointDimension.group().all();
+        var parentDivTimes = d3.select('#chartsTimes');
+        for (var i = 0; i < pointGroups.length; i++) {
+            var point = pointGroups[i].key;
+            var length = pointGroups[i].value / 2;
+            var currBlock = parentDivTimes.insert('div').style('width', '100%').attr('class', 'container');
+            currBlock.insert('h4').html(point);
+            var id = 'chart' + point.replace(':', '_') + 'points';
+            currBlock.insert('div').html(' ').attr('id', id);
+            var chart = dc.lineChart('#' + id);
+            var times = [];
+            var timesGroups = timeDimension.group().all();
+            for (var j = 0; j < timesGroups.length; j++) {
+                times.push(timesGroups[j].key);
+            }
+            console.log(times);
+            pointDimension.filter(point);
+            chart
+                .width(600)
+                .height(200)
+                .x(d3.time.scale().domain([timeFormat.parse('12:00'), timeFormat.parse('18:00')]))
+                .round(d3.time.hours.round)
+                .xUnits(d3.time.hours)
+                .margins({left: 80, top: 40, right: 10, bottom: 20})
+                .brushOn(false)
+                .clipPadding(20)
+                .title(function (d) {
+                    return d.key.getHours() + ":00" + '[' + this.layer + ']: ' + d.value[this.layer];
+                })
+                .dimension(timeDimension)
+                .group(countPeopleOnTimeGroup, "E", function (d) {
+                    return d.value['E'];
+                })
+                .renderLabel(true)
+                .renderArea(true)
+                .mouseZoomable(false);
+            chart.legend(dc.legend());
+            chart.xAxis().tickFormat(function (v) {
+                var minutes = v.getMinutes().toString();
+                if (minutes.length<2) minutes = '0' + minutes;
+                return v.getHours() + ':' + minutes;
+            });
+            chart.stack(countPeopleOnTimeGroup, "O", function (d) {
+                return d.value['O'];
+            });
+            chart.render();
+        }
+
+        // grouped on point block end
 
         console.log(ndx)
         console.log(pointDimension)
