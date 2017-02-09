@@ -11,15 +11,17 @@
 
 <div class="container">
     <div id="pedestrianChart"></div>
+    <div id="charts"></div>
 </div>
 
 <script type="text/javascript" src="{% static "d3.js" %}"></script>
 <script type="text/javascript" src="{% static "crossfilter.js" %}"></script>
 <script type="text/javascript" src="{% static "dc.js" %}"></script>
 <script type="text/javascript">
-    var chart = dc.barChart('#pedestrianChart');
     var ndx, pointDimension;
     d3.csv("{% static "data.csv" %}", function (error, pedestrians) {
+
+        var chart = dc.barChart('#pedestrianChart');
         pedestrians.forEach(function (x) {
             x.count = +x.count;
         });
@@ -39,30 +41,41 @@
             }),
             timeDimension = ndx.dimension(function (d) {
                 return d.time;
-            })
-        timeDimension.filter("14:00");
+            });
 
-        chart
-            .width(800)
-            .height(500)
-            .x(d3.scale.linear().domain([1, 5]))
-            .margins({left: 80, top: 40, right: 10, bottom: 20})
-            .brushOn(false)
-            .clipPadding(20)
-            .title(function (d) {
-                return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
-            })
-            .dimension(pointDimension)
-            .group(countPeopleGroup, "E", function (d) {
-                return d.value['E'];
-            })
-            .renderLabel(true);
-        chart.legend(dc.legend());
-        chart.stack(countPeopleGroup, "O", function (d) {
-            return d.value['O'];
-        });
-        chart.render();
-
+        var timeGroups = timeDimension.group().all();
+        var parentDiv = d3.select('#charts');
+        for (var i = 0; i < timeGroups.length; i++) {
+            var time = timeGroups[i].key;
+            var length = timeGroups[i].value / 2;
+            var currBlock = parentDiv.insert('div').style('width', '100%').attr('class', 'container');
+            currBlock.insert('h3').html(time);
+            var id = 'chart' + time.replace(':','_');
+            currBlock.insert('div').html(' ').attr('id', id);
+            var chart = dc.barChart('#' + id);
+            console.log(chart);
+            timeDimension.filter(time);
+            chart
+                .width(600)
+                .height(200)
+                .x(d3.scale.linear().domain([1, 5]))
+                .margins({left: 80, top: 40, right: 10, bottom: 20})
+                .brushOn(false)
+                .clipPadding(20)
+                .title(function (d) {
+                    return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
+                })
+                .dimension(pointDimension)
+                .group(countPeopleGroup, "E", function (d) {
+                    return d.value['E'];
+                })
+                .renderLabel(true);
+            chart.legend(dc.legend());
+            chart.stack(countPeopleGroup, "O", function (d) {
+                return d.value['O'];
+            });
+            chart.render();
+        }
 
         console.log(ndx)
         console.log(pointDimension)
