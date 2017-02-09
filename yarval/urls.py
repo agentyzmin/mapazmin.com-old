@@ -21,20 +21,8 @@ import maps.views
 
 urlpatterns = [
     url(r'^$', maps.views.index, name='index'),
-    url(r'^trees$', maps.views.googlemapstrees, name='trees'),
-    url(r'^cars$', maps.views.cars, name='cars'),
-    url(r'^carsandtrees$', maps.views.carsandtrees, name='carsandtrees'),
-    url(r'^houses$', maps.views.houses, name='houses'),
-    url(r'^united$', maps.views.united, name='united'),
     url(r'^leaflet$', maps.views.leaflet, name='leaflet'),
     url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
-    url(r'^trees_json$', maps.views.trees_json, name='trees_json'),
-    url(r'^cars_json$', maps.views.cars_json, name='cars_json'),
-    url(r'^houses_json$', maps.views.houses_json, name='houses_json'),
-    url(r'^roads_json$', maps.views.roads_json, name='roads_json'),
-    url(r'^yards_json$', maps.views.yards_json, name='yards_json'),
-    url(r'^floor1_json$', maps.views.floor1_json, name='floor1_json'),
-    url(r'^cars_day_json$', maps.views.cars_day_json, name='cars_day_json'),
-    url(r'^cars_night_json$', maps.views.cars_night_json, name='cars_night_json'),
+    url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
     url(r'^admin/', include(admin.site.urls)),
 ]

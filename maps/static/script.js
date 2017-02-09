@@ -296,7 +296,7 @@ function initMap() {
             },
             onEachFeature: function (feature, layer) {
                 // layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Category: " + layer.feature.properties.category);
-                layer.options.lineCap = 'butt'
+                layer.options.lineCap = 'butt';
                 layer.options.lineJoin = 'butt'
             }
         });

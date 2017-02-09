@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedestrian visualization</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dc.css' %}">
+</head>
+<body>
+
+<div class="container">
+    <div id="pedestrianChart"></div>
+</div>
+
+<script type="text/javascript" src="{% static "d3.js" %}"></script>
+<script type="text/javascript" src="{% static "crossfilter.js" %}"></script>
+<script type="text/javascript" src="{% static "dc.js" %}"></script>
+<script type="text/javascript">
+    var chart = dc.barChart('#pedestrianChart');
+    var ndx, pointDimension;
+    d3.csv("{% static "data.csv" %}", function (error, pedestrians) {
+        pedestrians.forEach(function (x) {
+            x.count = +x.count;
+        });
+        console.log(pedestrians);
+        ndx = crossfilter(pedestrians),
+            pointDimension = ndx.dimension(function (d) {
+                return d.point
+            }),
+            countPeopleGroup = pointDimension.group().reduce(function (p, v) {
+                p[v.side] = (p[v.side] || 0) + v.count;
+                return p;
+            }, function (p, v) {
+                p[v.side] = (p[v.side] || 0) - v.count;
+                return p;
+            }, function () {
+                return {};
+            }),
+            timeDimension = ndx.dimension(function (d) {
+                return d.time;
+            })
+        timeDimension.filter("14:00");
+
+        chart
+            .width(800)
+            .height(500)
+            .x(d3.scale.linear().domain([1, 5]))
+            .margins({left: 80, top: 40, right: 10, bottom: 20})
+            .brushOn(false)
+            .clipPadding(20)
+            .title(function (d) {
+                return d.key + '[' + this.layer + ']: ' + d.value[this.layer];
+            })
+            .dimension(pointDimension)
+            .group(countPeopleGroup, "E", function (d) {
+                return d.value['E'];
+            })
+            .renderLabel(true);
+        chart.legend(dc.legend());
+        chart.stack(countPeopleGroup, "O", function (d) {
+            return d.value['O'];
+        });
+        chart.render();
+
+
+        console.log(ndx)
+        console.log(pointDimension)
+
+    })
+</script>
+</body>
+</html>
