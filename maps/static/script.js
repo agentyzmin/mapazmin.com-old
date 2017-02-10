@@ -167,7 +167,16 @@ function initMap() {
         });
         geoJSONlayer.eachLayer(function (layer) {
             // layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
-            layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Площа: " + layer.feature.properties.area.toString())
+            layer.bindPopup("   Площа: " + layer.feature.properties.area.toString())
+            layer.on('dblclick', function (e) {
+                var a = "[";
+                for (var i = 1; i < this._latlngs[0].length; i++) {
+                    a += '[' + this._latlngs[0][i-1].lat + "," + this._latlngs[0][i-1].lng + ',' + this._latlngs[0][i].lat + "," + this._latlngs[0][i].lng + ']'
+                    if (i+1 != this._latlngs[0].length) a += ', ';
+                }
+                a += ']';
+                console.log(a);
+            })
         });
         housesLayerGroup.addLayer(geoJSONlayer).addTo(map);
         refreshMap()
@@ -295,7 +304,7 @@ function initMap() {
                 }
             },
             onEachFeature: function (feature, layer) {
-                // layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Category: " + layer.feature.properties.category);
+                layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets);
                 layer.options.lineCap = 'butt';
                 layer.options.lineJoin = 'butt'
             }
@@ -627,7 +636,7 @@ function drawCharts() {
 function loadAreabyPopulation() {
     var areaByPopulationData = [];
     for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area!= 'undefined') {
+        if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area != 'undefined') {
             areaByPopulationData.push({
                 name: layerGroups[i].name,
                 areaPerHuman: layerGroups[i].area / POPULATION
@@ -670,6 +679,17 @@ function i18n(string) {
         "facades": 'Фасади'
     };
     return dict[string];
+}
+
+var marker;
+
+function loadServiceMarker() {
+    marker = L.marker([50.45752471902741, 30.505999797936283], {
+        draggable: true,
+    }).on('dblclick', function (e) {
+        console.log(e.latlng.lat + ',' + e.latlng.lng )
+    }).addTo(map);
+
 }
 
 // function recursiveLayerData(name, layer) {
