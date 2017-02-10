@@ -34,6 +34,7 @@ var COLORS = {
     'nothing': '#EFD8B8'
 
 };
+var STREETS = ['Yaroslaviv_Val', 'Kotsiubynskoho', 'Lypynskoho', 'Franka', 'Honchara', 'Stritenska', 'Rylskyi_prov', 'Lysenka', 'Khmelnytskogo'];
 
 // creates a map, loads data, defines switch behaviour
 initMap();
@@ -102,6 +103,9 @@ function initMap() {
                     fillOpacity: 0.8,
                     zIndex: 200
                 })
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Streets:" + layer.feature.properties.streets);
             }
         });
         treesLayerGroup.addLayer(geoJSONLayer);
@@ -117,7 +121,10 @@ function initMap() {
             weight: 1,
             fillColor: COLORS[carsLayerGroup.name],
             fillOpacity: 1,
-            smoothFactor: 1
+            smoothFactor: 1,
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+            }
         });
         carsLayerGroup.addLayer(geoJSONlayer);
         refreshMap()
@@ -132,7 +139,10 @@ function initMap() {
             weight: 1,
             fillColor: COLORS[carsDayLayerGroup.name],
             fillOpacity: 1,
-            smoothFactor: 1
+            smoothFactor: 1,
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+            }
         });
         carsDayLayerGroup.addLayer(geoJSONlayer);
         refreshMap()
@@ -148,7 +158,10 @@ function initMap() {
             weight: 1,
             fillColor: COLORS[carsNightLayerGroup.name],
             fillOpacity: 1,
-            smoothFactor: 1
+            smoothFactor: 1,
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+            }
         });
         carsNightLayerGroup.addLayer(geoJSONlayer);
         refreshMap()
@@ -167,12 +180,12 @@ function initMap() {
         });
         geoJSONlayer.eachLayer(function (layer) {
             // layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
-            layer.bindPopup("   Площа: " + layer.feature.properties.area.toString())
+            layer.bindPopup("Street: " + layer.feature.properties.streets + "   Площа: " + layer.feature.properties.area.toString())
             layer.on('dblclick', function (e) {
                 var a = "[";
                 for (var i = 1; i < this._latlngs[0].length; i++) {
-                    a += '[' + this._latlngs[0][i-1].lat + "," + this._latlngs[0][i-1].lng + ',' + this._latlngs[0][i].lat + "," + this._latlngs[0][i].lng + ']'
-                    if (i+1 != this._latlngs[0].length) a += ', ';
+                    a += '[' + this._latlngs[0][i - 1].lat + "," + this._latlngs[0][i - 1].lng + ',' + this._latlngs[0][i].lat + "," + this._latlngs[0][i].lng + ']'
+                    if (i + 1 != this._latlngs[0].length) a += ', ';
                 }
                 a += ']';
                 console.log(a);
@@ -193,7 +206,7 @@ function initMap() {
             fillOpacity: 1,
             smoothFactor: 1,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Площа: " + layer.feature.properties.area.toString());
+                // layer.bindPopup("Coos: " + layer._latlngs.toString() + "   Площа: " + layer.feature.properties.area.toString());
             }
         });
         roadsLayerGroup.addLayer(geoJSONlayer).addTo(map);
@@ -272,7 +285,10 @@ function initMap() {
                     firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
-                layer.bindPopup("Coos: " + layer._latlngs[0][0].toString() + "   Площа: " + layer.feature.properties.area.toString());
+                layer.bindPopup('Street: ' + layer.feature.properties.streets + "   Площа: " + layer.feature.properties.area.toString());
+                layer.on('click', function (e) {
+                    console.log(layer.feature.geometry.coordinates[0])
+                })
             }
         });
         // firstFloorLayerGroup.addLayer(geoJSONlayer);
@@ -687,7 +703,7 @@ function loadServiceMarker() {
     marker = L.marker([50.45752471902741, 30.505999797936283], {
         draggable: true,
     }).on('dblclick', function (e) {
-        console.log(e.latlng.lat + ',' + e.latlng.lng )
+        console.log(e.latlng.lat + ',' + e.latlng.lng)
     }).addTo(map);
 
 }

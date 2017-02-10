@@ -145,52 +145,87 @@ streets = {'Yaroslaviv_Val': [[30.505643145821526, 50.45416079364676], [30.50582
                              [30.50565668980724, 50.4474474534573], [30.51113816772581, 50.446560405269665],
                              [30.51598545904341, 50.44581269953124], [30.515408387707332, 50.44530528018842]]}
 
-khmelnytskoho_street = [[30.515408387707332, 50.44530528018842], [30.513667688479256, 50.44562197759005],
-                        [30.513000521527744, 50.445784188454304], [30.503030474069707, 50.44745968551907],
-                        [30.501343691332735, 50.44775261204966], [30.501545863136226, 50.448129292187105],
-                        [30.50565668980724, 50.4474474534573], [30.51113816772581, 50.446560405269665],
-                        [30.51598545904341, 50.44581269953124], [30.515408387707332, 50.44530528018842]]
-khmelnytskoho_street_polygon = []
-
-print streets
-
 for key, value in streets.items():
     curr = []
     for i in xrange(1, len(value)):
         curr.append(value[i - 1] + value[i])
     streets[key] = curr
 
-print streets
+# facades block start
+#
+# with open('facades.geoJSON') as infile:
+#     facades_json = geojson.load(infile)
+#
+# feature_collection = geojson.FeatureCollection([])
+#
+# for feature in facades_json.features:
+#     for key in streets:
+#         is_on_street = True
+#         for point in feature.geometry.coordinates:
+#             # print point
+#             if not belongs_to_polygon(point[0], point[1], streets[key]):
+#                 is_on_street = False
+#         if is_on_street:
+#             if 'streets' in feature.properties:
+#                 if not (key in feature.properties['streets']):
+#                     feature.properties['streets'].append(key)
+#             else:
+#                 feature.properties['streets'] = [key]
+#             feature_collection['features'].append(feature)
+#
+# print geojson.dumps(facades_json)
 
-# print khmelnytskoho_street_polygon
+# facades block end
 
-with open('facades.geoJSON') as infile:
-    facades_json = geojson.load(infile)
+# trees block start
+#
+# with open('trees_GeoCoo.json.geojson') as infile:
+#     trees_json = geojson.load(infile)
+#
+# feature_collection = geojson.FeatureCollection([]);
+#
+# for feature in trees_json.features:
+#     for key in streets:
+#         if belongs_to_polygon(feature.geometry.coordinates[0],feature.geometry.coordinates[1],streets[key]):
+#             if 'streets' in feature.properties:
+#                 if not (key in feature.properties['streets']):
+#                     feature.properties['streets'].append(key)
+#             else:
+#                 feature.properties['streets'] = [key]
+#             feature_collection['features'].append(feature)
+#
+# print geojson.dumps(trees_json)
+
+# trees block end
+
+# first floor fucntion/buildings/cars block start
+
+with open('Yarvalcars_night_GeoCoo.json.geojson') as infile:
+    fff_json = geojson.load(infile)
 
 feature_collection = geojson.FeatureCollection([])
 
-
-for feature in facades_json.features:
+for feature in fff_json.features:
     for key in streets:
-        is_on_street = True
-        for point in feature.geometry.coordinates:
-            # print point
-            if not belongs_to_polygon(point[0], point[1], streets[key]):
-                is_on_street = False
+        is_on_street = False
+        for point in feature.geometry.coordinates[0]:
+            if belongs_to_polygon(point[0], point[1], streets[key]):
+                is_on_street = True
         if is_on_street:
             if 'streets' in feature.properties:
-                if not (key in streets):
+                if not (key in feature.properties['streets']):
                     feature.properties['streets'].append(key)
             else:
                 feature.properties['streets'] = [key]
             feature_collection['features'].append(feature)
 
-print geojson.dumps(facades_json)
+print geojson.dumps(fff_json)
+
+# with open('cars.geojson', 'w') as outfile:
+#     geojson.dump(fff_json, outfile)
 
 
-
-
-
+# first floor fucntion block end
 
 
 
