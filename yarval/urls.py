@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'^leaflet$', maps.views.leaflet, name='leaflet'),
     url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
     url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
+    url(r'^metrotimer', maps.views.get_metrotimer, name='get_metrotimer'),
+    url(r'^gettimes$', maps.views.post_metrotimer, name='post_metrotimer'),
+
     url(r'^admin/', include(admin.site.urls)),
 ]

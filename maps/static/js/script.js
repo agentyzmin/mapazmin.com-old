@@ -426,8 +426,18 @@ function loadStats(absoluteArea) {
         }
         data.push(currData);
     }
+
+
     return data;
 }
+
+// that's how you count area of objects on the street
+// layerGroupArea(layerGroupFilter(layerGroups[5], function (layer) {
+//     if (typeof layer.feature.properties.streets === 'undefined') {
+//         return false;
+//     }
+//     return layer.feature.properties.streets.includes('Khmelnytskogo')
+// }))
 
 // update divisor from radio button
 function updateDivisor(newDivisor) {
