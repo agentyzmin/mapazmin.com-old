@@ -10,6 +10,7 @@ import os
 import locale
 
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 import metrotimer
 
@@ -40,7 +41,7 @@ def get_metrotimer(request):
     }
     return render(request, 'metrotimer.html', context)
 
-
+@csrf_exempt
 def post_metrotimer(request):
     origin_station = request.POST['station']
     times_en = metrotimer.get_all_times(origin_station)
