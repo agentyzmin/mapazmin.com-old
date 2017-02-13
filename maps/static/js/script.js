@@ -707,16 +707,16 @@ function i18n(string) {
     return dict[string];
 }
 
-var marker;
-
-function loadServiceMarker() {
-    marker = L.marker([50.45752471902741, 30.505999797936283], {
-        draggable: true,
-    }).on('dblclick', function (e) {
-        console.log(e.latlng.lat + ',' + e.latlng.lng)
-    }).addTo(map);
-
-}
+// var marker;
+//
+// function loadServiceMarker() {
+//     marker = L.marker([50.45752471902741, 30.505999797936283], {
+//         draggable: true,
+//     }).on('dblclick', function (e) {
+//         console.log(e.latlng.lat + ',' + e.latlng.lng)
+//     }).addTo(map);
+//
+// }
 
 // function recursiveLayerData(name, layer) {
 //     if (typeof layer.feature != 'undefined'){
