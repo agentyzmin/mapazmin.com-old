@@ -41,6 +41,7 @@
                 var result_ua_DOM = document.getElementById('result_ua');
                 var result_en_DOM = document.getElementById('result_en');
                 result_ua_DOM.innerHTML = '';
+                result_en_DOM.innerHTML = '';
                 for (var key in response['times_ua']) {
                     var stationDOM = document.createElement('tr');
                     stationDOM.innerHTML = '<td>' + response['times_ua'][key][0] + '</td>' + '<td>' + response['times_ua'][key][1] + '</td>';
