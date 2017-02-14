@@ -32,43 +32,48 @@
 <div class="navbar navbar-fixed-top navbar-default">
     <div class="container" id="switchContainer"></div>
 </div>
-<div class="container" style="height: 100%;">
+<div class="container-fluid" style="height: 100%;">
+    <div class="row" style="height: 100%">
 
-    <div class="col-md-5">
+        <div class="col-md-5 col-md-offset-1">
 
-        <div id="populationBlock" style="display: none">
-            <p>В дослідженому районі живе 9000 людей. На кожного з них припадає:</p>
-            <div id="populationData"></div>
+            <div id="populationBlock">
+                <p>В дослідженому районі живе 9000 людей. На кожного з них припадає:</p>
+                <div id="populationData"></div>
+            </div>
+
+            <div id="charts">
+                <h3>Статистика</h3>
+                <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> % (відносно
+                    одне
+                    одного)</label>
+                <label><input type="radio" name="area_divisor" onchange="updateDivisor(1144983.94417)"
+                              value=1144983.94417>
+                    % (до досліджуваної території)</label>
+                <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> кв.м.</label>
+
+                <p>Секторна:</p>
+                <div style="width: 400px; height: 300px;">
+                    <canvas id="piechart" width="400" height="300"></canvas>
+                </div>
+                <div style="display: none">
+                    <p>Гістограма(вертикальна):</p>
+                    <div style="width: 400px; height: 300px;">
+                        <canvas id="barchart" width="400" height="300"></canvas>
+                    </div>
+                    <p>Гістограма(горизонтальна):</p>
+                    <div style="width: 400px; height: 300px;">
+                        <canvas id="hbarchart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div id="street_charts"></div>
+
         </div>
 
-        <div id="charts" style="display: none">
-            <h3>Статистика</h3>
-            <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> % (відносно одне
-                одного)</label>
-            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1144983.94417)" value=1144983.94417>
-                % (до досліджуваної території)</label>
-            <label><input type="radio" name="area_divisor" onchange="updateDivisor(1)" value=1> кв.м.</label>
-
-            <p>Секторна:</p>
-            <div style="width: 400px; height: 300px;">
-                <canvas id="piechart" width="400" height="300"></canvas>
-            </div>
-            <p>Гістограма(вертикальна):</p>
-            <div style="width: 400px; height: 300px;">
-                <canvas id="barchart" width="400" height="300"></canvas>
-            </div>
-            <p>Гістограма(горизонтальна):</p>
-            <div style="width: 400px; height: 300px;">
-                <canvas id="hbarchart" width="400" height="300"></canvas>
-            </div>
-        </div>
-
-        <div id="street_charts"></div>
-
+        <div id="mapid" class="col-md-6"></div>
     </div>
-
-    <div id="mapid" class="col-md-7"></div>
-
 </div>
 <script src="{% static "js/script.js" %}"></script>
 

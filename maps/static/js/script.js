@@ -329,7 +329,7 @@ function initMap() {
         // facadesLayerGroup.addLayer(geoJSONlayer).addTo(map);
         facadesLayerGroup._layers = geoJSONlayer._layers;
         facadesLayerGroup.addTo(map);
-        loadCharts();
+        drawFacadeCharts();
         refreshMap();
         loadSwitches();
 
@@ -459,9 +459,9 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
-    // areaDataCharts = loadStats(AREA_DIVISOR); //uncomment for charts
+    areaDataCharts = loadStats(AREA_DIVISOR); //uncomment for charts
     loadAreabyPopulation();
-    drawCharts();
+    drawAreaCharts();
 }
 
 //counts area of all elements of layerGroup
@@ -499,7 +499,7 @@ function layerGroupFilter(layerGroup, filter) {
 }
 
 // draws charts via Chart.js
-function drawCharts() {
+function drawAreaCharts() {
     if (areaDataCharts == undefined) return;
 
     var sortByArea = function (a, b) {
@@ -705,18 +705,23 @@ function loadFacadesByStreet() {
     return result
 }
 
-function loadCharts() {
+function drawFacadeCharts() {
     var data = loadFacadesByStreet();
     var parentDIV = document.getElementById('street_charts');
+    var categories = ['active', 'tolerable', 'monument', 'green',
+        'nothing', 'dopey', 'inactive', 'hole'];
     for (street in data) {
         var labels = [];
         var datas = [];
-        var colors = []
+        var colors = [];
 
-        for (var category in data[street]) {
-            labels.push(i18n(category));
-            datas.push(data[street][category])
-            colors.push(COLORS[category])
+        for (var index in categories) {
+            var category = categories[index];
+            if (typeof data[street][category] != 'undefined') {
+                labels.push(i18n(category));
+                datas.push(data[street][category]);
+                colors.push(COLORS[category]);
+            }
         }
 
         var pieData = {
