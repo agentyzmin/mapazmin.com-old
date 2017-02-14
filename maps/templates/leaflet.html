@@ -36,12 +36,12 @@
 
     <div class="col-md-5">
 
-        <div id="populationBlock">
+        <div id="populationBlock" style="display: none">
             <p>В дослідженому районі живе 9000 людей. На кожного з них припадає:</p>
             <div id="populationData"></div>
         </div>
 
-        <div id="charts">
+        <div id="charts" style="display: none">
             <h3>Статистика</h3>
             <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> % (відносно одне
                 одного)</label>
@@ -62,6 +62,8 @@
                 <canvas id="hbarchart" width="400" height="300"></canvas>
             </div>
         </div>
+
+        <div id="street_charts"></div>
 
     </div>
 

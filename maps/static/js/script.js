@@ -1,8 +1,9 @@
 var map;
 var layerGroups;
 var areaDataCharts;
-var dataset;
+// var dataset;
 var pieChart, barChart, hbarChart;
+var streetCharts = {};
 
 var AREA_DIVISOR = 0;
 var POPULATION = 9000;
@@ -34,7 +35,7 @@ var COLORS = {
     'nothing': '#EFD8B8'
 
 };
-var STREETS = ['Yaroslaviv_Val', 'Kotsiubynskoho', 'Lypynskoho', 'Franka', 'Honchara', 'Stritenska', 'Rylskyi_prov', 'Lysenka', 'Khmelnytskogo'];
+var STREETS = ['Striletska', 'Franka', 'Zolotovoritska', 'Reitarska', 'Kotsiubynskoho', 'Stritenska', 'Honchara', 'Velyka_Zhytomyrska', 'Khmelnytskogo', 'Rylskyi_prov', 'Volodymyrska', 'Lysenka', 'Yaroslaviv_Val', 'Lypynskoho'];
 
 // creates a map, loads data, defines switch behaviour
 initMap();
@@ -320,12 +321,15 @@ function initMap() {
                 }
             },
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets);
+                layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets + ' length: ' + layer.feature.properties.length);
                 layer.options.lineCap = 'butt';
                 layer.options.lineJoin = 'butt'
             }
         });
-        facadesLayerGroup.addLayer(geoJSONlayer).addTo(map);
+        // facadesLayerGroup.addLayer(geoJSONlayer).addTo(map);
+        facadesLayerGroup._layers = geoJSONlayer._layers;
+        facadesLayerGroup.addTo(map);
+        loadCharts();
         refreshMap();
         loadSwitches();
 
@@ -455,7 +459,7 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
-    areaDataCharts = loadStats(AREA_DIVISOR);
+    // areaDataCharts = loadStats(AREA_DIVISOR); //uncomment for charts
     loadAreabyPopulation();
     drawCharts();
 }
@@ -678,6 +682,98 @@ function loadAreabyPopulation() {
     }
 }
 
+
+function loadFacadesByStreet() {
+    result = {}
+    facadesLayerGroup.eachLayer(function (layer) {
+        var category = layer.feature.properties.category;
+        var streets = layer.feature.properties.streets;
+        var length = layer.feature.properties.length;
+        for (var index in streets) {
+            var street = streets[index];
+            if (STREETS.includes(street)) {
+                if (typeof result[street] === 'undefined') {
+                    result[street] = {}
+                }
+                if (typeof result[street][category] === 'undefined') {
+                    result[street][category] = 0
+                }
+                result[street][category] += length
+            }
+        }
+    });
+    return result
+}
+
+function loadCharts() {
+    var data = loadFacadesByStreet();
+    var parentDIV = document.getElementById('street_charts');
+    for (street in data) {
+        var labels = [];
+        var datas = [];
+        var colors = []
+
+        for (var category in data[street]) {
+            labels.push(i18n(category));
+            datas.push(data[street][category])
+            colors.push(COLORS[category])
+        }
+
+        var pieData = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Довжина',
+                    data: datas,
+                    backgroundColor: colors
+                }
+            ]
+        };
+
+        if (typeof streetCharts[street] === 'undefined') {
+            var streetDIV = document.createElement('div');
+            streetDIV.style.width = '400px';
+            streetDIV.style.height = '300px';
+            var streetHeader = document.createElement('h4');
+            streetHeader.innerHTML = street;
+            var pieCanvas = document.createElement('canvas');
+            pieCanvas.style.width = '400px';
+            pieCanvas.style.height = '300px';
+
+            parentDIV.appendChild(streetHeader);
+            parentDIV.appendChild(streetDIV);
+            streetDIV.appendChild(pieCanvas);
+
+            var pieChart = new Chart(pieCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            });
+            streetCharts[street] = pieChart;
+        }
+        else {
+            pieChart = streetCharts[street];
+            var newLength = pieData.datasets[0].data.length;
+            var oldLength = pieChart.data.datasets[0].data.length;
+            for (var i = 0; i < newLength; i++) {
+                pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
+                pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
+                pieChart.data.labels[i] = pieData.labels[i];
+            }
+            if (newLength < oldLength) {
+                pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+                pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+                pieChart.data.labels.splice(newLength, oldLength - newLength);
+            }
+            pieChart.update();
+        }
+    }
+}
+
 window.onerror = function (message, url, lineNumber) {
     // if (url.includes('Chart.')) return true;
 };
@@ -702,7 +798,15 @@ function i18n(string) {
         "culture": 'Культура',
         "housing": 'Житло',
         "ruin": 'Руїни',
-        "facades": 'Фасади'
+        "facades": 'Фасади',
+        'tolerable': 'Задовільний',
+        'inactive': 'Неактивний',
+        'monument': 'Пам’ятка',
+        'dopey': 'Млявий',
+        'hole': 'Проїзд',
+        'active': 'Активний',
+        'green': 'Озеленення',
+        'nothing': 'Ніякий'
     };
     return dict[string];
 }
@@ -716,38 +820,4 @@ function i18n(string) {
 //         console.log(e.latlng.lat + ',' + e.latlng.lng)
 //     }).addTo(map);
 //
-// }
-
-// function recursiveLayerData(name, layer) {
-//     if (typeof layer.feature != 'undefined'){
-//         dataset.push({
-//             'type': name,
-//             'area': layer.feature.properties.area
-//         })
-//     }
-//     else if (typeof layer.eachLayer != 'undefined'){
-//         var layerName;
-//         if (typeof layer.name != 'undefined'){
-//
-//         }
-//         layer.eachLayer(function (layer) {
-//
-//         })
-//     }
-// }
-
-// for future (d3.js)
-// function loadDataset() {
-//     dataset = [];
-//     for (var i = 0; i < layerGroups.length; i++) {
-//         layerGroups[i].eachLayer(function (layer) {
-//             if (typeof layer.feature != 'undefined') {
-//                 dataset.push({
-//                     'type': layerGroups[i].name,
-//                     'area': layer.feature.properties.area,
-//                 })
-//             }
-//         })
-//     }
-//     return dataset
 // }

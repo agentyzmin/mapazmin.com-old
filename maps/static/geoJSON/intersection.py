@@ -195,6 +195,8 @@ streets = {'Irynynska': [[30.515503126074748, 50.45104715630667], [30.5175443016
                 [30.51382935603038, 50.45060443709222], [30.51320991048621, 50.44910374670796],
                 [30.513723958772854, 50.44900103784537]]}
 
+print streets.keys()
+
 for key, value in streets.items():
     curr = []
     for i in xrange(1, len(value)):
@@ -250,26 +252,26 @@ for key, value in streets.items():
 
 # first floor fucntion/buildings/cars block start
 
-with open('Yarvalcars_night_GeoCoo.json.geojson') as infile:
-    fff_json = geojson.load(infile)
-
-feature_collection = geojson.FeatureCollection([])
-
-for feature in fff_json.features:
-    for key in streets:
-        is_on_street = False
-        for point in feature.geometry.coordinates[0]:
-            if belongs_to_polygon(point[0], point[1], streets[key]):
-                is_on_street = True
-        if is_on_street:
-            if 'streets' in feature.properties:
-                if not (key in feature.properties['streets']):
-                    feature.properties['streets'].append(key)
-            else:
-                feature.properties['streets'] = [key]
-            feature_collection['features'].append(feature)
-
-print geojson.dumps(fff_json)
+# with open('Yarvalcars_night_GeoCoo.json.geojson') as infile:
+#     fff_json = geojson.load(infile)
+#
+# feature_collection = geojson.FeatureCollection([])
+#
+# for feature in fff_json.features:
+#     for key in streets:
+#         is_on_street = False
+#         for point in feature.geometry.coordinates[0]:
+#             if belongs_to_polygon(point[0], point[1], streets[key]):
+#                 is_on_street = True
+#         if is_on_street:
+#             if 'streets' in feature.properties:
+#                 if not (key in feature.properties['streets']):
+#                     feature.properties['streets'].append(key)
+#             else:
+#                 feature.properties['streets'] = [key]
+#             feature_collection['features'].append(feature)
+#
+# print geojson.dumps(fff_json)
 
 # with open('cars.geojson', 'w') as outfile:
 #     geojson.dump(fff_json, outfile)
