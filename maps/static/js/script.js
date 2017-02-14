@@ -459,6 +459,13 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
+    var facades_charts_block = document.getElementById('streets_block');
+    if(map.hasLayer(facadesLayerGroup)){
+        facades_charts_block.style.display = 'block'
+    }
+    else {
+        facades_charts_block.style.display = 'none'
+    }
     areaDataCharts = loadStats(AREA_DIVISOR); //uncomment for charts
     loadAreabyPopulation();
     drawAreaCharts();
@@ -733,7 +740,6 @@ function drawFacadeCharts() {
     };
 
     streets_by_active_length.sort(sortByActiveLength);
-    console.log(streets_by_active_length)
 
     for (var index in streets_by_active_length) {
         var street = streets_by_active_length[index].name;
