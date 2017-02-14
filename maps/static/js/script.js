@@ -715,11 +715,16 @@ function drawFacadeCharts() {
         var datas = [];
         var colors = [];
 
+        var all_facades_length = 0;
+        for (var category in data[street]) {
+            all_facades_length += data[street][category]
+        }
+
         for (var index in categories) {
             var category = categories[index];
             if (typeof data[street][category] != 'undefined') {
-                labels.push(i18n(category));
-                datas.push(data[street][category]);
+                labels.push(i18n(category)+'(%)');
+                datas.push((data[street][category]/all_facades_length * 100).toFixed(2));
                 colors.push(COLORS[category]);
             }
         }
@@ -739,7 +744,7 @@ function drawFacadeCharts() {
             var streetDIV = document.createElement('div');
             streetDIV.style.width = '400px';
             streetDIV.style.height = '300px';
-            var streetHeader = document.createElement('h4');
+            var streetHeader = document.createElement('h5');
             streetHeader.innerHTML = street;
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';

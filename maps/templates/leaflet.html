@@ -36,6 +36,7 @@
     <div class="row" style="height: 100%">
 
         <div class="col-md-5 col-md-offset-1">
+            <h3>Статистика</h3>
 
             <div id="populationBlock">
                 <p>В дослідженому районі живе 9000 людей. На кожного з них припадає:</p>
@@ -43,7 +44,7 @@
             </div>
 
             <div id="charts">
-                <h3>Статистика</h3>
+                <h4>Співвідношення площі</h4>
                 <label><input type="radio" name="area_divisor" onchange="updateDivisor(0)" value=0 checked> % (відносно
                     одне
                     одного)</label>
@@ -67,8 +68,11 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <h4>Співвідношення активних фасадів по вулицях</h4>
+                <div id="street_charts"></div>
+            </div>
 
-            <div id="street_charts"></div>
 
         </div>
 
