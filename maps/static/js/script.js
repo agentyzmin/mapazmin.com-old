@@ -710,7 +710,33 @@ function drawFacadeCharts() {
     var parentDIV = document.getElementById('street_charts');
     var categories = ['active', 'tolerable', 'monument', 'green',
         'nothing', 'dopey', 'inactive', 'hole'];
-    for (street in data) {
+
+    var streets_by_active_length = [];
+    for (var key in data){
+        var all_facades_length = 0;
+        for (var category in data[key]) {
+            all_facades_length += data[key][category]
+        }
+        var active_length = 0;
+        if (typeof data[key]['active'] != 'undefined') active_length += data[key]['active'];
+        if (typeof data[key]['tolerable'] != 'undefined') active_length += data[key]['tolerable'];
+        streets_by_active_length.push({
+            name:key,
+            active_length: active_length/all_facades_length
+        })
+    }
+
+    var sortByActiveLength = function (a, b) {
+        if (Number(a.active_length) > Number(b.active_length)) return -1;
+        else if (Number(a.active_length) < Number(b.active_length)) return 1;
+        else return 0
+    };
+
+    streets_by_active_length.sort(sortByActiveLength);
+    console.log(streets_by_active_length)
+
+    for (var index in streets_by_active_length) {
+        var street = streets_by_active_length[index].name;
         var labels = [];
         var datas = [];
         var colors = [];
