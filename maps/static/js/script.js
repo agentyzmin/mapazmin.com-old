@@ -35,7 +35,7 @@ var COLORS = {
     'nothing': '#EFD8B8'
 
 };
-var STREETS = ['Striletska', 'Franka', 'Zolotovoritska', 'Reitarska', 'Kotsiubynskoho', 'Stritenska', 'Honchara', 'Velyka_Zhytomyrska', 'Khmelnytskogo', 'Rylskyi_prov', 'Volodymyrska', 'Lysenka', 'Yaroslaviv_Val', 'Lypynskoho'];
+var STREETS = ['Striletska', 'Franka', 'Zolotovoritska', 'Reitarska', 'Kotsiubynskoho', 'Stritenska', 'Honchara', 'Velyka_Zhytomyrska', 'Khmelnytskogo', 'Rylskyi_prov', 'Volodymyrska', 'Lysenka', 'Yaroslaviv_Val', 'Lypynskoho', 'Heorhiivskyi'];
 
 // creates a map, loads data, defines switch behaviour
 initMap();
