@@ -163,8 +163,6 @@ def line_intersection(A, B, C, D):
         lencd = length(C, D)
         L = (x, y)
 
-        # print L
-
         if length(L, A) < lenab and length(L, B) < lenab and length(L, C) < lencd and length(L, D) < lencd: return True
 
         return False
