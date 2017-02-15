@@ -94,46 +94,6 @@ function initMap() {
     loadYards('/static/geoJSON/yardsGeo.json.geojson', yardsLayerGroup);
     loadFirstFloorFunction('/static/geoJSON/firstFloorFunctionGeo.json.geojson', firstFloorLayerGroup);
     loadFacades('/static/geoJSON/facades.geoJSON', facadesLayerGroup);
-
-    function layerSwitcher(element, layer) {
-        if (typeof layer === 'undefined') return;
-        if (element.checked) if (!map.hasLayer(layer)) {
-            map.addLayer(layer);
-            refreshMap()
-        }
-        else if (map.hasLayer(layer)) {
-            map.removeLayer(layer);
-            refreshMap()
-        }
-        if (typeof layer.categories != 'undefined') {
-            for (var i = 0; i < layer.categories.length; i++) {
-                document.getElementById(layer.categories[i] + "Switch").checked = element.checked;
-                document.getElementById(layer.categories[i] + "Switch").onchange();
-            }
-        }
-    }
-
-    function switchConstructor(j, currSwitchINPUT) {
-        return function () {
-            layerSwitcher(currSwitchINPUT, layerGroups[j]);
-        }
-    }
-
-    function loadSwitches() {
-        var wrapper = document.getElementById("switchContainer");
-        wrapper.innerHTML = "";
-        for (var i = 0; i < layerGroups.length; i++) {
-            var currSwitchDIV = document.createElement('div');
-            currSwitchDIV.style.display = 'inline-block';
-            currSwitchDIV.id = layerGroups[i].name + "SwitchContainer";
-            currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + i18n(layerGroups[i].name) + " </label>  ";
-            var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
-            currSwitchINPUT.id = layerGroups[i].name + "Switch";
-            currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
-            wrapper.appendChild(currSwitchDIV);
-        }
-    }
-
     loadSwitches();
 }
 
@@ -348,6 +308,49 @@ function loadFacades(url, layerGroup) {
     });
 }
 
+function loadSwitches() {
+    var wrapper = document.getElementById("switchContainer");
+    wrapper.innerHTML = "";
+    for (var i = 0; i < layerGroups.length; i++) {
+        var currSwitchDIV = document.createElement('div');
+        currSwitchDIV.style.display = 'inline-block';
+        currSwitchDIV.id = layerGroups[i].name + "SwitchContainer";
+        currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + i18n(layerGroups[i].name) + " </label>  ";
+        var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
+        currSwitchINPUT.id = layerGroups[i].name + "Switch";
+        currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
+        wrapper.appendChild(currSwitchDIV);
+    }
+}
+
+function layerSwitcher(element, layer) {
+    console.log('switch clicked: ' + element.checked)
+    if (typeof layer === 'undefined') return;
+    if (element.checked) {
+        if (!map.hasLayer(layer)) {
+            map.addLayer(layer);
+            refreshMap()
+        }
+    }
+    else if (map.hasLayer(layer)) {
+        map.removeLayer(layer);
+        refreshMap()
+    }
+    if (typeof layer.categories != 'undefined') {
+        for (var i = 0; i < layer.categories.length; i++) {
+            document.getElementById(layer.categories[i] + "Switch").checked = element.checked;
+            document.getElementById(layer.categories[i] + "Switch").onchange();
+        }
+    }
+}
+
+function switchConstructor(j, currSwitchINPUT) {
+    return function () {
+        layerSwitcher(currSwitchINPUT, layerGroups[j]);
+    }
+}
+
+
 function loadStats(absoluteArea) {
     var EXCLUSIONS = ['cars', 'carsDay', 'carsNight', 'facades'];
     var totalArea = 0;
@@ -470,6 +473,11 @@ function drawAreaCharts() {
     for (var i = 0; i < areaDataCharts.length; i++) {
         if (areaDataCharts[i].categories == undefined) {
             dataset.push(areaDataCharts[i]);
+        }
+        else {
+            for (var j = 0; j < areaDataCharts[i].categories.length; j++) {
+                dataset.push(areaDataCharts[i].categories[j]);
+            }
         }
     }
     dataset.sort(sortByArea);
@@ -797,54 +805,54 @@ function updateDataInChart(chart, newData) {
 
 function i18n(string) {
     var dict = {
-            "roads": 'Дороги',
-            "yards": 'Подвір\'я',
-            "buildings": 'Будівлі',
-            "firstFloorFunction": "Функція першого поверху",
-            "cars": 'Автомобілі',
-            "carsDay": 'Автомобілі(вдень)',
-            "carsNight": 'Автомобілі(вночі)',
-            "trees": 'Дерева',
-            "hard_to_reach": 'Важкодоступні',
-            "open": 'Відкриті',
-            "unreachable": 'Недосяжні',
-            "office": 'Офіси',
-            "cafe": 'Кафе',
-            "garage": 'Гаражі',
-            "culture": 'Культура',
-            "housing": 'Житло',
-            "ruin": 'Руїни',
-            "facades": 'Фасади',
-            'tolerable': 'Задовільний',
-            'inactive': 'Неактивний',
-            'monument': 'Пам’ятка',
-            'dopey': 'Млявий',
-            'hole': 'Проїзд',
-            'active': 'Активний',
-            'green': 'Озеленення',
-            'nothing': 'Ніякий',
-            'Lypynskoho': 'Липинського',
-            'Volodymyrskyi': 'Володимирський',
-            'Striletska': 'Стрілецька',
-            'Franka': 'Івана Франка',
-            'Zolotovoritska': 'Золотоворітська',
-            'Reitarska': 'Рейтарська',
-            'Kotsiubynskoho': 'Коцюбинського',
-            'Sofiivska': 'Софіївська',
-            'Stritenska': 'Стрітенська',
-            'Irynynska': 'Ірининська',
-            'Honchara': 'Гончара',
-            'Velyka_Zhytomyrska': 'Велика Житомирська',
-            'Khmelnytskogo': 'Хмельницького',
-            'Rylskyi_prov': 'Рильський провулок',
-            'Malopidvalna': 'Малопідвальна',
-            'Prorizna': 'Прорізна',
-            'Volodymyrska': 'Володимирська',
-            'Lysenka': 'Лисенка',
-            'Yaroslaviv_Val': 'Ярославів вал',
-            'Bulvarno_Kudriavska': 'Бульварно-Кудрявська',
-            'Heorhiivskyi': 'Георгіївський'
-        };
+        "roads": 'Дороги',
+        "yards": 'Подвір\'я',
+        "buildings": 'Будівлі',
+        "firstFloorFunction": "Функція першого поверху",
+        "cars": 'Автомобілі',
+        "carsDay": 'Автомобілі(вдень)',
+        "carsNight": 'Автомобілі(вночі)',
+        "trees": 'Дерева',
+        "hard_to_reach": 'Важкодоступні',
+        "open": 'Відкриті',
+        "unreachable": 'Недосяжні',
+        "office": 'Офіси',
+        "cafe": 'Кафе',
+        "garage": 'Гаражі',
+        "culture": 'Культура',
+        "housing": 'Житло',
+        "ruin": 'Руїни',
+        "facades": 'Фасади',
+        'tolerable': 'Задовільний',
+        'inactive': 'Неактивний',
+        'monument': 'Пам’ятка',
+        'dopey': 'Млявий',
+        'hole': 'Проїзд',
+        'active': 'Активний',
+        'green': 'Озеленення',
+        'nothing': 'Ніякий',
+        'Lypynskoho': 'Липинського',
+        'Volodymyrskyi': 'Володимирський',
+        'Striletska': 'Стрілецька',
+        'Franka': 'Івана Франка',
+        'Zolotovoritska': 'Золотоворітська',
+        'Reitarska': 'Рейтарська',
+        'Kotsiubynskoho': 'Коцюбинського',
+        'Sofiivska': 'Софіївська',
+        'Stritenska': 'Стрітенська',
+        'Irynynska': 'Ірининська',
+        'Honchara': 'Гончара',
+        'Velyka_Zhytomyrska': 'Велика Житомирська',
+        'Khmelnytskogo': 'Хмельницького',
+        'Rylskyi_prov': 'Рильський провулок',
+        'Malopidvalna': 'Малопідвальна',
+        'Prorizna': 'Прорізна',
+        'Volodymyrska': 'Володимирська',
+        'Lysenka': 'Лисенка',
+        'Yaroslaviv_Val': 'Ярославів вал',
+        'Bulvarno_Kudriavska': 'Бульварно-Кудрявська',
+        'Heorhiivskyi': 'Георгіївський'
+    };
     return dict[string];
 }
 
