@@ -1,67 +1,6 @@
 import math
 
-
-def length(A, B):
-    return math.sqrt((A[0] - B[0]) ** 2 + (A[1] - B[1]) ** 2)
-
-
-def line_intersection(A, B, C, D):
-    AB = [A[0] - B[0], A[1] - B[1]]
-    CD = [C[0] - D[0], C[1] - D[1]]
-
-    c = AB[0] * CD[1] - AB[1] * CD[0]
-
-    if math.fabs(c) < 0.0000001:
-        return False
-    else:
-        a = A[0] * B[1] - A[1] * B[0]
-        b = C[0] * D[1] - C[1] * D[0]
-
-        x = (a * CD[0] - b * AB[0]) / c
-        y = (a * CD[1] - b * AB[1]) / c
-
-        lenab = length(A, B)
-        lencd = length(C, D)
-        L = (x, y)
-
-        # print L
-
-        if length(L, A) < lenab and length(L, B) < lenab and length(L, C) < lencd and length(L, D) < lencd: return True
-
-        return False
-
-
-def belongs_to_polygon(lat, lng, polygon):
-    count_of_intersections_to_north = 0
-    count_of_intersections_to_east = 0
-    count_of_intersections_to_northeast = 0
-    for side in polygon:
-        # shooting a ray from point to north
-        if line_intersection((lat, lng), (lat + 100, lng), (side[0], side[1]), (side[2], side[3])):
-            # print (side[0], side[1]), (side[2], side[3])
-            count_of_intersections_to_north += 1
-        # shooting a ray from point to east
-        if line_intersection((lat, lng), (lat, lng + 100), (side[0], side[1]), (side[2], side[3])):
-            count_of_intersections_to_east += 1
-        # shooting a ray from point to northeast
-        if line_intersection((lat, lng), (lat + 100, lng + 100), (side[0], side[1]), (side[2], side[3])):
-            count_of_intersections_to_northeast += 1
-
-    is_in_north = count_of_intersections_to_north % 2 == 1
-    is_in_east = count_of_intersections_to_east % 2 == 1
-    is_in_northeast = count_of_intersections_to_northeast % 2 == 1
-    # print count_of_intersections_to_north
-    # print count_of_intersections_to_east
-    # print count_of_intersections_to_northeast
-
-    if (is_in_north and is_in_east) or (is_in_north and is_in_northeast) or (is_in_east and is_in_northeast):
-        return True
-    return False
-
-
-import geojson
-
-streets = {
+STREETS = {
     'Heorhiivskyi': [[30.51162058101846, 50.452596829127025], [30.512195375672956, 50.452327790822174],
                      [30.512848774724663, 50.45210254945067], [30.514150506091838, 50.451700185230834],
                      [30.513844295293396, 50.45136767828719], [30.51352841468026, 50.451427201135125],
@@ -200,125 +139,200 @@ streets = {
                        [30.513723958772854, 50.44900103784537]]
 }
 
-print streets.keys()
 
-for key, value in streets.items():
+def length(A, B):
+    return math.sqrt((A[0] - B[0]) ** 2 + (A[1] - B[1]) ** 2)
+
+
+def line_intersection(A, B, C, D):
+    AB = [A[0] - B[0], A[1] - B[1]]
+    CD = [C[0] - D[0], C[1] - D[1]]
+
+    c = AB[0] * CD[1] - AB[1] * CD[0]
+
+    if math.fabs(c) < 0.0000001:
+        return False
+    else:
+        a = A[0] * B[1] - A[1] * B[0]
+        b = C[0] * D[1] - C[1] * D[0]
+
+        x = (a * CD[0] - b * AB[0]) / c
+        y = (a * CD[1] - b * AB[1]) / c
+
+        lenab = length(A, B)
+        lencd = length(C, D)
+        L = (x, y)
+
+        # print L
+
+        if length(L, A) < lenab and length(L, B) < lenab and length(L, C) < lencd and length(L, D) < lencd: return True
+
+        return False
+
+
+def belongs_to_polygon(lat, lng, polygon):
     curr = []
-    for i in xrange(1, len(value)):
-        curr.append(value[i - 1] + value[i])
-    streets[key] = curr
+    for i in xrange(1, len(polygon)):
+        curr.append(polygon[i - 1] + polygon[i])
+    polygon = curr
 
-# facades block start
+    count_of_intersections_to_north = 0
+    count_of_intersections_to_east = 0
+    count_of_intersections_to_northeast = 0
+    for side in polygon:
+        # shooting a ray from point to north
+        if line_intersection((lat, lng), (lat + 100, lng), (side[0], side[1]), (side[2], side[3])):
+            # print (side[0], side[1]), (side[2], side[3])
+            count_of_intersections_to_north += 1
+        # shooting a ray from point to east
+        if line_intersection((lat, lng), (lat, lng + 100), (side[0], side[1]), (side[2], side[3])):
+            count_of_intersections_to_east += 1
+        # shooting a ray from point to northeast
+        if line_intersection((lat, lng), (lat + 100, lng + 100), (side[0], side[1]), (side[2], side[3])):
+            count_of_intersections_to_northeast += 1
 
-# with open('facades.geoJSON') as infile:
-#     facades_json = geojson.load(infile)
-#
-# feature_collection = geojson.FeatureCollection([])
-#
-# for feature in facades_json.features:
-#     for key in streets:
-#         is_on_street = True
-#         for point in feature.geometry.coordinates:
-#             # print point
-#             if not belongs_to_polygon(point[0], point[1], streets[key]):
-#                 is_on_street = False
-#         if is_on_street:
-#             if 'streets' in feature.properties:
-#                 if not (key in feature.properties['streets']):
-#                     feature.properties['streets'].append(key)
-#             else:
-#                 feature.properties['streets'] = [key]
-#             feature_collection['features'].append(feature)
-#
-# print geojson.dumps(facades_json)
+    is_in_north = count_of_intersections_to_north % 2 == 1
+    is_in_east = count_of_intersections_to_east % 2 == 1
+    is_in_northeast = count_of_intersections_to_northeast % 2 == 1
+    # print count_of_intersections_to_north
+    # print count_of_intersections_to_east
+    # print count_of_intersections_to_northeast
 
-# facades block end
-
-# trees block start
-#
-# with open('trees_GeoCoo.json.geojson') as infile:
-#     trees_json = geojson.load(infile)
-#
-# feature_collection = geojson.FeatureCollection([]);
-#
-# for feature in trees_json.features:
-#     for key in streets:
-#         if belongs_to_polygon(feature.geometry.coordinates[0],feature.geometry.coordinates[1],streets[key]):
-#             if 'streets' in feature.properties:
-#                 if not (key in feature.properties['streets']):
-#                     feature.properties['streets'].append(key)
-#             else:
-#                 feature.properties['streets'] = [key]
-#             feature_collection['features'].append(feature)
-#
-# print geojson.dumps(trees_json)
-
-# trees block end
-
-# first floor fucntion/buildings/cars block start
-
-with open('Yarvalcars_night_GeoCoo.json.geojson') as infile:
-    fff_json = geojson.load(infile)
-
-feature_collection = geojson.FeatureCollection([])
-
-for feature in fff_json.features:
-    for key in streets:
-        is_on_street = False
-        for point in feature.geometry.coordinates[0]:
-            if belongs_to_polygon(point[0], point[1], streets[key]):
-                is_on_street = True
-        if is_on_street:
-            if 'streets' in feature.properties:
-                if not (key in feature.properties['streets']):
-                    feature.properties['streets'].append(key)
-            else:
-                feature.properties['streets'] = [key]
-            feature_collection['features'].append(feature)
-
-print geojson.dumps(fff_json)
-
-with open('cars.geojson', 'w') as outfile:
-    geojson.dump(fff_json, outfile)
+    if (is_in_north and is_in_east) or (is_in_north and is_in_northeast) or (is_in_east and is_in_northeast):
+        return True
+    return False
 
 
-
-# first floor fucntion block end
-
+import geojson
 
 
+def main():
+    print STREETS.keys()
+
+    # for key, polygon in STREETS.items():
+    #     curr = []
+    #     for i in xrange(1, len(polygon)):
+    #         curr.append(polygon[i - 1] + polygon[i])
+    #     polygon = curr
+    #     STREETS[key] = curr
+
+    # facades block start
+
+    # with open('facades.geoJSON') as infile:
+    #     facades_json = geojson.load(infile)
+    #
+    # feature_collection = geojson.FeatureCollection([])
+    #
+    # for feature in facades_json.features:
+    #     for key in STREETS:
+    #         is_on_street = True
+    #         for point in feature.geometry.coordinates:
+    #             # print point
+    #             if not belongs_to_polygon(point[0], point[1], STREETS[key]):
+    #                 is_on_street = False
+    #         if is_on_street:
+    #             if 'streets' in feature.properties:
+    #                 if not (key in feature.properties['streets']):
+    #                     feature.properties['streets'].append(key)
+    #             else:
+    #                 feature.properties['streets'] = [key]
+    #             feature_collection['features'].append(feature)
+    #
+    # print geojson.dumps(facades_json)
+
+    # facades block end
+
+    # trees block start
+    #
+    # with open('trees_GeoCoo.json.geojson') as infile:
+    #     trees_json = geojson.load(infile)
+    #
+    # feature_collection = geojson.FeatureCollection([]);
+    #
+    # for feature in trees_json.features:
+    #     for key in STREETS:
+    #         if belongs_to_polygon(feature.geometry.coordinates[0],feature.geometry.coordinates[1],STREETS[key]):
+    #             if 'streets' in feature.properties:
+    #                 if not (key in feature.properties['streets']):
+    #                     feature.properties['streets'].append(key)
+    #             else:
+    #                 feature.properties['streets'] = [key]
+    #             feature_collection['features'].append(feature)
+    #
+    # print geojson.dumps(trees_json)
+
+    # trees block end
+
+    # first floor fucntion/buildings/cars block start
+
+    with open('Yarvalcars_night_GeoCoo.json.geojson') as infile:
+        fff_json = geojson.load(infile)
+
+    feature_collection = geojson.FeatureCollection([])
+
+    for feature in fff_json.features:
+        for key in STREETS:
+            is_on_street = False
+            for point in feature.geometry.coordinates[0]:
+                if belongs_to_polygon(point[0], point[1], STREETS[key]):
+                    is_on_street = True
+            if is_on_street:
+                if 'streets' in feature.properties:
+                    if not (key in feature.properties['streets']):
+                        feature.properties['streets'].append(key)
+                else:
+                    feature.properties['streets'] = [key]
+                feature_collection['features'].append(feature)
+
+    print geojson.dumps(fff_json)
+
+    # with open('cars.geojson', 'w') as outfile:
+    #     geojson.dump(fff_json, outfile)
+
+
+
+    # first floor fucntion block end
 
 
 
 
 
-#
-#
-# with open('facades.geoJSON') as infile:
-#     facades_json = geojson.load(infile)
-#
-# print facades_json.features
-#
-# feature_collection = geojson.FeatureCollection([])
-# count_lines = 0
-#
-# for feature in facades_json.features:
-#     count_lines += len(feature.geometry.coordinates) - 1
-#     if len(feature.geometry.coordinates) > 2:
-#         print feature.geometry.coordinates
-#         for i in xrange(1, len(feature.geometry.coordinates)):
-#             print feature.geometry.coordinates[i - 1:i + 1]
-#             curr_geometry = geojson.LineString(feature.geometry.coordinates[i - 1:i + 1])
-#             feature_collection['features'].append(
-#                 geojson.Feature(geometry=curr_geometry, properties=feature.properties))
-#             # print feature.geometry.coordinates
-#     else:
-#         feature_collection['features'].append(feature)
-#
-# print feature_collection
-# print len(feature_collection.features)
-# print count_lines
-# print geojson.dumps(feature_collection)
-#
-# with open('facadesN.geoJSON', 'w') as outfile:
-#     geojson.dump(feature_collection, outfile)
+
+
+
+    #
+    #
+    # with open('facades.geoJSON') as infile:
+    #     facades_json = geojson.load(infile)
+    #
+    # print facades_json.features
+    #
+    # feature_collection = geojson.FeatureCollection([])
+    # count_lines = 0
+    #
+    # for feature in facades_json.features:
+    #     count_lines += len(feature.geometry.coordinates) - 1
+    #     if len(feature.geometry.coordinates) > 2:
+    #         print feature.geometry.coordinates
+    #         for i in xrange(1, len(feature.geometry.coordinates)):
+    #             print feature.geometry.coordinates[i - 1:i + 1]
+    #             curr_geometry = geojson.LineString(feature.geometry.coordinates[i - 1:i + 1])
+    #             feature_collection['features'].append(
+    #                 geojson.Feature(geometry=curr_geometry, properties=feature.properties))
+    #             # print feature.geometry.coordinates
+    #     else:
+    #         feature_collection['features'].append(feature)
+    #
+    # print feature_collection
+    # print len(feature_collection.features)
+    # print count_lines
+    # print geojson.dumps(feature_collection)
+    #
+    # with open('facadesN.geoJSON', 'w') as outfile:
+    #     geojson.dump(feature_collection, outfile)
+
+
+if __name__ == 'main':
+    main()
+
+# main()

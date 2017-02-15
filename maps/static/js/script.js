@@ -4,6 +4,7 @@ var areaDataCharts;
 // var dataset;
 var pieChart, barChart, hbarChart;
 var streetCharts = {};
+var fffCharts = {};
 
 var AREA_DIVISOR = 0;
 var POPULATION = 9000;
@@ -308,7 +309,11 @@ function initMap() {
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
                 var text = "Вулиці: ";
                 for (var index in layer.feature.properties.streets) {
-                    text += ' ' + i18n(layer.feature.properties.streets[index]) + ((layer.feature.properties.streets.length - index > 1) ? ',' : '');
+                    text += ' ' + i18n(layer.feature.properties.streets[index]) + ((layer.feature.properties.streets.length - index > 1) ? ',' : '; ');
+                }
+                text += "Фасади: ";
+                for (var street in layer.feature.properties.facades) {
+                    text += ' ' + i18n(street) + ': ' + layer.feature.properties.facades[street] + ';'
                 }
                 text += "   Площа: " + layer.feature.properties.area.toFixed(2);
                 layer.bindPopup(text);
@@ -318,8 +323,9 @@ function initMap() {
             }
         });
         // firstFloorLayerGroup.addLayer(geoJSONlayer);
+        drawFirstFloorFunctionCharts();
         refreshMap();
-        loadSwitches()
+        loadSwitches();
     });
 
     // first floor block end
@@ -353,7 +359,7 @@ function initMap() {
                 text += "   Довжина: " + layer.feature.properties.length.toFixed(2);
                 text += "   Категорія: " + i18n(layer.feature.properties.category);
                 layer.bindPopup(text);
-                // layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets + ' length: ' + layer.feature.properties.length);
+                // layer.bindPopup("Category: " + layer.feature.properties.category + ", STREETS:" + layer.feature.properties.STREETS + ' length: ' + layer.feature.properties.length);
                 layer.options.lineCap = 'butt';
                 layer.options.lineJoin = 'butt'
             }
@@ -374,24 +380,24 @@ function initMap() {
         //console.log(element);
         //console.log(layer);
         if (typeof layer === 'undefined') return;
-        if (typeof layer.categories === 'undefined') { // if this is a layer without subcategories
+        // if (typeof layer.categories === 'undefined') { // if this is a layer without subcategories
 
-            if (element.checked) {
-                if (!map.hasLayer(layer)) {
-                    //console.log(layer)
-                    map.addLayer(layer);
-                    refreshMap()
-                }
-            }
-            else {
-                if (map.hasLayer(layer)) {
-                    map.removeLayer(layer);
-                    refreshMap()
-                }
+        if (element.checked) {
+            if (!map.hasLayer(layer)) {
+                //console.log(layer)
+                map.addLayer(layer);
+                refreshMap()
             }
         }
-        //if there are categories of this layer, we simply go through them
         else {
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer);
+                refreshMap()
+            }
+        }
+        // }
+        //if there are categories of this layer, we simply go through them
+        if (typeof layer.categories != 'undefined') {
             for (var i = 0; i < layer.categories.length; i++) {
                 document.getElementById(layer.categories[i] + "Switch").checked = element.checked;
                 document.getElementById(layer.categories[i] + "Switch").onchange();
@@ -501,6 +507,14 @@ function refreshMap() {
     else {
         facades_charts_block.style.display = 'none'
     }
+    var fff_charts_block = document.getElementById('streets_fff');
+    if (map.hasLayer(firstFloorLayerGroup)) {
+        fff_charts_block.style.display = 'block'
+    }
+    else {
+        fff_charts_block.style.display = 'none'
+    }
+
     areaDataCharts = loadStats(AREA_DIVISOR); //uncomment for charts
     loadAreabyPopulation();
     drawAreaCharts();
@@ -708,7 +722,7 @@ function drawAreaCharts() {
 function loadAreabyPopulation() {
     var areaByPopulationData = [];
     for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area != 'undefined') {
+        if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area != 'undefined' && typeof layerGroups[i].categories === 'undefined') {
             areaByPopulationData.push({
                 name: layerGroups[i].name,
                 areaPerHuman: layerGroups[i].area / POPULATION
@@ -723,7 +737,6 @@ function loadAreabyPopulation() {
         parentElement.appendChild(currElement)
     }
 }
-
 
 function loadFacadesByStreet() {
     result = {}
@@ -834,6 +847,102 @@ function drawFacadeCharts() {
         }
         else {
             pieChart = streetCharts[street];
+            var newLength = pieData.datasets[0].data.length;
+            var oldLength = pieChart.data.datasets[0].data.length;
+            for (var i = 0; i < newLength; i++) {
+                pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
+                pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
+                pieChart.data.labels[i] = pieData.labels[i];
+            }
+            if (newLength < oldLength) {
+                pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+                pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+                pieChart.data.labels.splice(newLength, oldLength - newLength);
+            }
+            pieChart.update();
+        }
+    }
+}
+
+function loadFirstFloorByStreet() {
+    var result = {};
+    for (var category in firstFloorLayerGroup.layers) {
+        var curr_layer = firstFloorLayerGroup.layers[category];
+        curr_layer.eachLayer(function (layer) {
+            var facades = layer.feature.properties.facades;
+            for (var street in facades) {
+                if (STREETS.includes(street)) {
+                    if (typeof result[street] === 'undefined') {
+                        result[street] = {}
+                    }
+                    if (typeof result[street][category] === 'undefined') {
+                        result[street][category] = 0
+                    }
+                    result[street][category] += facades[street]
+                }
+            }
+        })
+    }
+    return result
+}
+
+function drawFirstFloorFunctionCharts() {
+    var data = loadFirstFloorByStreet();
+    var parentDIV = document.getElementById('streets_fff_charts');
+
+    for (var street in data) {
+        var labels = [];
+        var datas = [];
+        var colors = [];
+
+        var total_length = 0;
+        for (var category in data[street]) {
+            total_length += data[street][category];
+        }
+
+        for (var category in data[street]) {
+            labels.push(i18n(category) + '(%)')
+            datas.push((data[street][category] / total_length * 100).toFixed(2))
+            colors.push(COLORS[category])
+        }
+
+        var pieData = {
+            labels: labels,
+            datasets: [
+                {
+                    data: datas,
+                    backgroundColor: colors
+                }
+            ]
+        }
+
+        if (typeof fffCharts[street] === 'undefined') {
+            var streetfffDIV = document.createElement('div');
+            streetfffDIV.style.width = '400px';
+            streetfffDIV.style.height = '300px';
+            var streetHeader = document.createElement('h5');
+            streetHeader.innerHTML = i18n(street);
+            var pieCanvas = document.createElement('canvas');
+            pieCanvas.style.width = '400px';
+            pieCanvas.style.height = '300px';
+
+            parentDIV.appendChild(streetHeader);
+            parentDIV.appendChild(streetfffDIV);
+            streetfffDIV.appendChild(pieCanvas);
+
+            var pieChart = new Chart(pieCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            });
+            fffCharts[street] = pieChart;
+        }
+        else {
+            pieChart = fffCharts[street];
             var newLength = pieData.datasets[0].data.length;
             var oldLength = pieChart.data.datasets[0].data.length;
             for (var i = 0; i < newLength; i++) {
