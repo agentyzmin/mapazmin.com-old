@@ -570,11 +570,6 @@ function drawAreaCharts() {
         if (areaDataCharts[i].categories == undefined) {
             dataset.push(areaDataCharts[i]);
         }
-        else {
-            for (var j = 0; j < areaDataCharts[i].categories.length; j++) {
-                dataset.push(areaDataCharts[i].categories[j]);
-            }
-        }
     }
     dataset.sort(sortByArea);
 
@@ -622,19 +617,7 @@ function drawAreaCharts() {
         });
     }
     else {
-        var newLength = pieData.datasets[0].data.length;
-        var oldLength = pieChart.data.datasets[0].data.length;
-        for (var i = 0; i < newLength; i++) {
-            pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
-            pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
-            pieChart.data.labels[i] = pieData.labels[i];
-        }
-        if (newLength < oldLength) {
-            pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
-            pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
-            pieChart.data.labels.splice(newLength, oldLength - newLength);
-        }
-        pieChart.update();
+        updateDataInChart(pieChart,pieData);
     }
     // pieChart drawing block end
 
@@ -662,19 +645,7 @@ function drawAreaCharts() {
         });
     }
     else {
-        var newLength = pieData.datasets[0].data.length;
-        var oldLength = barChart.data.datasets[0].data.length;
-        for (var i = 0; i < newLength; i++) {
-            barChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
-            barChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
-            barChart.data.labels[i] = pieData.labels[i];
-        }
-        if (newLength < oldLength) {
-            barChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
-            barChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
-            barChart.data.labels.splice(newLength, oldLength - newLength);
-        }
-        barChart.update();
+        updateDataInChart(barChart, pieData);
     }
     // barChart drawing block end
 
@@ -702,19 +673,7 @@ function drawAreaCharts() {
         });
     }
     else {
-        var newLength = pieData.datasets[0].data.length;
-        var oldLength = hbarChart.data.datasets[0].data.length;
-        for (var i = 0; i < newLength; i++) {
-            hbarChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
-            hbarChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
-            hbarChart.data.labels[i] = pieData.labels[i];
-        }
-        if (newLength < oldLength) {
-            hbarChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
-            hbarChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
-            hbarChart.data.labels.splice(newLength, oldLength - newLength);
-        }
-        hbarChart.update();
+        updateDataInChart(hbarChart,pieData);
     }
 }
 
@@ -739,7 +698,7 @@ function loadAreabyPopulation() {
 }
 
 function loadFacadesByStreet() {
-    result = {}
+    var result = {};
     facadesLayerGroup.eachLayer(function (layer) {
         var category = layer.feature.properties.category;
         var streets = layer.feature.properties.streets;
@@ -846,20 +805,7 @@ function drawFacadeCharts() {
             streetCharts[street] = pieChart;
         }
         else {
-            pieChart = streetCharts[street];
-            var newLength = pieData.datasets[0].data.length;
-            var oldLength = pieChart.data.datasets[0].data.length;
-            for (var i = 0; i < newLength; i++) {
-                pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
-                pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
-                pieChart.data.labels[i] = pieData.labels[i];
-            }
-            if (newLength < oldLength) {
-                pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
-                pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
-                pieChart.data.labels.splice(newLength, oldLength - newLength);
-            }
-            pieChart.update();
+            updateDataInChart(streetCharts[street],pieData);
         }
     }
 }
@@ -930,7 +876,7 @@ function drawFirstFloorFunctionCharts() {
             parentDIV.appendChild(streetfffDIV);
             streetfffDIV.appendChild(pieCanvas);
 
-            var pieChart = new Chart(pieCanvas, {
+            fffCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
                 data: pieData,
                 options: {
@@ -939,25 +885,27 @@ function drawFirstFloorFunctionCharts() {
                     }
                 }
             });
-            fffCharts[street] = pieChart;
         }
         else {
-            pieChart = fffCharts[street];
-            var newLength = pieData.datasets[0].data.length;
-            var oldLength = pieChart.data.datasets[0].data.length;
-            for (var i = 0; i < newLength; i++) {
-                pieChart.data.datasets[0].data[i] = pieData.datasets[0].data[i];
-                pieChart.data.datasets[0].backgroundColor[i] = pieData.datasets[0].backgroundColor[i];
-                pieChart.data.labels[i] = pieData.labels[i];
-            }
-            if (newLength < oldLength) {
-                pieChart.data.datasets[0].data.splice(newLength, oldLength - newLength);
-                pieChart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
-                pieChart.data.labels.splice(newLength, oldLength - newLength);
-            }
-            pieChart.update();
+            updateDataInChart(fffCharts[street], pieData)
         }
     }
+}
+
+function updateDataInChart(chart, newData) {
+    var newLength = newData.datasets[0].data.length;
+    var oldLength = chart.data.datasets[0].data.length;
+    for (var i = 0; i < newLength; i++) {
+        chart.data.datasets[0].data[i] = newData.datasets[0].data[i];
+        chart.data.datasets[0].backgroundColor[i] = newData.datasets[0].backgroundColor[i];
+        chart.data.labels[i] = newData.labels[i];
+    }
+    if (newLength < oldLength) {
+        chart.data.datasets[0].data.splice(newLength, oldLength - newLength);
+        chart.data.datasets[0].backgroundColor.splice(newLength, oldLength - newLength);
+        chart.data.labels.splice(newLength, oldLength - newLength);
+    }
+    chart.update();
 }
 
 window.onerror = function (message, url, lineNumber) {
