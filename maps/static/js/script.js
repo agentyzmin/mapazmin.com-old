@@ -106,7 +106,11 @@ function initMap() {
                 })
             },
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += i18n(layer.feature.properties.streets[index]) + ' ';
+                }
+                layer.bindPopup(text);
             }
         });
         treesLayerGroup.addLayer(geoJSONLayer);
@@ -124,7 +128,11 @@ function initMap() {
             fillOpacity: 1,
             smoothFactor: 1,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += i18n(layer.feature.properties.streets[index]) + ' ';
+                }
+                layer.bindPopup(text);
             }
         });
         carsLayerGroup.addLayer(geoJSONlayer);
@@ -142,7 +150,11 @@ function initMap() {
             fillOpacity: 1,
             smoothFactor: 1,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += i18n(layer.feature.properties.streets[index]) + ' ';
+                }
+                layer.bindPopup(text);
             }
         });
         carsDayLayerGroup.addLayer(geoJSONlayer);
@@ -161,7 +173,11 @@ function initMap() {
             fillOpacity: 1,
             smoothFactor: 1,
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Streets:" + layer.feature.properties.streets);
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += i18n(layer.feature.properties.streets[index]) + ' ';
+                }
+                layer.bindPopup(text);
             }
         });
         carsNightLayerGroup.addLayer(geoJSONlayer);
@@ -180,8 +196,12 @@ function initMap() {
             smoothFactor: 1
         });
         geoJSONlayer.eachLayer(function (layer) {
-            // layer.bindPopup("Площа: " + layer.feature.properties.area.toString())
-            layer.bindPopup("Street: " + layer.feature.properties.streets + "   Площа: " + layer.feature.properties.area.toString())
+            var text = "Вулиці: ";
+            for (var index in layer.feature.properties.streets) {
+                text += i18n(layer.feature.properties.streets[index]) + ' ';
+            }
+            text += "   Площа: " + layer.feature.properties.area.toFixed(2);
+            layer.bindPopup(text);
             layer.on('dblclick', function (e) {
                 var a = "[";
                 for (var i = 1; i < this._latlngs[0].length; i++) {
@@ -286,7 +306,12 @@ function initMap() {
                     firstFloorLayerGroup.layers[feature.properties.category].name = feature.properties.category;
                 }
                 firstFloorLayerGroup.layers[feature.properties.category].addLayer(layer);
-                layer.bindPopup('Street: ' + layer.feature.properties.streets + "   Площа: " + layer.feature.properties.area.toString());
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += ' ' + i18n(layer.feature.properties.streets[index]) + ((layer.feature.properties.streets.length - index > 1) ? ',' : '');
+                }
+                text += "   Площа: " + layer.feature.properties.area.toFixed(2);
+                layer.bindPopup(text);
                 layer.on('click', function (e) {
                     console.log(layer.feature.geometry.coordinates[0])
                 })
@@ -321,7 +346,14 @@ function initMap() {
                 }
             },
             onEachFeature: function (feature, layer) {
-                layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets + ' length: ' + layer.feature.properties.length);
+                var text = "Вулиці: ";
+                for (var index in layer.feature.properties.streets) {
+                    text += ' ' + i18n(layer.feature.properties.streets[index]) + ((layer.feature.properties.streets.length - index > 1) ? ',' : '');
+                }
+                text += "   Довжина: " + layer.feature.properties.length.toFixed(2);
+                text += "   Категорія: " + i18n(layer.feature.properties.category);
+                layer.bindPopup(text);
+                // layer.bindPopup("Category: " + layer.feature.properties.category + ", streets:" + layer.feature.properties.streets + ' length: ' + layer.feature.properties.length);
                 layer.options.lineCap = 'butt';
                 layer.options.lineJoin = 'butt'
             }
@@ -458,9 +490,12 @@ function refreshMap() {
             });
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
+        else {
+            // document.getElementById(layerGroups[i].name + "Switch").checked = false;
+        }
     }
     var facades_charts_block = document.getElementById('streets_block');
-    if(map.hasLayer(facadesLayerGroup)){
+    if (map.hasLayer(facadesLayerGroup)) {
         facades_charts_block.style.display = 'block'
     }
     else {
@@ -719,7 +754,7 @@ function drawFacadeCharts() {
         'nothing', 'dopey', 'inactive', 'hole'];
 
     var streets_by_active_length = [];
-    for (var key in data){
+    for (var key in data) {
         var all_facades_length = 0;
         for (var category in data[key]) {
             all_facades_length += data[key][category]
@@ -728,8 +763,8 @@ function drawFacadeCharts() {
         if (typeof data[key]['active'] != 'undefined') active_length += data[key]['active'];
         if (typeof data[key]['tolerable'] != 'undefined') active_length += data[key]['tolerable'];
         streets_by_active_length.push({
-            name:key,
-            active_length: active_length/all_facades_length
+            name: key,
+            active_length: active_length / all_facades_length
         })
     }
 
@@ -755,8 +790,8 @@ function drawFacadeCharts() {
         for (var index in categories) {
             var category = categories[index];
             if (typeof data[street][category] != 'undefined') {
-                labels.push(i18n(category)+'(%)');
-                datas.push((data[street][category]/all_facades_length * 100).toFixed(2));
+                labels.push(i18n(category) + '(%)');
+                datas.push((data[street][category] / all_facades_length * 100).toFixed(2));
                 colors.push(COLORS[category]);
             }
         }
@@ -777,7 +812,7 @@ function drawFacadeCharts() {
             streetDIV.style.width = '400px';
             streetDIV.style.height = '300px';
             var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = street;
+            streetHeader.innerHTML = i18n(street);
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
@@ -823,33 +858,55 @@ window.onerror = function (message, url, lineNumber) {
 //to human-readable interface
 function i18n(string) {
     var dict = {
-        "roads": 'Дороги',
-        "yards": 'Подвір\'я', //not shown on a map
-        "buildings": 'Будівлі',
-        "firstFloorFunction": "Функція першого поверху",//not shown on a map
-        "cars": 'Автомобілі',
-        "carsDay": 'Автомобілі(вдень)',
-        "carsNight": 'Автомобілі(вночі)',
-        "trees": 'Дерева',
-        "hard_to_reach": 'Важкодоступні',
-        "open": 'Відкриті',
-        "unreachable": 'Недосяжні',
-        "office": 'Офіси',
-        "cafe": 'Кафе',
-        "garage": 'Гаражі',
-        "culture": 'Культура',
-        "housing": 'Житло',
-        "ruin": 'Руїни',
-        "facades": 'Фасади',
-        'tolerable': 'Задовільний',
-        'inactive': 'Неактивний',
-        'monument': 'Пам’ятка',
-        'dopey': 'Млявий',
-        'hole': 'Проїзд',
-        'active': 'Активний',
-        'green': 'Озеленення',
-        'nothing': 'Ніякий'
-    };
+            "roads": 'Дороги',
+            "yards": 'Подвір\'я', //not shown on a map
+            "buildings": 'Будівлі',
+            "firstFloorFunction": "Функція першого поверху",//not shown on a map
+            "cars": 'Автомобілі',
+            "carsDay": 'Автомобілі(вдень)',
+            "carsNight": 'Автомобілі(вночі)',
+            "trees": 'Дерева',
+            "hard_to_reach": 'Важкодоступні',
+            "open": 'Відкриті',
+            "unreachable": 'Недосяжні',
+            "office": 'Офіси',
+            "cafe": 'Кафе',
+            "garage": 'Гаражі',
+            "culture": 'Культура',
+            "housing": 'Житло',
+            "ruin": 'Руїни',
+            "facades": 'Фасади',
+            'tolerable': 'Задовільний',
+            'inactive': 'Неактивний',
+            'monument': 'Пам’ятка',
+            'dopey': 'Млявий',
+            'hole': 'Проїзд',
+            'active': 'Активний',
+            'green': 'Озеленення',
+            'nothing': 'Ніякий',
+            'Lypynskoho': 'Липинського',
+            'Volodymyrskyi': 'Володимирський',
+            'Striletska': 'Стрілецька',
+            'Franka': 'Івана Франка',
+            'Zolotovoritska': 'Золотоворітська',
+            'Reitarska': 'Рейтарська',
+            'Kotsiubynskoho': 'Коцюбинського',
+            'Sofiivska': 'Софіївська',
+            'Stritenska': 'Стрітенська',
+            'Irynynska': 'Ірининська',
+            'Honchara': 'Гончара',
+            'Velyka_Zhytomyrska': 'Велика Житомирська',
+            'Khmelnytskogo': 'Хмельницького',
+            'Rylskyi_prov': 'Рильський провулок',
+            'Malopidvalna': 'Малопідвальна',
+            'Prorizna': 'Прорізна',
+            'Volodymyrska': 'Володимирська',
+            'Lysenka': 'Лисенка',
+            'Yaroslaviv_Val': 'Ярославів вал',
+            'Bulvarno_Kudriavska': 'Бульварно-Кудрявська',
+            'Heorhiivskyi': 'Георгіївський'
+        }
+        ;
     return dict[string];
 }
 
