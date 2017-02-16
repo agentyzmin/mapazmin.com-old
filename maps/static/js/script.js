@@ -4,6 +4,7 @@ var areaDataCharts;
 var pieChart, barChart, hbarChart;
 var streetCharts = {};
 var fffCharts = {};
+var treesCharts = {};
 
 var AREA_DIVISOR = 0;
 var POPULATION = 9000;
@@ -85,6 +86,7 @@ function initMap() {
 
     for (var i = 0; i < layerGroups.length; i++)layerGroups[i].name = layerNames[i]
 
+    generateStreetStatBlocks();
     loadTrees('/static/geoJSON/trees_GeoCoo.json.geojson', treesLayerGroup);
     loadCars('/static/geoJSON/cars_GeoCoo.json.geojson', carsLayerGroup);
     loadCars('/static/geoJSON/Yarvalcars_day_GeoCoo.json.geojson', carsDayLayerGroup);
@@ -95,6 +97,15 @@ function initMap() {
     loadFirstFloorFunction('/static/geoJSON/firstFloorFunctionGeo.json.geojson', firstFloorLayerGroup);
     loadFacades('/static/geoJSON/facades.geoJSON', facadesLayerGroup);
     loadSwitches();
+}
+
+function generateStreetStatBlocks() {
+    var parentDiv = document.getElementById('streets');
+    for (var index in STREETS) {
+        var currDiv = document.createElement('div');
+        currDiv.id = STREETS[index] + 'Block';
+        parentDiv.appendChild(currDiv);
+    }
 }
 
 function loadTrees(url, layerGroup) {
@@ -270,6 +281,7 @@ function loadFirstFloorFunction(url, layerGroup) {
             }
         });
         drawFirstFloorFunctionCharts();
+        drawTreesCharts();
         refreshMap();
         loadSwitches();
     });
@@ -406,19 +418,27 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
-    var facades_charts_block = document.getElementById('streets_block');
+
     if (map.hasLayer(facadesLayerGroup)) {
-        facades_charts_block.style.display = 'block'
+        Array.prototype.forEach.call(document.getElementsByClassName('active-facade-chart'), function (element) {
+            element.style.display = 'block'
+        })
     }
     else {
-        facades_charts_block.style.display = 'none'
+        Array.prototype.forEach.call(document.getElementsByClassName('active-facade-chart'), function (element) {
+            element.style.display = 'none'
+        })
     }
-    var fff_charts_block = document.getElementById('streets_fff');
+
     if (map.hasLayer(firstFloorLayerGroup)) {
-        fff_charts_block.style.display = 'block'
+        Array.prototype.forEach.call(document.getElementsByClassName('fff-chart'), function (element) {
+            element.style.display = 'block'
+        })
     }
     else {
-        fff_charts_block.style.display = 'none'
+        Array.prototype.forEach.call(document.getElementsByClassName('fff-chart'), function (element) {
+            element.style.display = 'none'
+        })
     }
 
     areaDataCharts = loadStats(AREA_DIVISOR);
@@ -612,12 +632,7 @@ function loadFacadesByStreet() {
     return result
 }
 
-function drawFacadeCharts() {
-    var data = loadFacadesByStreet();
-    var parentDIV = document.getElementById('street_charts');
-    var categories = ['active', 'tolerable', 'monument', 'green',
-        'nothing', 'dopey', 'inactive', 'hole'];
-
+function sortFacadeDataByActiveLength(data) {
     var streets_by_active_length = [];
     for (var key in data) {
         var all_facades_length = 0;
@@ -640,6 +655,15 @@ function drawFacadeCharts() {
     };
 
     streets_by_active_length.sort(sortByActiveLength);
+    return streets_by_active_length
+}
+
+function drawFacadeCharts() {
+    var data = loadFacadesByStreet();
+    var categories = ['active', 'tolerable', 'monument', 'green',
+        'nothing', 'dopey', 'inactive', 'hole'];
+
+    var streets_by_active_length = sortFacadeDataByActiveLength(data);
 
     for (var index in streets_by_active_length) {
         var street = streets_by_active_length[index].name;
@@ -673,17 +697,19 @@ function drawFacadeCharts() {
         };
 
         if (typeof streetCharts[street] === 'undefined') {
+            var streetChartsDIV = document.getElementById(street + 'Block')
             var streetDIV = document.createElement('div');
             streetDIV.style.width = '400px';
             streetDIV.style.height = '300px';
+            streetDIV.className = 'active-facade-chart';
             var streetHeader = document.createElement('h5');
             streetHeader.innerHTML = i18n(street);
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
 
-            parentDIV.appendChild(streetHeader);
-            parentDIV.appendChild(streetDIV);
+            streetChartsDIV.appendChild(streetHeader);
+            streetChartsDIV.appendChild(streetDIV);
             streetDIV.appendChild(pieCanvas);
 
             var pieChart = new Chart(pieCanvas, {
@@ -727,7 +753,6 @@ function loadFirstFloorByStreet() {
 
 function drawFirstFloorFunctionCharts() {
     var data = loadFirstFloorByStreet();
-    var parentDIV = document.getElementById('streets_fff_charts');
 
     for (var street in data) {
         var labels = [];
@@ -740,7 +765,7 @@ function drawFirstFloorFunctionCharts() {
         }
 
         for (var category in data[street]) {
-            labels.push(i18n(category) + '(%)')
+            labels.push(i18n(category) + '(%)');
             datas.push((data[street][category] / total_length * 100).toFixed(2))
             colors.push(COLORS[category])
         }
@@ -756,17 +781,19 @@ function drawFirstFloorFunctionCharts() {
         };
 
         if (typeof fffCharts[street] === 'undefined') {
+            var streetChartsDIV = document.getElementById(street + 'Block')
             var streetfffDIV = document.createElement('div');
             streetfffDIV.style.width = '400px';
             streetfffDIV.style.height = '300px';
+            streetfffDIV.className = 'fff-chart';
             var streetHeader = document.createElement('h5');
             streetHeader.innerHTML = i18n(street);
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
 
-            parentDIV.appendChild(streetHeader);
-            parentDIV.appendChild(streetfffDIV);
+            streetChartsDIV.appendChild(streetHeader);
+            streetChartsDIV.appendChild(streetfffDIV);
             streetfffDIV.appendChild(pieCanvas);
 
             fffCharts[street] = new Chart(pieCanvas, {
@@ -804,6 +831,65 @@ function loadTreesAreaByStreet() {
         }
     });
     return result
+}
+
+function drawTreesCharts() {
+    var data = loadTreesAreaByStreet();
+    for (var street in data) {
+        var labels = [];
+        var datas = [];
+        var colors = [];
+
+        treesCOLORS = {1:'#64B6AC',2:'#C0FDFB',3:'#DAFFEF'};
+
+        for (var category in data[street]){
+            labels.push(category);
+            datas.push(data[street][category]);
+            colors.push(treesCOLORS[category])
+        }
+
+        var pieData = {
+            labels: labels,
+            datasets: [
+                {
+                    data: datas,
+                    backgroundColor: colors
+                }
+            ]
+        };
+
+        if (typeof treesCharts[street] === 'undefined') {
+            var streetChartsDIV = document.getElementById(street + 'Block')
+            var streetTreesDIV = document.createElement('div');
+            streetTreesDIV.style.width = '400px';
+            streetTreesDIV.style.height = '300px';
+            streetTreesDIV.className = 'trees-chart';
+            var streetHeader = document.createElement('h5');
+            streetHeader.innerHTML = i18n(street);
+            var pieCanvas = document.createElement('canvas');
+            pieCanvas.style.width = '400px';
+            pieCanvas.style.height = '300px';
+
+            streetChartsDIV.appendChild(streetHeader);
+            streetChartsDIV.appendChild(streetTreesDIV);
+            streetTreesDIV.appendChild(pieCanvas);
+
+            treesCharts[street] = new Chart(pieCanvas, {
+                type: 'pie',
+                data: pieData,
+                options: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            });
+        }
+        else {
+            updateDataInChart(treesCharts[street], pieData)
+        }
+
+
+    }
 }
 
 function updateDataInChart(chart, newData) {
