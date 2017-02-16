@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sensor data</title>
+</head>
+<body>
+{% if entries %}
+    <p>Data</p>
+    <ul>
+        {% for entry in entries %}
+            <li>{{ entry.data }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
