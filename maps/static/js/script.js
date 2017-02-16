@@ -119,7 +119,7 @@ function loadTrees(url, layerGroup) {
                 layer.bindPopup(text);
             }
         });
-        layerGroup.addLayer(geoJSONLayer);
+        layerGroup._layers = geoJSONLayer._layers;
         refreshMap();
     });
 }
@@ -324,7 +324,6 @@ function loadSwitches() {
 }
 
 function layerSwitcher(element, layer) {
-    console.log('switch clicked: ' + element.checked)
     if (typeof layer === 'undefined') return;
     if (element.checked) {
         if (!map.hasLayer(layer)) {
@@ -350,9 +349,8 @@ function switchConstructor(j, currSwitchINPUT) {
     }
 }
 
-
 function loadStats(absoluteArea) {
-    var EXCLUSIONS = ['cars', 'carsDay', 'carsNight', 'facades'];
+    var EXCLUSIONS = ['cars', 'carsDay', 'carsNight', 'facades', 'firstFloorFunction', 'yards'];
     var totalArea = 0;
     var groups = [];
     for (var i = 0; i < layerGroups.length; i++) {
@@ -785,6 +783,27 @@ function drawFirstFloorFunctionCharts() {
             updateDataInChart(fffCharts[street], pieData)
         }
     }
+}
+
+function loadTreesAreaByStreet() {
+    var result = {};
+    treesLayerGroup.eachLayer(function (layer) {
+        var tree_radius = layer.feature.properties.radius.toFixed(0);
+        var streets = layer.feature.properties.streets;
+        for (var index in streets) {
+            var street = streets[index];
+            if (STREETS.includes(street)) {
+                if (typeof result[street] === 'undefined') {
+                    result[street] = {}
+                }
+                if (typeof result[street][tree_radius] === 'undefined') {
+                    result[street][tree_radius] = 0
+                }
+                result[street][tree_radius] += 1;
+            }
+        }
+    });
+    return result
 }
 
 function updateDataInChart(chart, newData) {

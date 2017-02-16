@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^leaflet$', maps.views.leaflet, name='leaflet'),
     url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
     url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
+    url(r'^sensor$', maps.views.receiveDataFromDevice, name='deviceData'),
+    url(r'^sensorData$', maps.views.getSensorData, name='seeDeviceData'),
 
     url(r'^admin/', include(admin.site.urls)),
 ]
