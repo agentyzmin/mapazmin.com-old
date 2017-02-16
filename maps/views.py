@@ -30,7 +30,7 @@ def pedestrian(request):
 @csrf_exempt
 def receiveDataFromDevice(request):
     try:
-        data = request.POST['data']
+        data = request.GET['data']
     except:
         return JsonResponse({'error': 'No data sent'})
     sensorData = SensorData()
