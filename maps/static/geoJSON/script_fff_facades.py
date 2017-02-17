@@ -5,6 +5,8 @@ from intersection import belongs_to_polygon, STREETS
 with open('firstFloorFunctionGeo.json.geojson') as infile:
     fff_json = geojson.load(infile)
 
+facades_features = geojson.FeatureCollection([])
+
 for feature in fff_json.features:
     points = feature.geometry.coordinates[0]
     feature.properties['facades'] = {}
@@ -19,5 +21,9 @@ for feature in fff_json.features:
                         feature.properties['facades'][key] += length
                     else:
                         feature.properties['facades'][key] = length
+                    facades_features['features'].append(geojson.Feature(geometry={
+                        'coordinates': line,
+                        'type': 'LineString'
+                    }))
 
-print fff_json
+print geojson.dumps(facades_features)

@@ -111,6 +111,13 @@ function generateStreetStatBlocks() {
     }
 }
 
+function copyLayers(originLayerGroup, targetLayerGroup){
+    targetLayerGroup.clearLayers();
+    originLayerGroup.eachLayer(function (layer) {
+        targetLayerGroup.addLayer(layer)
+    })
+}
+
 function loadTrees(url, layerGroup) {
     processGeoJson(url, function (geoJSON) {
         var geoJSONLayer = L.geoJson(geoJSON, {
@@ -133,7 +140,7 @@ function loadTrees(url, layerGroup) {
                 layer.bindPopup(text);
             }
         });
-        layerGroup._layers = geoJSONLayer._layers;
+        copyLayers(geoJSONLayer, layerGroup);
         refreshMap();
     });
 }
@@ -154,8 +161,9 @@ function loadCars(url, layerGroup) {
                 layer.bindPopup(text);
             }
         });
-        layerGroup.addLayer(geoJSONlayer);
-        refreshMap()
+        copyLayers(geoJSONlayer, layerGroup);
+        loadCarsPerPopulation();
+        refreshMap();
     });
 }
 function loadBuildings(url, layerGroup) {
@@ -185,7 +193,8 @@ function loadBuildings(url, layerGroup) {
                 console.log(a);
             })
         });
-        layerGroup.addLayer(geoJSONlayer).addTo(map);
+        copyLayers(geoJSONlayer, layerGroup);
+        layerGroup.addTo(map);
         refreshMap()
     });
 }
@@ -199,7 +208,8 @@ function loadRoads(url, layerGroup) {
             fillOpacity: 1,
             smoothFactor: 1
         });
-        layerGroup.addLayer(geoJSONlayer).addTo(map);
+        copyLayers(geoJSONlayer, layerGroup);
+        layerGroup.addTo(map);
         refreshMap()
     });
 }
@@ -315,7 +325,7 @@ function loadFacades(url, layerGroup) {
                 layer.options.lineJoin = 'butt'
             }
         });
-        layerGroup._layers = geoJSONlayer._layers;
+        copyLayers(geoJSONlayer, layerGroup);
         layerGroup.addTo(map);
         drawFacadeCharts();
         refreshMap();
@@ -407,6 +417,45 @@ function loadStats(absoluteArea) {
     return data;
 }
 
+function checkCarLayers() {
+    var carsLayerGroups = [carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup];
+    var parentDiv = document.getElementById('carsPerHuman');
+
+    if (map.hasLayer(carsLayerGroup)||map.hasLayer(carsDayLayerGroup)||map.hasLayer(carsNightLayerGroup)){
+        parentDiv.style.display = 'block'
+    }
+    else {
+        parentDiv.style.display = 'none'
+    }
+
+    for (var index in carsLayerGroups){
+        if (map.hasLayer(carsLayerGroups[index])){
+            document.getElementById(carsLayerGroups[index].name + 'PerHumanStat').style.display = 'block';
+        }
+        else {
+            document.getElementById(carsLayerGroups[index].name + 'PerHumanStat').style.display = 'none';
+        }
+    }
+}
+
+function loadCarsPerPopulation() {
+    var carsLayerGroups = [carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup];
+
+    var parentDiv = document.getElementById('carsPerHuman');
+
+    for (var index in carsLayerGroups){
+        var layerGroup = carsLayerGroups[index];
+        var count = layerGroup.getLayers().length;
+        var stat = document.getElementById(layerGroup.name + 'PerHumanStat');
+        if (!stat){
+            stat = document.createElement('p');
+            stat.id = layerGroup.name + 'PerHumanStat';
+            parentDiv.appendChild(stat);
+        }
+        stat.innerHTML = i18n(layerGroup.name) + ': ' + (count/POPULATION).toFixed(3);
+    }
+}
+
 function updateDivisor(newDivisor) {
     AREA_DIVISOR = newDivisor;
     refreshMap();
@@ -421,6 +470,8 @@ function refreshMap() {
             document.getElementById(layerGroups[i].name + "Switch").checked = true;
         }
     }
+
+    checkCarLayers()
 
     if (map.hasLayer(facadesLayerGroup) || map.hasLayer(firstFloorLayerGroup) || map.hasLayer(treesLayerGroup)) {
         document.getElementById('streets').style.display = 'block';
@@ -984,5 +1035,3 @@ function i18n(string) {
     };
     return dict[string];
 }
-
-
