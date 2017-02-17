@@ -104,6 +104,9 @@ function generateStreetStatBlocks() {
     for (var index in STREETS) {
         var currDiv = document.createElement('div');
         currDiv.id = STREETS[index] + 'Block';
+        var header = document.createElement('h4');
+        header.innerHTML = i18n(STREETS[index]) + ':';
+        currDiv.appendChild(header);
         parentDiv.appendChild(currDiv);
     }
 }
@@ -419,6 +422,13 @@ function refreshMap() {
         }
     }
 
+    if (map.hasLayer(facadesLayerGroup)||map.hasLayer(firstFloorLayerGroup)||map.hasLayer(treesLayerGroup)){
+        document.getElementById('streets').style.display = 'block';
+    }
+    else {
+        document.getElementById('streets').style.display = 'none';
+    }
+
     if (map.hasLayer(facadesLayerGroup)) {
         Array.prototype.forEach.call(document.getElementsByClassName('active-facade-chart'), function (element) {
             element.style.display = 'block'
@@ -437,6 +447,17 @@ function refreshMap() {
     }
     else {
         Array.prototype.forEach.call(document.getElementsByClassName('fff-chart'), function (element) {
+            element.style.display = 'none'
+        })
+    }
+
+    if (map.hasLayer(treesLayerGroup)) {
+        Array.prototype.forEach.call(document.getElementsByClassName('trees-chart'), function (element) {
+            element.style.display = 'block'
+        })
+    }
+    else {
+        Array.prototype.forEach.call(document.getElementsByClassName('trees-chart'), function (element) {
             element.style.display = 'none'
         })
     }
@@ -699,20 +720,22 @@ function drawFacadeCharts() {
         if (typeof streetCharts[street] === 'undefined') {
             var streetChartsDIV = document.getElementById(street + 'Block')
             var streetDIV = document.createElement('div');
-            streetDIV.style.width = '400px';
-            streetDIV.style.height = '300px';
             streetDIV.className = 'active-facade-chart';
             var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = i18n(street);
+            streetHeader.innerHTML = 'Активні фасади:';
+            var canvasDIV = document.createElement('div');
+            canvasDIV.style.width = '400px';
+            canvasDIV.style.height = '300px';
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
 
-            streetChartsDIV.appendChild(streetHeader);
             streetChartsDIV.appendChild(streetDIV);
-            streetDIV.appendChild(pieCanvas);
+            streetDIV.appendChild(streetHeader);
+            streetDIV.appendChild(canvasDIV);
+            canvasDIV.appendChild(pieCanvas);
 
-            var pieChart = new Chart(pieCanvas, {
+            streetCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
                 data: pieData,
                 options: {
@@ -721,7 +744,6 @@ function drawFacadeCharts() {
                     }
                 }
             });
-            streetCharts[street] = pieChart;
         }
         else {
             updateDataInChart(streetCharts[street], pieData);
@@ -781,20 +803,22 @@ function drawFirstFloorFunctionCharts() {
         };
 
         if (typeof fffCharts[street] === 'undefined') {
-            var streetChartsDIV = document.getElementById(street + 'Block')
+            var streetChartsDIV = document.getElementById(street + 'Block');
             var streetfffDIV = document.createElement('div');
-            streetfffDIV.style.width = '400px';
-            streetfffDIV.style.height = '300px';
             streetfffDIV.className = 'fff-chart';
             var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = i18n(street);
+            streetHeader.innerHTML = "Функція першого поверху(за довжиною фасаду):";
+            var canvasDIV = document.createElement('div');
+            canvasDIV.style.width = '400px';
+            canvasDIV.style.height = '300px';
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
 
-            streetChartsDIV.appendChild(streetHeader);
             streetChartsDIV.appendChild(streetfffDIV);
-            streetfffDIV.appendChild(pieCanvas);
+            streetfffDIV.appendChild(streetHeader);
+            streetfffDIV.appendChild(canvasDIV);
+            canvasDIV.appendChild(pieCanvas);
 
             fffCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
@@ -840,9 +864,9 @@ function drawTreesCharts() {
         var datas = [];
         var colors = [];
 
-        treesCOLORS = {1:'#64B6AC',2:'#C0FDFB',3:'#DAFFEF'};
+        treesCOLORS = {1: '#64B6AC', 2: '#C0FDFB', 3: '#DAFFEF'};
 
-        for (var category in data[street]){
+        for (var category in data[street]) {
             labels.push(category);
             datas.push(data[street][category]);
             colors.push(treesCOLORS[category])
@@ -859,20 +883,22 @@ function drawTreesCharts() {
         };
 
         if (typeof treesCharts[street] === 'undefined') {
-            var streetChartsDIV = document.getElementById(street + 'Block')
+            var streetChartsDIV = document.getElementById(street + 'Block');
             var streetTreesDIV = document.createElement('div');
-            streetTreesDIV.style.width = '400px';
-            streetTreesDIV.style.height = '300px';
             streetTreesDIV.className = 'trees-chart';
             var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = i18n(street);
+            streetHeader.innerHTML = 'Дерева(за розміром крони):';
+            var canvasDIV = document.createElement('div');
+            canvasDIV.style.width = '400px';
+            canvasDIV.style.height = '300px';
             var pieCanvas = document.createElement('canvas');
             pieCanvas.style.width = '400px';
             pieCanvas.style.height = '300px';
 
-            streetChartsDIV.appendChild(streetHeader);
             streetChartsDIV.appendChild(streetTreesDIV);
-            streetTreesDIV.appendChild(pieCanvas);
+            streetTreesDIV.appendChild(streetHeader);
+            streetTreesDIV.appendChild(canvasDIV);
+            canvasDIV.appendChild(pieCanvas);
 
             treesCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
