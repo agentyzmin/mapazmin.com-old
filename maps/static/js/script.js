@@ -56,10 +56,7 @@ function processGeoJson(src, processor) {
 
 initMap();
 function initMap() {
-    map = new L.Map('mapid', {
-        renderer: L.canvas(),
-        maxZoom: 19
-    });
+    map = new L.Map('mapid', {renderer: L.canvas(), maxZoom: 19 });
     var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
     var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 20, attribution: osmAttrib});
@@ -461,17 +458,7 @@ function updateDivisor(newDivisor) {
     refreshMap();
 }
 
-function refreshMap() {
-    for (var i = 0; i < layerGroups.length; i++) {
-        if (map.hasLayer(layerGroups[i])) {
-            layerGroups[i].eachLayer(function (layer) {
-                layer.bringToFront()
-            });
-            document.getElementById(layerGroups[i].name + "Switch").checked = true;
-        }
-    }
-
-    checkCarLayers()
+function checkLayersForCharts(){
 
     if (map.hasLayer(facadesLayerGroup) || map.hasLayer(firstFloorLayerGroup) || map.hasLayer(treesLayerGroup)) {
         document.getElementById('streets').style.display = 'block';
@@ -512,9 +499,21 @@ function refreshMap() {
             element.style.display = 'none'
         })
     }
+}
 
+function refreshMap() {
+    for (var i = 0; i < layerGroups.length; i++) {
+        if (map.hasLayer(layerGroups[i])) {
+            layerGroups[i].eachLayer(function (layer) {
+                layer.bringToFront()
+            });
+            document.getElementById(layerGroups[i].name + "Switch").checked = true;
+        }
+    }
+    checkCarLayers();
+    checkLayersForCharts();
     areaDataCharts = loadStats(AREA_DIVISOR);
-    loadAreabyPopulation();
+    loadAreaByPopulation();
     drawAreaCharts();
 }
 
@@ -663,7 +662,7 @@ function drawAreaCharts() {
     }
 }
 
-function loadAreabyPopulation() {
+function loadAreaByPopulation() {
     var areaByPopulationData = [];
     for (var i = 0; i < layerGroups.length; i++) {
         if (map.hasLayer(layerGroups[i]) && typeof layerGroups[i].area != 'undefined' && typeof layerGroups[i].categories === 'undefined') {
