@@ -422,7 +422,7 @@ function refreshMap() {
         }
     }
 
-    if (map.hasLayer(facadesLayerGroup)||map.hasLayer(firstFloorLayerGroup)||map.hasLayer(treesLayerGroup)){
+    if (map.hasLayer(facadesLayerGroup) || map.hasLayer(firstFloorLayerGroup) || map.hasLayer(treesLayerGroup)) {
         document.getElementById('streets').style.display = 'block';
     }
     else {
@@ -913,8 +913,6 @@ function drawTreesCharts() {
         else {
             updateDataInChart(treesCharts[street], pieData)
         }
-
-
     }
 }
 

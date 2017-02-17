@@ -9,7 +9,7 @@
     <p>Data</p>
     <ul>
         {% for entry in entries %}
-            <li>{{ entry.data }}</li>
+            <li>{{ entry.data }}  - {{ entry.time|date:"H:i:s d.m" }}</li>
         {% endfor %}
     </ul>
 {% endif %}

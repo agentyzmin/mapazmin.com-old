@@ -42,6 +42,6 @@ def receiveDataFromDevice(request):
 
 def getSensorData(request):
     context = {
-        'entries': SensorData.objects.order_by('time')[:10]
+        'entries': SensorData.objects.order_by('-time')[:100]
     }
     return render(request, 'sensorData.html', context)
