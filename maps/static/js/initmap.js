@@ -265,18 +265,8 @@ function copyLayers(originLayerGroup, targetLayerGroup){
 }
 
 function processGeoJson(src, processor) {
-    var client = new XMLHttpRequest();
-    client.open('GET', src);
-    client.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            try {
-                var geoJSON = JSON.parse(this.responseText);
-            } catch (err) {
-            } finally {
-                processor(geoJSON);
-            }
-        }
-    };
-    client.send()
+    $.get(src,function (response) {
+        var geoJSON = JSON.parse(response);
+        processor(geoJSON);
+    })
 }
-
