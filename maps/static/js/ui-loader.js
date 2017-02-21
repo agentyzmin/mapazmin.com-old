@@ -4,41 +4,39 @@
 
 
 function generateStreetStatBlocks() {
-    var parentDiv = document.getElementById('streets');
+    var parentDiv = $('#streets');
     for (var index in STREETS) {
-        var id = STREETS[index] + 'Block'
-        var streetDIV = document.createElement('div');
-        var chartsDIV = document.createElement('div');
-        chartsDIV.id = id;
-        chartsDIV.className = 'collapse';
-        var header = document.createElement('h4');
-        header.innerHTML = i18n(STREETS[index]) + ':';
-        header.setAttribute('data-toggle', 'collapse');
-        header.setAttribute('data-target', '#' + id);
-        header.style.cursor = 'pointer';
-        streetDIV.appendChild(header);
-        streetDIV.appendChild(chartsDIV);
-        parentDiv.appendChild(streetDIV);
+        var id = STREETS[index] + 'Block';
+        var streetDIV = $('<div></div>');
+        var chartsDIV = $('<div></div>').attr('id', id).addClass('collapse');
+        var header = $('<h4>' + i18n(STREETS[index]) + '</h4>')
+            .attr('data-toggle', 'collapse')
+            .attr('data-target', '#' + id)
+            .css('cursor', 'pointer')
+        streetDIV.append(header);
+        streetDIV.append(chartsDIV);
+        parentDiv.append(streetDIV);
     }
 }
+
 function loadSwitches() {
-    var wrapper = document.getElementById("switchContainer");
-    wrapper.innerHTML = "";
+    var wrapper = $('#switchContainer').html('');
+    // wrapper.innerHTML = "";
     for (var i = 0; i < layerGroups.length; i++) {
-        var currSwitchDIV = document.createElement('div');
-        currSwitchDIV.style.display = 'inline-block';
-        currSwitchDIV.id = layerGroups[i].name + "SwitchContainer";
-        currSwitchDIV.innerHTML = "<label><input type='checkbox'>  " + i18n(layerGroups[i].name) + " </label>  ";
-        var currSwitchINPUT = currSwitchDIV.childNodes[0].childNodes[0];
-        currSwitchINPUT.id = layerGroups[i].name + "Switch";
-        currSwitchINPUT.onchange = switchConstructor(i, currSwitchINPUT);
-        wrapper.appendChild(currSwitchDIV);
+        var currSwitchDIV = $('<div></div>')
+            .css('display', 'inline-block')
+            .attr('id', layerGroups[i].name + "SwitchContainer")
+            .html("<label><input type='checkbox'>  " + i18n(layerGroups[i].name) + " </label>  ")
+        var currSwitchInput = currSwitchDIV.find('input')
+            .attr('id', layerGroups[i].name + "Switch");
+        currSwitchInput.change(switchConstructor(i, currSwitchInput));
+        wrapper.append(currSwitchDIV)
     }
 }
 
 function layerSwitcher(element, layer) {
     if (typeof layer === 'undefined') return;
-    if (element.checked) {
+    if (element.prop('checked')) {
         if (!map.hasLayer(layer)) {
             map.addLayer(layer);
             refreshMap()
@@ -50,8 +48,9 @@ function layerSwitcher(element, layer) {
     }
     if (typeof layer.categories != 'undefined') {
         for (var i = 0; i < layer.categories.length; i++) {
-            document.getElementById(layer.categories[i] + "Switch").checked = element.checked;
-            document.getElementById(layer.categories[i] + "Switch").onchange();
+            $('#' + layer.categories[i] + "Switch")
+                .prop('checked', element.prop('checked'))
+                .change();
         }
     }
 }
@@ -107,21 +106,21 @@ function loadStats(absoluteArea) {
 
 function checkCarLayers() {
     var carsLayerGroups = [carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup];
-    var parentDiv = document.getElementById('carsPerHuman');
+    var parentDiv = $('#carsPerHuman');
 
     if (map.hasLayer(carsLayerGroup) || map.hasLayer(carsDayLayerGroup) || map.hasLayer(carsNightLayerGroup)) {
-        parentDiv.style.display = 'block'
+        parentDiv.css('display', 'block');
     }
     else {
-        parentDiv.style.display = 'none'
+        parentDiv.css('display', 'none');
     }
 
     for (var index in carsLayerGroups) {
         if (map.hasLayer(carsLayerGroups[index])) {
-            document.getElementById(carsLayerGroups[index].name + 'PerHumanStat').style.display = 'block';
+            $('#' + carsLayerGroups[index].name + 'PerHumanStat').css('display', 'block');
         }
         else {
-            document.getElementById(carsLayerGroups[index].name + 'PerHumanStat').style.display = 'none';
+            $('#' + carsLayerGroups[index].name + 'PerHumanStat').css('display', 'none');
         }
     }
 }
@@ -129,18 +128,17 @@ function checkCarLayers() {
 function loadCarsPerPopulation() {
     var carsLayerGroups = [carsLayerGroup, carsDayLayerGroup, carsNightLayerGroup];
 
-    var parentDiv = document.getElementById('carsPerHuman');
+    var parentDiv = $('#carsPerHuman');
 
     for (var index in carsLayerGroups) {
         var layerGroup = carsLayerGroups[index];
         var count = layerGroup.getLayers().length;
-        var stat = document.getElementById(layerGroup.name + 'PerHumanStat');
-        if (!stat) {
-            stat = document.createElement('p');
-            stat.id = layerGroup.name + 'PerHumanStat';
-            parentDiv.appendChild(stat);
+        var stat = $('#' + layerGroup.name + 'PerHumanStat');
+        if (stat.length == 0) {
+            stat = $('<p></p>').attr('id', layerGroup.name + 'PerHumanStat');
+            parentDiv.append(stat);
         }
-        stat.innerHTML = i18n(layerGroup.name) + ': ' + (count / POPULATION).toFixed(3);
+        stat.html(i18n(layerGroup.name) + ': ' + (count / POPULATION).toFixed(3));
     }
 }
 
@@ -155,7 +153,7 @@ function refreshMap() {
             layerGroups[i].eachLayer(function (layer) {
                 layer.bringToFront()
             });
-            document.getElementById(layerGroups[i].name + "Switch").checked = true;
+            $('#' + layerGroups[i].name + "Switch").prop('checked', true);
         }
     }
     checkCarLayers();
@@ -206,12 +204,10 @@ function loadAreaByPopulation() {
             })
         }
     }
-    var parentElement = document.getElementById("populationData");
-    parentElement.innerHTML = "";
+    var parentElement = $("#populationData").html('');
     for (var i = 0; i < areaByPopulationData.length; i++) {
-        var currElement = document.createElement("p");
-        currElement.innerHTML = i18n(areaByPopulationData[i].name) + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м.";
-        parentElement.appendChild(currElement)
+        var currElement = $('<p></p>').html(i18n(areaByPopulationData[i].name) + ": " + areaByPopulationData[i].areaPerHuman.toFixed(4) + " кв.м.");
+        parentElement.append(currElement)
     }
 }
 

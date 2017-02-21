@@ -2,46 +2,34 @@
  * Created by yurii on 2/19/2017.
  */
 
-function checkLayersForCharts(){
+function checkLayersForCharts() {
 
     if (map.hasLayer(facadesLayerGroup) || map.hasLayer(firstFloorLayerGroup) || map.hasLayer(treesLayerGroup)) {
-        document.getElementById('streets').style.display = 'block';
+        $('#streets').css('display', 'block');
     }
     else {
-        document.getElementById('streets').style.display = 'none';
+        $('#streets').css('display', 'none');
     }
 
     if (map.hasLayer(facadesLayerGroup)) {
-        Array.prototype.forEach.call(document.getElementsByClassName('active-facade-chart'), function (element) {
-            element.style.display = 'block'
-        })
+        $('.active-facade-chart').css('display', 'block');
     }
     else {
-        Array.prototype.forEach.call(document.getElementsByClassName('active-facade-chart'), function (element) {
-            element.style.display = 'none'
-        })
+        $('.active-facade-chart').css('display', 'none');
     }
 
     if (map.hasLayer(firstFloorLayerGroup)) {
-        Array.prototype.forEach.call(document.getElementsByClassName('fff-chart'), function (element) {
-            element.style.display = 'block'
-        })
+        $('.fff-chart').css('display', 'block');
     }
     else {
-        Array.prototype.forEach.call(document.getElementsByClassName('fff-chart'), function (element) {
-            element.style.display = 'none'
-        })
+        $('.fff-chart').css('display', 'none');
     }
 
     if (map.hasLayer(treesLayerGroup)) {
-        Array.prototype.forEach.call(document.getElementsByClassName('trees-chart'), function (element) {
-            element.style.display = 'block'
-        })
+        $('.trees-chart').css('display', 'block');
     }
     else {
-        Array.prototype.forEach.call(document.getElementsByClassName('trees-chart'), function (element) {
-            element.style.display = 'none'
-        })
+        $('.trees-chart').css('display', 'none');
     }
 }
 
@@ -93,7 +81,7 @@ function drawAreaCharts() {
         ]
     };
 
-    var ctxPie = document.getElementById('piechart');
+    var ctxPie = $('#piechart');
     if (typeof pieChart === 'undefined') {
         pieChart = new Chart(ctxPie, {
             type: 'pie',
@@ -112,7 +100,7 @@ function drawAreaCharts() {
         updateDataInChart(pieChart, pieData);
     }
 
-    var ctxBar = document.getElementById('barchart');
+    var ctxBar = $('#barchart');
     if (typeof barChart === 'undefined') {
         barChart = new Chart(ctxBar, {
             type: 'bar',
@@ -135,7 +123,7 @@ function drawAreaCharts() {
         updateDataInChart(barChart, pieData);
     }
 
-    var ctxHbar = document.getElementById('hbarchart');
+    var ctxHbar = $('#hbarchart');
     if (typeof hbarChart === 'undefined') {
         hbarChart = new Chart(ctxHbar, {
             type: 'horizontalBar',
@@ -198,22 +186,15 @@ function drawFacadeCharts() {
         };
 
         if (typeof streetCharts[street] === 'undefined') {
-            var streetChartsDIV = document.getElementById(street + 'Block')
-            var streetDIV = document.createElement('div');
-            streetDIV.className = 'active-facade-chart';
-            var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = 'Активні фасади:';
-            var canvasDIV = document.createElement('div');
-            canvasDIV.style.width = '400px';
-            canvasDIV.style.height = '300px';
-            var pieCanvas = document.createElement('canvas');
-            pieCanvas.style.width = '400px';
-            pieCanvas.style.height = '300px';
-
-            streetChartsDIV.appendChild(streetDIV);
-            streetDIV.appendChild(streetHeader);
-            streetDIV.appendChild(canvasDIV);
-            canvasDIV.appendChild(pieCanvas);
+            var streetChartsDIV = $('#' + street + 'Block');
+            var streetDIV = $('<div></div>').addClass('active-facade-chart');
+            var streetHeader = $('<h5>Активні фасади:</h5>');
+            var canvasDIV = $('<div></div>').css('width', '400px').css('height', '300px');
+            var pieCanvas = $('<canvas></canvas>').css('width', '400px').css('height', '300px');
+            streetChartsDIV.append(streetDIV);
+            streetDIV.append(streetHeader);
+            streetDIV.append(canvasDIV);
+            canvasDIV.append(pieCanvas);
 
             streetCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
@@ -261,22 +242,16 @@ function drawFirstFloorFunctionCharts() {
         };
 
         if (typeof fffCharts[street] === 'undefined') {
-            var streetChartsDIV = document.getElementById(street + 'Block');
-            var streetfffDIV = document.createElement('div');
-            streetfffDIV.className = 'fff-chart';
-            var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = "Функція першого поверху(за довжиною фасаду):";
-            var canvasDIV = document.createElement('div');
-            canvasDIV.style.width = '400px';
-            canvasDIV.style.height = '300px';
-            var pieCanvas = document.createElement('canvas');
-            pieCanvas.style.width = '400px';
-            pieCanvas.style.height = '300px';
+            var streetChartsDIV = $('#' + street + 'Block');
+            var streetDIV = $('<div></div>').addClass('fff-chart');
+            var streetHeader = $('<h5>Функція першого поверху:</h5>');
+            var canvasDIV = $('<div></div>').css('width', '400px').css('height', '300px');
+            var pieCanvas = $('<canvas></canvas>').css('width', '400px').css('height', '300px');
+            streetChartsDIV.append(streetDIV);
+            streetDIV.append(streetHeader);
+            streetDIV.append(canvasDIV);
+            canvasDIV.append(pieCanvas);
 
-            streetChartsDIV.appendChild(streetfffDIV);
-            streetfffDIV.appendChild(streetHeader);
-            streetfffDIV.appendChild(canvasDIV);
-            canvasDIV.appendChild(pieCanvas);
 
             fffCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
@@ -320,22 +295,16 @@ function drawTreesCharts() {
         };
 
         if (typeof treesCharts[street] === 'undefined') {
-            var streetChartsDIV = document.getElementById(street + 'Block');
-            var streetTreesDIV = document.createElement('div');
-            streetTreesDIV.className = 'trees-chart';
-            var streetHeader = document.createElement('h5');
-            streetHeader.innerHTML = 'Дерева(за розміром крони):';
-            var canvasDIV = document.createElement('div');
-            canvasDIV.style.width = '400px';
-            canvasDIV.style.height = '300px';
-            var pieCanvas = document.createElement('canvas');
-            pieCanvas.style.width = '400px';
-            pieCanvas.style.height = '300px';
 
-            streetChartsDIV.appendChild(streetTreesDIV);
-            streetTreesDIV.appendChild(streetHeader);
-            streetTreesDIV.appendChild(canvasDIV);
-            canvasDIV.appendChild(pieCanvas);
+            var streetChartsDIV = $('#' + street + 'Block');
+            var streetDIV = $('<div></div>').addClass('trees-chart');
+            var streetHeader = $('<h5>Дерева(за розміром крони):</h5>');
+            var canvasDIV = $('<div></div>').css('width', '400px').css('height', '300px');
+            var pieCanvas = $('<canvas></canvas>').css('width', '400px').css('height', '300px');
+            streetChartsDIV.append(streetDIV);
+            streetDIV.append(streetHeader);
+            streetDIV.append(canvasDIV);
+            canvasDIV.append(pieCanvas);
 
             treesCharts[street] = new Chart(pieCanvas, {
                 type: 'pie',
