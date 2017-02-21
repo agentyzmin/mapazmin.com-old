@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
     url(r'^sensor$', maps.views.receiveDataFromDevice, name='deviceData'),
     url(r'^sensorData$', maps.views.getSensorData, name='seeDeviceData'),
+    url(r'^sensor_json$', maps.views.get_sensor_json, name='sensor_json'),
 
     url(r'^admin/', include(admin.site.urls)),
 ]
