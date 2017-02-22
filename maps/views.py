@@ -1,9 +1,11 @@
 # coding=utf-8
+from ast import literal_eval
 from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core import serializers
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -45,3 +47,16 @@ def getSensorData(request):
         'entries': SensorData.objects.order_by('-time')[:100]
     }
     return render(request, 'sensorData.html', context)
+
+
+def get_sensor_json(request):
+    result = []
+    for sensorData in SensorData.objects.all():
+        data = literal_eval(sensorData.data)
+        if 'noise' in data and 'smoke' in data and 'CO2' in data:
+            result.append({
+                'id': sensorData.id,
+                'time': sensorData.time,
+                'data': data
+            })
+    return JsonResponse({'result': result})

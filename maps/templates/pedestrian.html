@@ -130,11 +130,12 @@
                 })
                 .dimension(timeDimension)
                 .group(countPeopleOnTimeGroup, "E", function (d) {
+                    console.log(d.value['E']);
                     return d.value['E'];
                 })
                 .renderLabel(true)
                 .renderArea(true)
-                .mouseZoomable(false);
+                .mouseZoomable(true);
             chart.legend(dc.legend());
             chart.xAxis().tickFormat(function (v) {
                 var minutes = v.getMinutes().toString();
