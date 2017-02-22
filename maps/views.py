@@ -53,10 +53,13 @@ def get_sensor_json(request):
     result = []
     for sensorData in SensorData.objects.all():
         data = literal_eval(sensorData.data)
-        if 'noise' in data and 'smoke' in data and 'CO2' in data:
-            result.append({
-                'id': sensorData.id,
-                'time': sensorData.time,
-                'data': data
-            })
+        try:
+            if 'noise' in data and 'smoke' in data and 'CO2' in data:
+                result.append({
+                    'id': sensorData.id,
+                    'time': sensorData.time,
+                    'data': data
+                })
+        except TypeError:
+            pass
     return JsonResponse({'result': result})
