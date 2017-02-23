@@ -38,7 +38,7 @@ function initMap() {
     loadBuildings('/static/geoJSON/housesGeo.json.geojson', housesLayerGroup);
     loadRoads('/static/geoJSON/roadsGeo.json.geojson', roadsLayerGroup);
     loadYards('/static/geoJSON/yardsGeo.json.geojson', yardsLayerGroup);
-    loadFirstFloorFunction('/static/geoJSON/firstFloorFunctionGeo.json.geojson', firstFloorLayerGroup);
+    loadFirstFloorFunction('https://raw.githubusercontent.com/proggeo/geojson/master/firstFloorFunctionGeo.json.geojson', firstFloorLayerGroup);
     loadFacades('/static/geoJSON/facades.geoJSON', facadesLayerGroup);
     loadSwitches();
 }

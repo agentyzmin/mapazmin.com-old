@@ -353,9 +353,16 @@ function buildingEditor() {
     });
     var saveButton = $('<button class="btn btn-default">Зберегти</button>').click(function () {
         var data = JSON.stringify(firstFloorLayerGroup.toGeoJSON());
-        var url = 'data:text/json;charset=utf8,' + data;
-        window.open(url, '_blank');
-        window.focus();
+        $.ajax({
+            url: 'post_geojson',
+            type: 'post',
+            data: {
+                geojson: data
+            }
+        });
+        // var url = 'data:text/json;charset=utf8,' + data;
+        // window.open(url, '_blank');
+        // window.focus();
     });
     fields.append(floorField)
         .append(categorySelect)

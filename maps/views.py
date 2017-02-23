@@ -9,6 +9,7 @@ from django.core import serializers
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from geojson_saver import save_geojson
 
 from maps.models import SensorData
 
@@ -63,3 +64,14 @@ def get_sensor_json(request):
         except TypeError:
             pass
     return JsonResponse({'result': result})
+
+
+@csrf_exempt
+def post_geojson(request):
+    try:
+        data = request.POST['geojson']
+    except:
+        return JsonResponse({'error': 'No data sent'})
+    print data
+    save_geojson(data)
+    return HttpResponse()
