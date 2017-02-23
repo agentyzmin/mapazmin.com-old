@@ -46,7 +46,7 @@ function loadFloorSwitch() {
     });
     floors.sort();
     var floorSwitcher = $('#floorSwitcher').html('');
-    var floorSwitcherSelect = $('<select class="form-group"></select>');
+    var floorSwitcherSelect = $('<select class="form-control"></select>').css('width','80px');
     floorSwitcher.append(floorSwitcherSelect);
     for (var index in floors) {
         floorSwitcherSelect.append($('<option value="' + floors[index] + '">' + floors[index] + '</option>'))
@@ -174,7 +174,6 @@ function refreshMap() {
         if (map.hasLayer(layerGroups[i])) {
             layerGroups[i].eachLayer(function (layer) {
                 if (map.hasLayer(layer)) {
-                    // console.log(layer);
                     layer.bringToFront()
                 }
             });
@@ -342,20 +341,20 @@ function buildingEditor() {
         if (Number(key) > maxFloor) maxFloor = Number(key);
     }
     var fields = $('<div id="fields"></div>');
-    var floorSelect = $('<select id="floorSelect" class="form-group"></select>');
+    var floorSelect = $('<select id="floorSelect" class="form-control"></select>').css('width','60px').css('display','inline-block').css('margin','10px');
     for (var i = 1; i < maxFloor + 2; i++) {
         floorSelect.append($('<option value="' + i + '">' + i + '</option>'))
     }
-    var categorySelect = $('<select id="categorySelect" class="form-group"></select>');
+    var categorySelect = $('<select id="categorySelect" class="form-control"></select>').css('width','110px').css('display','inline-block').css('margin','10px');
     for (var index in firstFloorLayerGroup.categories) {
         categorySelect.append($('<option value="' + firstFloorLayerGroup.categories[index] + '">' + i18n(firstFloorLayerGroup.categories[index]) + '</option>'))
     }
-    var approveButton = $('<button class="btn btn-default">Додати</button>').click(function () {
+    var approveButton = $('<button class="btn btn-info">Додати</button>').click(function () {
         selectedLayer.feature.properties.floors[Number($('#floorSelect').val())] = $('#categorySelect').val();
         loadFloorSwitch();
         buildingEditor();
     });
-    var saveButton = $('<button class="btn btn-default">Зберегти</button>').click(function () {
+    var saveButton = $('<button class="btn btn-success">Зберегти</button>').click(function () {
         var data = JSON.stringify(firstFloorLayerGroup.toGeoJSON());
         $.ajax({
             url: 'post_geojson',
