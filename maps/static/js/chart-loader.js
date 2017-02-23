@@ -276,7 +276,7 @@ function drawTreesCharts() {
         var datas = [];
         var colors = [];
 
-        treesCOLORS = {1: '#64B6AC', 2: '#C0FDFB', 3: '#DAFFEF'};
+        var treesCOLORS = {1: '#64B6AC', 2: '#C0FDFB', 3: '#DAFFEF'};
 
         for (var category in data[street]) {
             labels.push(category);

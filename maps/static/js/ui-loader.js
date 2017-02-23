@@ -2,6 +2,7 @@
  * Created by yurii on 2/19/2017.
  */
 
+var selectedLayer;
 
 function generateStreetStatBlocks() {
     var parentDiv = $('#streets');
@@ -32,6 +33,27 @@ function loadSwitches() {
         currSwitchInput.change(switchConstructor(i, currSwitchInput));
         wrapper.append(currSwitchDIV)
     }
+}
+
+function loadFloorSwitch() {
+    var floors = [];
+    firstFloorLayerGroup.eachLayer(function (layer) {
+        for (var floor in layer.feature.properties.floors) {
+            if (!floors.includes(floor)) {
+                floors.push(floor)
+            }
+        }
+    });
+    floors.sort();
+    var floorSwitcher = $('#floorSwitcher').html('');
+    var floorSwitcherSelect = $('<select class="form-group"></select>');
+    floorSwitcher.append(floorSwitcherSelect);
+    for (var index in floors) {
+        floorSwitcherSelect.append($('<option value="' + floors[index] + '">' + floors[index] + '</option>'))
+    }
+    floorSwitcherSelect.click(function () {
+        loadNthFloorFunction(floorSwitcherSelect.val(), firstFloorLayerGroup.toGeoJSON(), firstFloorLayerGroup)
+    })
 }
 
 function layerSwitcher(element, layer) {
@@ -151,7 +173,10 @@ function refreshMap() {
     for (var i = 0; i < layerGroups.length; i++) {
         if (map.hasLayer(layerGroups[i])) {
             layerGroups[i].eachLayer(function (layer) {
-                layer.bringToFront()
+                if (map.hasLayer(layer)) {
+                    // console.log(layer);
+                    layer.bringToFront()
+                }
             });
             $('#' + layerGroups[i].name + "Switch").prop('checked', true);
         }
@@ -300,6 +325,44 @@ function loadTreesAreaByStreet() {
         }
     });
     return result
+}
+
+function buildingEditor() {
+    if (typeof selectedLayer === 'undefined') return;
+    var parent = $('#editForm');
+    console.log(parent);
+    parent.html('');
+    var info = $('<p></p>');
+    info.html('Вулиці: ')
+    for (var index in selectedLayer.feature.properties.streets) {
+        info.html(info.html() + ' ' + i18n(selectedLayer.feature.properties.streets[index]) + ((selectedLayer.feature.properties.streets.length - index > 1) ? ',' : '<br> '));
+    }
+    for (var key in selectedLayer.feature.properties.floors) {
+        info.html(info.html() + key + ': ' + i18n(selectedLayer.feature.properties.floors[key]) + '<br>');
+    }
+    var fields = $('<div id="fields"></div>');
+    var floorField = $('<input type="text" id="floorNumber">');
+    var categorySelect = $('<select id="categorySelect" class="form-group"></select>');
+    for (var index in firstFloorLayerGroup.categories) {
+        categorySelect.append($('<option value="' + firstFloorLayerGroup.categories[index] + '">' + i18n(firstFloorLayerGroup.categories[index]) + '</option>'))
+    }
+    var approveButton = $('<button class="btn btn-default">Додати</button>').click(function () {
+        selectedLayer.feature.properties.floors[Number($('#floorNumber').val())] = $('#categorySelect').val();
+        loadFloorSwitch();
+        buildingEditor();
+    });
+    var saveButton = $('<button class="btn btn-default">Зберегти</button>').click(function () {
+        var data = JSON.stringify(firstFloorLayerGroup.toGeoJSON());
+        var url = 'data:text/json;charset=utf8,' + data;
+        window.open(url, '_blank');
+        window.focus();
+    });
+    fields.append(floorField)
+        .append(categorySelect)
+        .append(approveButton);
+    parent.append(info)
+        .append(fields)
+        .append(saveButton);
 }
 
 function i18n(string) {
