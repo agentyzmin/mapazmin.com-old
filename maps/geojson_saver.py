@@ -7,7 +7,7 @@ from datetime import datetime
 
 def save_geojson(data):
     url = "https://api.github.com/repos/proggeo/geojson/contents/firstFloorFunctionGeo.json.geojson"
-    token = "d2aa6142ea58a647c816478ed4ea65a5b6fc6412"
+    token = "318deb17377fd588dc6ba658aba1a1efb715cfde"
 
     try:
         request = Request(url)
