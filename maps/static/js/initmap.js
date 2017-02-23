@@ -178,6 +178,7 @@ function loadYards(url, layerGroup) {
 function loadFirstFloorFunction(url, layerGroup) {
     processGeoJson(url, function (geoJSON) {
         loadNthFloorFunction(1, geoJSON, layerGroup)
+        loadFloorSwitch();
     });
 }
 function loadFacades(url, layerGroup) {
@@ -291,7 +292,6 @@ function loadNthFloorFunction(floor, geojson, layerGroup) {
     drawFirstFloorFunctionCharts();
     loadSwitches();
     refreshMap();
-    // loadFloorSwitch();
 }
 
 function processGeoJson(src, processor) {

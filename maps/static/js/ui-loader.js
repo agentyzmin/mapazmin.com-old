@@ -330,24 +330,28 @@ function loadTreesAreaByStreet() {
 function buildingEditor() {
     if (typeof selectedLayer === 'undefined') return;
     var parent = $('#editForm');
-    console.log(parent);
     parent.html('');
     var info = $('<p></p>');
     info.html('Вулиці: ')
     for (var index in selectedLayer.feature.properties.streets) {
         info.html(info.html() + ' ' + i18n(selectedLayer.feature.properties.streets[index]) + ((selectedLayer.feature.properties.streets.length - index > 1) ? ',' : '<br> '));
     }
+    var maxFloor = -1;
     for (var key in selectedLayer.feature.properties.floors) {
         info.html(info.html() + key + ': ' + i18n(selectedLayer.feature.properties.floors[key]) + '<br>');
+        if (Number(key) > maxFloor) maxFloor = Number(key);
     }
     var fields = $('<div id="fields"></div>');
-    var floorField = $('<input type="text" id="floorNumber">');
+    var floorSelect = $('<select id="floorSelect" class="form-group"></select>');
+    for (var i = 1; i < maxFloor + 2; i++) {
+        floorSelect.append($('<option value="' + i + '">' + i + '</option>'))
+    }
     var categorySelect = $('<select id="categorySelect" class="form-group"></select>');
     for (var index in firstFloorLayerGroup.categories) {
         categorySelect.append($('<option value="' + firstFloorLayerGroup.categories[index] + '">' + i18n(firstFloorLayerGroup.categories[index]) + '</option>'))
     }
     var approveButton = $('<button class="btn btn-default">Додати</button>').click(function () {
-        selectedLayer.feature.properties.floors[Number($('#floorNumber').val())] = $('#categorySelect').val();
+        selectedLayer.feature.properties.floors[Number($('#floorSelect').val())] = $('#categorySelect').val();
         loadFloorSwitch();
         buildingEditor();
     });
@@ -364,7 +368,7 @@ function buildingEditor() {
         // window.open(url, '_blank');
         // window.focus();
     });
-    fields.append(floorField)
+    fields.append(floorSelect)
         .append(categorySelect)
         .append(approveButton);
     parent.append(info)
