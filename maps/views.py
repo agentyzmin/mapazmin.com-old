@@ -11,7 +11,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from geojson_saver import save_geojson
 
-from maps.models import SensorData
+from maps.models import SensorData, CarData
 
 
 def index(request):
@@ -36,18 +36,61 @@ def receiveDataFromDevice(request):
         data = request.GET['data']
     except:
         return JsonResponse({'error': 'No data sent'})
-    sensorData = SensorData()
-    sensorData.data = data
-    sensorData.time = datetime.now()
-    sensorData.save()
+    sensor_data = SensorData()
+    sensor_data.data = data
+    sensor_data.time = datetime.now()
+    sensor_data.save()
     return HttpResponse()
 
 
-def getSensorData(request):
+def parse_car_data(raw_data):
+    raw_data = raw_data.translate('\n')
+    rows = raw_data.split(',')
+    base_time = rows[0]
+    result = []
+    for row in rows[1:]:
+        row_list = row.split('|')
+        if len(row_list) < 4: continue
+        max_height = row_list[1]
+        start_time = datetime.fromtimestamp((int(base_time) + int(row_list[2])) / 1000.0)
+        end_time = datetime.fromtimestamp((int(base_time) + int(row_list[3])) / 1000.0)
+        result.append({
+            'max_height': max_height,
+            'start_time': start_time,
+            'end_time': end_time
+        })
+    return result
+
+
+@csrf_exempt
+def receive_car_data(request):
+    try:
+        data = request.GET['data']
+    except:
+        return JsonResponse({'error': 'No data sent'})
+    print data
+    entries = parse_car_data(data)
+    for entry in entries:
+        car_data = CarData(max_height=entry['max_height'],
+                           start_time=entry['start_time'],
+                           end_time=entry['end_time'],
+                           time_received=datetime.now())
+        car_data.save()
+    return HttpResponse()
+
+
+def get_sensor_data(request):
     context = {
         'entries': SensorData.objects.order_by('-time')[:100]
     }
     return render(request, 'sensorData.html', context)
+
+
+def get_car_data(request):
+    context = {
+        'entries': CarData.objects.order_by('-time_received')
+    }
+    return render(request, 'carData.html', context)
 
 
 def get_sensor_json(request):

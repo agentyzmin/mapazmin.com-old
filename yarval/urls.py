@@ -25,7 +25,9 @@ urlpatterns = [
     url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
     url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
     url(r'^sensor$', maps.views.receiveDataFromDevice, name='deviceData'),
-    url(r'^sensorData$', maps.views.getSensorData, name='seeDeviceData'),
+    url(r'^car_sensor$', maps.views.receive_car_data, name='carDeviceData'),
+    url(r'^sensorData$', maps.views.get_sensor_data, name='seeDeviceData'),
+    url(r'^carData$', maps.views.get_car_data, name='seeDeviceData'),
     url(r'^sensor_json$', maps.views.get_sensor_json, name='sensor_json'),
     url(r'^post_geojson$', maps.views.post_geojson, name='post_geojson'),
 
