@@ -55,6 +55,8 @@ def get_sensor_json(request):
     for sensorData in SensorData.objects.all():
         data = literal_eval(sensorData.data)
         try:
+            if 'bat' not in data:
+                data['bat'] = 100
             if 'noise' in data and 'smoke' in data and 'CO2' in data:
                 result.append({
                     'id': sensorData.id,

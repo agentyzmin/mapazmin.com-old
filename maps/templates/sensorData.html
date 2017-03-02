@@ -29,6 +29,7 @@
                 <th>CO2</th>
                 <th>Noise</th>
                 <th>Smoke</th>
+                <th>Bat</th>
             </tr>
             </thead>
         </table>
@@ -169,6 +170,9 @@
                 },
                 function (d) {
                     return d.data.smoke
+                },
+                function (d) {
+                    return d.data.bat
                 }
             ])
             .sortBy(function (d) {
