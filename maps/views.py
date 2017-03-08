@@ -1,6 +1,7 @@
 # coding=utf-8
 from ast import literal_eval
 from datetime import datetime
+import time
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -28,6 +29,10 @@ def svgswitcher(request):
 
 def pedestrian(request):
     return render(request, 'pedestrian.html')
+
+
+def time_now(request):
+    return JsonResponse({'now': int(time.time())})
 
 
 @csrf_exempt
@@ -65,7 +70,7 @@ def parse_car_data(raw_data):
 @csrf_exempt
 def receive_car_data(request):
     try:
-        data = request.GET['data']
+        data = request.POST['data']
     except:
         return JsonResponse({'error': 'No data sent'})
     print data
