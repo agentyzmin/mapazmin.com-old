@@ -71,15 +71,18 @@ def parse_car_data(raw_data):
 def receive_car_data(request):
     try:
         data = request.POST['data']
+        bat = request.GET['bat']
     except:
         return JsonResponse({'error': 'No data sent'})
     print data
+    print bat
     entries = parse_car_data(data)
     for entry in entries:
         car_data = CarData(max_height=entry['max_height'],
                            start_time=entry['start_time'],
                            end_time=entry['end_time'],
-                           time_received=datetime.now())
+                           time_received=datetime.now(),
+                           bat=bat)
         car_data.save()
     return HttpResponse()
 
@@ -92,8 +95,11 @@ def get_sensor_data(request):
 
 
 def get_car_data(request):
+    entries = CarData.objects.order_by('-time_received')
+    for entry in entries:
+        entry.time_diff = entry.end_time - entry.start_time
     context = {
-        'entries': CarData.objects.order_by('-time_received')
+        'entries': entries
     }
     return render(request, 'carData.html', context)
 

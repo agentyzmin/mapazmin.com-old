@@ -13,16 +13,20 @@
             <th>id</th>
             <th>Start time</th>
             <th>End time</th>
+            <th>Time delta</th>
             <th>Max height</th>
             <th>Time received</th>
+            <th>Battery</th>
         </tr>
         {% for entry in entries %}
             <tr>
                 <td>{{ entry.id }}</td>
                 <td>{{ entry.start_time|date:"H:i:s d.m" }}</td>
                 <td>{{ entry.end_time|date:"H:i:s d.m" }}</td>
-                <td>{{ entry.max_height}} cm</td>
+                <td>{{ entry.time_diff}}</td>
+                <td>{{ entry.max_height }} cm</td>
                 <td>{{ entry.time_received|date:"H:i:s d.m" }}</td>
+                <td>{{ entry.bat }} </td>
             </tr>
         {% endfor %}
     </table>
