@@ -2,6 +2,7 @@
 from ast import literal_eval
 from datetime import datetime
 import time
+import pytz
 from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -74,14 +75,16 @@ def receive_car_data(request):
         bat = request.GET['bat']
     except:
         return JsonResponse({'error': 'No data sent'})
-    print data
+    print 'Received data:' + data
     print bat
     entries = parse_car_data(data)
+    time_received = datetime.now()
+    time_received = time_received.replace(tzinfo=pytz.utc)
     for entry in entries:
         car_data = CarData(max_height=entry['max_height'],
                            start_time=entry['start_time'],
                            end_time=entry['end_time'],
-                           time_received=datetime.now(),
+                           time_received=time_received,
                            bat=bat)
         car_data.save()
     return HttpResponse()
