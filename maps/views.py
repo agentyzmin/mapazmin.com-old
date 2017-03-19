@@ -13,7 +13,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from geojson_saver import save_geojson
 
-from maps.models import SensorData, CarData
+from maps.models import SensorData, CarData, PollutionConfig, Pollution
 
 
 def index(request):
@@ -37,16 +37,19 @@ def time_now(request):
 
 
 @csrf_exempt
-def receiveDataFromDevice(request):
+def receive_sensor_data(request):
     try:
-        data = request.GET['data']
+        data_dict = literal_eval(request.GET['data'])
+        pollution = Pollution(co2=data_dict['CO2'], smoke=data_dict['smoke'], noise=data_dict['noise'],
+                              received=datetime.now(tz=pytz.utc))
+        pollution.save()
     except:
-        return JsonResponse({'error': 'No data sent'})
-    sensor_data = SensorData()
-    sensor_data.data = data
-    sensor_data.time = datetime.now()
-    sensor_data.save()
-    return HttpResponse()
+        return JsonResponse({'error': 'Wrong data sent'})
+    sensor_config = PollutionConfig.objects.all().order_by('-added')[0]
+    return HttpResponse('noise_refresh_ms:' + str(sensor_config.noise_refresh_ms)
+                        + '|upload_refresh_s:' + str(sensor_config.upload_refresh_s)
+                        + '|co2_refresh_s:' + str(sensor_config.co2_refresh_s)
+                        + '|smoke_refresh_ms:' + str(sensor_config.smoke_refresh_ms))
 
 
 def parse_car_data(raw_data):
@@ -78,8 +81,7 @@ def receive_car_data(request):
     print 'Received data:' + data
     print bat
     entries = parse_car_data(data)
-    time_received = datetime.now()
-    time_received = time_received.replace(tzinfo=pytz.utc)
+    time_received = datetime.now(tz=pytz.utc)
     for entry in entries:
         car_data = CarData(max_height=entry['max_height'],
                            start_time=entry['start_time'],
@@ -91,10 +93,32 @@ def receive_car_data(request):
 
 
 def get_sensor_data(request):
+    # ?noise_refresh_ms=300&smoke_refresh_ms=1200&upload_refresh_s=20&co2_refresh_s=60
+    config = PollutionConfig()
+    config_received = False
+    try:
+        if 'noise_refresh_ms' in request.GET:
+            config.noise_refresh_ms = int(request.GET['noise_refresh_ms'])
+            config_received = True
+        if 'smoke_refresh_ms' in request.GET:
+            config.smoke_refresh_ms = int(request.GET['smoke_refresh_ms'])
+            config_received = True
+        if 'upload_refresh_s' in request.GET:
+            config.upload_refresh_s = int(request.GET['upload_refresh_s'])
+            config_received = True
+        if 'co2_refresh_s' in request.GET:
+            config.co2_refresh_s = int(request.GET['co2_refresh_s'])
+            config_received = True
+        if config_received:
+            config.added = datetime.now(tz=pytz.utc)
+            config.save()
+    except:
+        pass
+    last_config = PollutionConfig.objects.all().order_by('-added')[0]
     context = {
-        'entries': SensorData.objects.order_by('-time')[:100]
+        'config': last_config
     }
-    return render(request, 'sensorData.html', context)
+    return render(request, 'sensorData.html', context=context)
 
 
 def get_car_data(request):
@@ -110,8 +134,8 @@ def get_car_data(request):
 def get_sensor_json(request):
     result = []
     for sensorData in SensorData.objects.all():
-        data = literal_eval(sensorData.data)
         try:
+            data = literal_eval(sensorData.data)
             if 'bat' not in data:
                 data['bat'] = 100
             if 'noise' in data and 'smoke' in data and 'CO2' in data:
@@ -120,8 +144,19 @@ def get_sensor_json(request):
                     'time': sensorData.time,
                     'data': data
                 })
-        except TypeError:
+        except:
             pass
+    for pollution in Pollution.objects.all():
+        result.append({
+            'id': pollution.id,
+            'time': pollution.received,
+            'data': {
+                'CO2': pollution.co2,
+                'smoke': pollution.smoke,
+                'noise': pollution.noise,
+                'bat': pollution.bat
+            }
+        })
     return JsonResponse({'result': result})
 
 
@@ -131,6 +166,5 @@ def post_geojson(request):
         data = request.POST['geojson']
     except:
         return JsonResponse({'error': 'No data sent'})
-    print data
     save_geojson(data)
     return HttpResponse()

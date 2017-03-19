@@ -12,14 +12,12 @@
 
 <div class="container">
 
-    {#    {% if entries %}#}
-    {#        <p>Data</p>#}
-    {#        <ul>#}
-    {#            {% for entry in entries %}#}
-    {#                <li>{{ entry.data }} - {{ entry.time|date:"H:i:s d.m" }}</li>#}
-    {#            {% endfor %}#}
-    {#        </ul>#}
-    {#    {% endif %}#}
+    <div class="row">
+        <p>Noise refresh period (ms): {{ config.noise_refresh_ms }}</p>
+        <p>Smoke refresh period (ms): {{ config.smoke_refresh_ms }}</p>
+        <p>CO2 refresh period (s): {{ config.co2_refresh_s }}</p>
+        <p>Upload refresh period (s): {{ config.upload_refresh_s }}</p>
+    </div>
 
     <div class="row">
         <table id="sensor-table" class='table table-hover'>
