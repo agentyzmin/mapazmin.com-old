@@ -25,12 +25,11 @@ class PollutionConfig(models.Model):
     smoke_refresh_ms = models.IntegerField(default=1200)
     upload_refresh_s = models.IntegerField(default=20)
     co2_refresh_s = models.IntegerField(default=60)
-    valid_since = models.DateTimeField(default=datetime.now, null=True)
+    valid_since = models.DateTimeField(default=datetime.utcnow, null=True)
     valid_to = models.DateTimeField(null=True)
-    added = models.DateTimeField(default=datetime.now)
+    added = models.DateTimeField(default=datetime.utcnow)
 
     def __str__(self):
-        print type(self.noise_refresh_ms)
         return 'noise_refresh_ms: %d smoke_refresh_ms: %d upload_refresh_s: %d co2_refresh_s: %d' % (
             self.noise_refresh_ms, self.smoke_refresh_ms, self.upload_refresh_s, self.co2_refresh_s)
 

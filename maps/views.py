@@ -36,16 +36,27 @@ def time_now(request):
     return JsonResponse({'now': int(time.time())})
 
 
+def get_latest_pollution_config():
+    configs = PollutionConfig.objects.all().order_by('-added')
+    for config in configs:
+        if config.valid_since < datetime.now(tz=pytz.utc) and (
+                    not config.valid_to or config.valid_to > datetime.now(pytz.utc)):
+            return config
+    new_configs = PollutionConfig()
+    new_configs.save()
+    return new_configs
+
+
 @csrf_exempt
 def receive_sensor_data(request):
     try:
         data_dict = literal_eval(request.GET['data'])
         pollution = Pollution(co2=data_dict['CO2'], smoke=data_dict['smoke'], noise=data_dict['noise'],
-                              received=datetime.now(tz=pytz.utc))
+                              bat=data_dict['bat'], received=datetime.now(tz=pytz.utc))
         pollution.save()
     except:
         return JsonResponse({'error': 'Wrong data sent'})
-    sensor_config = PollutionConfig.objects.all().order_by('-added')[0]
+    sensor_config = get_latest_pollution_config()
     return HttpResponse('noise_refresh_ms:' + str(sensor_config.noise_refresh_ms)
                         + '|upload_refresh_s:' + str(sensor_config.upload_refresh_s)
                         + '|co2_refresh_s:' + str(sensor_config.co2_refresh_s)
@@ -93,28 +104,7 @@ def receive_car_data(request):
 
 
 def get_sensor_data(request):
-    # ?noise_refresh_ms=300&smoke_refresh_ms=1200&upload_refresh_s=20&co2_refresh_s=60
-    config = PollutionConfig()
-    config_received = False
-    try:
-        if 'noise_refresh_ms' in request.GET:
-            config.noise_refresh_ms = int(request.GET['noise_refresh_ms'])
-            config_received = True
-        if 'smoke_refresh_ms' in request.GET:
-            config.smoke_refresh_ms = int(request.GET['smoke_refresh_ms'])
-            config_received = True
-        if 'upload_refresh_s' in request.GET:
-            config.upload_refresh_s = int(request.GET['upload_refresh_s'])
-            config_received = True
-        if 'co2_refresh_s' in request.GET:
-            config.co2_refresh_s = int(request.GET['co2_refresh_s'])
-            config_received = True
-        if config_received:
-            config.added = datetime.now(tz=pytz.utc)
-            config.save()
-    except:
-        pass
-    last_config = PollutionConfig.objects.all().order_by('-added')[0]
+    last_config = get_latest_pollution_config()
     context = {
         'config': last_config
     }
