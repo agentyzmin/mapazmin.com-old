@@ -14,28 +14,12 @@ def save_geojson(data):
     try:
         r = requests.get(url, headers={'Authorization': 'token ' + token})
         response = json.loads(r.content.decode())
-        sha = json.loads(response['sha'])
+        sha = response['sha']
 
         r = requests.put(url, headers={'Authorization': 'token ' + token},
                          data={'message': str(datetime.now()), 'content': b64encode(data), 'sha': sha})
         response = json.loads(r.content.decode())
         print(response)
-
-        # request = Request(url)
-        # request.add_header('Authorization', 'token %s' % token)
-        # response = urlopen(request)
-        # sha = json.loads(response.read())['sha']
-        #
-        # request = Request(url)
-        # request.get_method = lambda: 'PUT'
-        # request.add_header('Authorization', 'token %s' % token)
-        # request.add_data(
-        #     '{'
-        #     '"message": "' + str(datetime.now()) + '",' +
-        #     '"content": "' + b64encode(data) + '",' +
-        #     '"sha": "' + sha + '"}')
-        # response = urlopen(request)
-        # print(response.read())
     except requests.RequestException as e:
         print(e)
 

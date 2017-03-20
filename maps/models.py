@@ -12,12 +12,18 @@ class SensorData(models.Model):
     time = models.DateTimeField()
 
 
+class Device(models.Model):
+    name = models.CharField(max_length=200)
+    auth_token = models.CharField(max_length=50)
+
+
 class Pollution(models.Model):
     co2 = models.IntegerField()
     smoke = models.IntegerField()
     noise = models.IntegerField()
     bat = models.IntegerField()
     received = models.DateTimeField()
+    device = models.ForeignKey(Device, null=True)
 
 
 class PollutionConfig(models.Model):
@@ -28,6 +34,7 @@ class PollutionConfig(models.Model):
     valid_since = models.DateTimeField(default=datetime.utcnow, null=True)
     valid_to = models.DateTimeField(null=True)
     added = models.DateTimeField(default=datetime.utcnow)
+    device = models.ForeignKey(Device, null=True)
 
     def __str__(self):
         return 'noise_refresh_ms: %d smoke_refresh_ms: %d upload_refresh_s: %d co2_refresh_s: %d' % (
