@@ -1,6 +1,6 @@
 import geojson
 import geopy.distance
-from intersection import belongs_to_polygon, STREETS
+from maps.static.geoJSON.intersection import belongs_to_polygon, STREETS
 
 with open('firstFloorFunctionGeo.json.geojson') as infile:
     fff_json = geojson.load(infile)
@@ -26,4 +26,4 @@ for feature in fff_json.features:
                         'type': 'LineString'
                     }))
 
-print geojson.dumps(facades_features)
+print(geojson.dumps(facades_features))

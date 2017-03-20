@@ -11,7 +11,7 @@ from django.core import serializers
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
-from geojson_saver import save_geojson
+from maps.geojson_saver import save_geojson
 
 from maps.models import SensorData, CarData, PollutionConfig, Pollution
 
@@ -89,8 +89,6 @@ def receive_car_data(request):
         bat = request.GET['bat']
     except:
         return JsonResponse({'error': 'No data sent'})
-    print 'Received data:' + data
-    print bat
     entries = parse_car_data(data)
     time_received = datetime.now(tz=pytz.utc)
     for entry in entries:

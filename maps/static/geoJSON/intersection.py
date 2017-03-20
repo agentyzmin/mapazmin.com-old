@@ -170,7 +170,7 @@ def line_intersection(A, B, C, D):
 
 def belongs_to_polygon(lat, lng, polygon):
     curr = []
-    for i in xrange(1, len(polygon)):
+    for i in range(1, len(polygon)):
         curr.append(polygon[i - 1] + polygon[i])
     polygon = curr
 
@@ -205,7 +205,7 @@ import geojson
 
 
 def main():
-    print STREETS.keys()
+    print(STREETS.keys())
 
     # for key, polygon in STREETS.items():
     #     curr = []
@@ -282,7 +282,7 @@ def main():
                     feature.properties['streets'] = [key]
                 feature_collection['features'].append(feature)
 
-    print geojson.dumps(fff_json)
+    print(geojson.dumps(fff_json))
 
     # with open('cars.geojson', 'w') as outfile:
     #     geojson.dump(fff_json, outfile)

@@ -63,7 +63,7 @@ obj1 = {'type': 'Polygon',
                          [30.50660151189686, 50.45750136283002], [30.506531024750263, 50.45751573587457],
                          [30.506620185561633, 50.45765138148247], [30.515347369976766, 50.45619438968216]]]}
 
-print area(obj1)
+print(area(obj1))
 
 north = [30.50562143325806, 50.45781822317228]
 east = [30.519477725028995, 50.45550434421866]
@@ -71,8 +71,8 @@ south = [30.515277385711673, 50.44530143532968]
 west = [30.501423776149753, 50.44761581331231]
 
 mapsquare = {'type': 'Polygon', 'coordinates': [[north, west, south, east]]}
-print mapsquare
-print area(mapsquare)
+print(mapsquare)
+print(area(mapsquare))
 
 total_area = 1192034.29215 - 47050.347984
 total_area = 1144983.94417
