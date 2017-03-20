@@ -1,5 +1,3 @@
-# from urllib2 import urlopen, Request, HTTPError
-from urllib.request import urlopen, Request, HTTPError
 import requests
 from base64 import b64encode
 import json
