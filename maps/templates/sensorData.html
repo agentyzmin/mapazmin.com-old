@@ -6,6 +6,7 @@
     <title>Sensor data</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/dc.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -17,6 +18,8 @@
         <p>Smoke refresh period (ms): {{ config.smoke_refresh_ms }}</p>
         <p>CO2 refresh period (s): {{ config.co2_refresh_s }}</p>
         <p>Upload refresh period (s): {{ config.upload_refresh_s }}</p>
+        <p>Records loaded: <span id="datasetSize"></span></p>
+        <button onclick="loadData()">Refresh data</button>
     </div>
 
     <div class="row">
@@ -52,135 +55,141 @@
 <script type="text/javascript" src="{% static "js/dc.js" %}"></script>
 <script>
 
-    d3.json("/sensor_json", function (error, dataset) {
-        var ndx = crossfilter(dataset['result']),
-            CO2dimension = ndx.dimension(function (d) {
-                return d.data.CO2;
-            }),
-            noiseDimension = ndx.dimension(function (d) {
-                return d.data.noise;
-            }),
-            smokeDimension = ndx.dimension(function (d) {
-                return d.data.smoke;
-            }),
-            timeDimension = ndx.dimension(function (d) {
+    function loadData() {
+
+        d3.json("/sensor_json", function (error, dataset) {
+            $('#datasetSize').html(dataset['result'].length);
+            var ndx = crossfilter(dataset['result']),
+                CO2dimension = ndx.dimension(function (d) {
+                    return d.data.CO2;
+                }),
+                noiseDimension = ndx.dimension(function (d) {
+                    return d.data.noise;
+                }),
+                smokeDimension = ndx.dimension(function (d) {
+                    return d.data.smoke;
+                }),
+                timeDimension = ndx.dimension(function (d) {
+                    return new Date(d.time);
+                }),
+                countCO2OnTime = timeDimension.group().reduceSum(function (d) {
+                    return d.data.CO2;
+                }),
+                countSmokeOnTime = timeDimension.group().reduceSum(function (d) {
+                    return d.data.smoke;
+                }),
+                countNoiseOnTime = timeDimension.group().reduceSum(function (d) {
+                    return d.data.noise;
+                });
+
+            var startDate = d3.min(dataset['result'], function (d) {
                 return new Date(d.time);
-            }),
-            countCO2OnTime = timeDimension.group().reduceSum(function (d) {
-                return d.data.CO2;
-            }),
-            countSmokeOnTime = timeDimension.group().reduceSum(function (d) {
-                return d.data.smoke;
-            }),
-            countNoiseOnTime = timeDimension.group().reduceSum(function (d) {
-                return d.data.noise;
-            })
+            });
 
-        var startDate = d3.min(dataset['result'], function (d) {
-            return new Date(d.time);
-        });
+            var CO2chart = dc.lineChart('#CO2_chart');
+            CO2chart
+                .width(600)
+                .height(200)
+                .x(d3.time.scale().domain([startDate, new Date()]))
+                .round(d3.time.minutes.round)
+                .xUnits(d3.time.minutes)
+                .elasticY(true)
+                .margins({left: 80, top: 40, right: 10, bottom: 20})
+                .dimension(timeDimension)
+                .group(countCO2OnTime)
+                .renderLabel(false)
+                .renderArea(true)
+                .brushOn(true)
+                .clipPadding(20)
+                .mouseZoomable(true)
+                .defined(function (d) {
+                    return !isNaN(d.y);
+                })
+            ;
 
-        var CO2chart = dc.lineChart('#CO2_chart');
-        CO2chart
-            .width(600)
-            .height(200)
-            .x(d3.time.scale().domain([startDate, new Date()]))
-            .round(d3.time.minutes.round)
-            .xUnits(d3.time.minutes)
-            .elasticY(true)
-            .margins({left: 80, top: 40, right: 10, bottom: 20})
-            .dimension(timeDimension)
-            .group(countCO2OnTime)
-            .renderLabel(false)
-            .renderArea(true)
-            .brushOn(true)
-            .clipPadding(20)
-            .mouseZoomable(true)
-            .defined(function (d) {
-                return !isNaN(d.y);
-            })
-        ;
+            CO2chart.legend(dc.legend());
 
-        CO2chart.legend(dc.legend());
+            CO2chart.render();
 
-        CO2chart.render();
+            var noiseChart = dc.lineChart('#noise_chart');
+            noiseChart
+                .width(600)
+                .height(200)
+                .x(d3.time.scale().domain([startDate, new Date()]))
+                .round(d3.time.minutes.round)
+                .xUnits(d3.time.minutes)
+                .elasticY(true)
+                .margins({left: 80, top: 40, right: 10, bottom: 20})
+                .dimension(timeDimension)
+                .group(countNoiseOnTime)
+                .renderLabel(false)
+                .renderArea(true)
+                .brushOn(true)
+                .clipPadding(20)
+                .mouseZoomable(true);
 
-        var noiseChart = dc.lineChart('#noise_chart');
-        noiseChart
-            .width(600)
-            .height(200)
-            .x(d3.time.scale().domain([startDate, new Date()]))
-            .round(d3.time.minutes.round)
-            .xUnits(d3.time.minutes)
-            .elasticY(true)
-            .margins({left: 80, top: 40, right: 10, bottom: 20})
-            .dimension(timeDimension)
-            .group(countNoiseOnTime)
-            .renderLabel(false)
-            .renderArea(true)
-            .brushOn(true)
-            .clipPadding(20)
-            .mouseZoomable(true);
+            noiseChart.legend(dc.legend());
 
-        noiseChart.legend(dc.legend());
+            noiseChart.render();
 
-        noiseChart.render()
+            var smokeChart = dc.lineChart('#smoke_chart');
+            smokeChart
+                .width(600)
+                .height(200)
+                .x(d3.time.scale().domain([startDate, new Date()]))
+                .round(d3.time.minutes.round)
+                .elasticY(true)
+                .xUnits(d3.time.minutes)
+                .margins({left: 80, top: 40, right: 10, bottom: 20})
+                .dimension(timeDimension)
+                .group(countSmokeOnTime)
+                .renderLabel(false)
+                .renderArea(true)
+                .brushOn(false)
+                .clipPadding(20)
+                .mouseZoomable(true);
 
-        var smokeChart = dc.lineChart('#smoke_chart');
-        smokeChart
-            .width(600)
-            .height(200)
-            .x(d3.time.scale().domain([startDate, new Date()]))
-            .round(d3.time.minutes.round)
-            .elasticY(true)
-            .xUnits(d3.time.minutes)
-            .margins({left: 80, top: 40, right: 10, bottom: 20})
-            .dimension(timeDimension)
-            .group(countSmokeOnTime)
-            .renderLabel(false)
-            .renderArea(true)
-            .brushOn(false)
-            .clipPadding(20)
-            .mouseZoomable(true);
+            smokeChart.legend(dc.legend());
 
-        smokeChart.legend(dc.legend());
+            smokeChart.render();
 
-        smokeChart.render();
+            var dataTable = dc.dataTable("#sensor-table");
 
-        var dataTable = dc.dataTable("#sensor-table");
+            dataTable.width(960).height(800)
+                .dimension(timeDimension)
+                .group(function (d) {
+                    return 'All measuring according to filters'
+                })
+                .size(10)
+                .columns([
+                    function (d) {
+                        var monthNameFormat = d3.time.format("%a %b %e %H:%M:%S");
+                        return monthNameFormat(new Date(d.time))
+                    },
+                    function (d) {
+                        return d.data.CO2
+                    },
+                    function (d) {
+                        return d.data.noise
+                    },
+                    function (d) {
+                        return d.data.smoke
+                    },
+                    function (d) {
+                        return d.data.bat
+                    }
+                ])
+                .sortBy(function (d) {
+                    return d.time
+                })
+                .order(d3.descending);
 
-        dataTable.width(960).height(800)
-            .dimension(timeDimension)
-            .group(function (d) {
-                return 'All measuring according to filters'
-            })
-            .size(10)
-            .columns([
-                function (d) {
-                    var monthNameFormat = d3.time.format("%a %b %e %H:%M:%S");
-                    return monthNameFormat(new Date(d.time))
-                },
-                function (d) {
-                    return d.data.CO2
-                },
-                function (d) {
-                    return d.data.noise
-                },
-                function (d) {
-                    return d.data.smoke
-                },
-                function (d) {
-                    return d.data.bat
-                }
-            ])
-            .sortBy(function (d) {
-                return d.time
-            })
-            .order(d3.descending);
+            dataTable.render();
 
-        dataTable.render();
+        })
+    }
 
-    })
+    loadData();
 
 </script>
 </body>
