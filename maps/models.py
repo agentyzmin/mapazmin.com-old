@@ -19,7 +19,7 @@ class Device(models.Model):
 
 class Pollution(models.Model):
     co2 = models.IntegerField()
-    smoke = models.IntegerField()
+    smoke = models.FloatField()
     noise = models.IntegerField()
     bat = models.IntegerField()
     received = models.DateTimeField()

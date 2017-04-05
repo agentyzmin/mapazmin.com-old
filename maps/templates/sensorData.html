@@ -23,20 +23,6 @@
     </div>
 
     <div class="row">
-        <h4>CO2 chart</h4>
-        <div id="CO2_chart"></div>
-    </div>
-    <div class="row">
-        <h4>Noise chart</h4>
-        <div id="noise_chart"></div>
-    </div>
-    <div class="row">
-        <h4>Smoke chart</h4>
-        <div id="smoke_chart"></div>
-    </div>
-
-
-    <div class="row">
         <table id="sensor-table" class='table table-hover'>
             <thead>
             <tr class="header">
@@ -49,6 +35,20 @@
             </thead>
         </table>
     </div>
+
+    <div class="row">
+        <h4>CO2 chart</h4>
+        <div id="CO2_chart"></div>
+    </div>
+    <div class="row">
+        <h4>Noise chart</h4>
+        <div id="noise_chart"></div>
+    </div>
+    <div class="row">
+        <h4>Smoke chart</h4>
+        <div id="smoke_chart"></div>
+    </div>
+
 
 </div>
 
@@ -101,6 +101,9 @@
                 return new Date(d.time);
             });
 
+            CO2dimension.top(1)[0].data.CO2;
+            CO2dimension.bottom(1)[0].data.CO2;
+
             var CO2chart = dc.lineChart('#CO2_chart');
             CO2chart
                 .width(600)
@@ -108,13 +111,14 @@
                 .x(d3.time.scale().domain([startDate, new Date()]))
                 .round(d3.time.minutes.round)
                 .xUnits(d3.time.minutes)
-                .elasticY(true)
+                .y(d3.scale.linear().domain([CO2dimension.bottom(1)[0].data.CO2, CO2dimension.top(1)[0].data.CO2]))
+                {#                .elasticY(true)#}
                 .margins({left: 80, top: 40, right: 10, bottom: 20})
                 .dimension(timeDimension)
                 .group(countCO2OnTime)
                 .renderLabel(false)
-                .renderArea(true)
-                .brushOn(true)
+                .renderArea(false)
+                .brushOn(false)
                 .clipPadding(20)
                 .mouseZoomable(true)
                 .defined(function (d) {
@@ -175,7 +179,7 @@
                 .group(function (d) {
                     return 'All measuring according to filters'
                 })
-                .size(30)
+                .size(10)
                 .columns([
                     function (d) {
                         var monthNameFormat = d3.time.format("%a %b %e %H:%M:%S");
