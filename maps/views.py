@@ -121,19 +121,19 @@ def get_car_data(request):
 
 def get_sensor_json(request):
     result = []
-    for sensorData in SensorData.objects.all():
-        try:
-            data = literal_eval(sensorData.data)
-            if 'bat' not in data:
-                data['bat'] = 100
-            if 'noise' in data and 'smoke' in data and 'CO2' in data:
-                result.append({
-                    'id': sensorData.id,
-                    'time': sensorData.time,
-                    'data': data
-                })
-        except:
-            pass
+    # for sensorData in SensorData.objects.all():
+    #     try:
+    #         data = literal_eval(sensorData.data)
+    #         if 'bat' not in data:
+    #             data['bat'] = 100
+    #         if 'noise' in data and 'smoke' in data and 'CO2' in data:
+    #             result.append({
+    #                 'id': sensorData.id,
+    #                 'time': sensorData.time,
+    #                 'data': data
+    #             })
+    #     except:
+    #         pass
     for pollution in Pollution.objects.all():
         result.append({
             'id': pollution.id,

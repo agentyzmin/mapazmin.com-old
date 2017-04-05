@@ -23,6 +23,20 @@
     </div>
 
     <div class="row">
+        <h4>CO2 chart</h4>
+        <div id="CO2_chart"></div>
+    </div>
+    <div class="row">
+        <h4>Noise chart</h4>
+        <div id="noise_chart"></div>
+    </div>
+    <div class="row">
+        <h4>Smoke chart</h4>
+        <div id="smoke_chart"></div>
+    </div>
+
+
+    <div class="row">
         <table id="sensor-table" class='table table-hover'>
             <thead>
             <tr class="header">
@@ -36,17 +50,6 @@
         </table>
     </div>
 
-
-    <div class="row">
-        <div id="CO2_chart"></div>
-    </div>
-    <div class="row">
-        <div id="noise_chart"></div>
-    </div>
-    <div class="row">
-        <div id="smoke_chart"></div>
-    </div>
-
 </div>
 
 
@@ -57,9 +60,21 @@
 
     function loadData() {
 
-        d3.json("/sensor_json", function (error, dataset) {
-            $('#datasetSize').html(dataset['result'].length);
-            var ndx = crossfilter(dataset['result']),
+        d3.json("/sensor_json", function (error, response) {
+            var dataset = response['result'];
+            var prevco2 = 0;
+            for (var i in dataset) {
+                var row = dataset[i];
+                if (row.data.CO2 === 0) {
+                    row.data.CO2 = prevco2;
+                }
+                else {
+                    prevco2 = row.data.CO2
+                }
+            }
+
+            $('#datasetSize').html(dataset.length);
+            var ndx = crossfilter(dataset),
                 CO2dimension = ndx.dimension(function (d) {
                     return d.data.CO2;
                 }),
@@ -82,7 +97,7 @@
                     return d.data.noise;
                 });
 
-            var startDate = d3.min(dataset['result'], function (d) {
+            var startDate = d3.min(dataset, function (d) {
                 return new Date(d.time);
             });
 
@@ -145,7 +160,7 @@
                 .group(countSmokeOnTime)
                 .renderLabel(false)
                 .renderArea(true)
-                .brushOn(false)
+                .brushOn(true)
                 .clipPadding(20)
                 .mouseZoomable(true);
 
@@ -160,7 +175,7 @@
                 .group(function (d) {
                     return 'All measuring according to filters'
                 })
-                .size(10)
+                .size(30)
                 .columns([
                     function (d) {
                         var monthNameFormat = d3.time.format("%a %b %e %H:%M:%S");
