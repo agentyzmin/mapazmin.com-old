@@ -126,14 +126,14 @@ STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'yarval',
-        'USER': 'yarval_admin',
-        'PASSWORD': 'xnjuJZRFs3Jw9mEzaUvnNw3pT2HXpp4JxB72sYmMs4SCYSQdeB67JkV7hqFh84vU',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'yarval',
+#         'USER': 'yarval_admin',
+#         'PASSWORD': 'xnjuJZRFs3Jw9mEzaUvnNw3pT2HXpp4JxB72sYmMs4SCYSQdeB67JkV7hqFh84vU',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 

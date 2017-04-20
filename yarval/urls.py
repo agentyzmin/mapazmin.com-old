@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^carData$', maps.views.get_car_data, name='seeDeviceData'),
     url(r'^sensor_json$', maps.views.get_sensor_json, name='sensor_json'),
     url(r'^post_geojson$', maps.views.post_geojson, name='post_geojson'),
+    url(r'^get_geojson$', maps.views.get_geojson, name='get_geojson'),
 
     url(r'^admin/', include(admin.site.urls)),
 ]

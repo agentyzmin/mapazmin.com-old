@@ -140,7 +140,14 @@ def post_geojson(request):
         data = request.POST['geojson']
     except:
         return JsonResponse({'error': 'No data sent'})
-    print(data)
-    with open('maps/static/geoJSON/firstFloorFunctionGeo.json.geojson','w') as outfile:
+    with open('static/geoJSON/firstFloorFunctionGeo.json.geojson', 'w') as outfile:
+        outfile.write(data)
+    with open('maps/static/geoJSON/firstFloorFunctionGeo.json.geojson', 'w') as outfile:
         outfile.write(data)
     return HttpResponse()
+
+
+def get_geojson(request):
+    with open('maps/static/geoJSON/firstFloorFunctionGeo.json.geojson', 'r') as infile:
+        data = infile.read()
+    return HttpResponse(data)
