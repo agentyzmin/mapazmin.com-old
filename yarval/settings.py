@@ -118,21 +118,22 @@ USE_TZ = True
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-import dj_database_url
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'yarval',
+        'USER': 'yarval_admin',
+        'PASSWORD': 'xnjuJZRFs3Jw9mEzaUvnNw3pT2HXpp4JxB72sYmMs4SCYSQdeB67JkV7hqFh84vU',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
-DATABASES['default'] = dj_database_url.config()
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:admin@localhost/yarval-test')
-# DATABASES['default'] = dj_database_url.config(default='postgres://postgres:adminadmin@localhost/yarval')
