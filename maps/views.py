@@ -3,17 +3,14 @@ from ast import literal_eval
 from datetime import datetime
 import time
 import pytz
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.core import serializers
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
-from maps.geojson_saver import save_geojson
 
-from maps.models import SensorData, CarData, PollutionConfig, Pollution
+from maps.models import CarData, PollutionConfig, Pollution
 
 
 def index(request):
@@ -123,19 +120,6 @@ def get_car_data(request):
 
 def get_sensor_json(request):
     result = []
-    # for sensorData in SensorData.objects.all():
-    #     try:
-    #         data = literal_eval(sensorData.data)
-    #         if 'bat' not in data:
-    #             data['bat'] = 100
-    #         if 'noise' in data and 'smoke' in data and 'CO2' in data:
-    #             result.append({
-    #                 'id': sensorData.id,
-    #                 'time': sensorData.time,
-    #                 'data': data
-    #             })
-    #     except:
-    #         pass
     for pollution in Pollution.objects.all():
         result.append({
             'id': pollution.id,
@@ -156,5 +140,7 @@ def post_geojson(request):
         data = request.POST['geojson']
     except:
         return JsonResponse({'error': 'No data sent'})
-    save_geojson(data)
+    print(data)
+    with open('maps/static/geoJSON/firstFloorFunctionGeo.json.geojson','w') as outfile:
+        outfile.write(data)
     return HttpResponse()
