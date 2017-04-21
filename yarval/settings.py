@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'maps',
-    # 'maps.apps.MapsConfig'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -77,11 +76,14 @@ WSGI_APPLICATION = 'yarval.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'yarval',
+        'USER': 'yarval_admin',
+        'PASSWORD': 'xnjuJZRFs3Jw9mEzaUvnNw3pT2HXpp4JxB72sYmMs4SCYSQdeB67JkV7hqFh84vU',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -126,14 +128,14 @@ STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'yarval',
-        'USER': 'yarval_admin',
-        'PASSWORD': 'xnjuJZRFs3Jw9mEzaUvnNw3pT2HXpp4JxB72sYmMs4SCYSQdeB67JkV7hqFh84vU',
-        'HOST': 'localhost',
-        'PORT': '',
+if os.path.exists('local.dummy'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'yarval-test',
+            'USER': 'postgres',
+            'PASSWORD': 'admin',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
     }
-}
-
