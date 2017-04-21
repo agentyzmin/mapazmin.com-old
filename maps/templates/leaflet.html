@@ -32,6 +32,12 @@
     label {
         padding: 3px;
     }
+    
+    @media (max-width: 768px) {
+        #mapid {
+            position: relative;
+        }
+    }
 </style>
 
 <div class="navbar navbar-fixed-top navbar-default">
@@ -41,7 +47,7 @@
 <div class="container-fluid" style="height: 100%;">
     <div class="row" style="height: 100%">
 
-        <div class="col-md-5 col-md-offset-1">
+        <div class="col-sm-5 col-sm-offset-1">
 
             <div id="editForm" class="row">
 
@@ -86,7 +92,7 @@
 
         </div>
 
-        <div id="mapid" class="col-md-6"></div>
+        <div id="mapid" class="col-sm-6"></div>
     </div>
 </div>
 <script src="{% static "js/initmap.js" %}"></script>
