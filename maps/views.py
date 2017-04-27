@@ -48,8 +48,8 @@ def get_latest_pollution_config():
 def receive_sensor_data(request):
     try:
         data_dict = literal_eval(request.GET['data'])
-        data_dict['CO2'] = (data_dict['CO2'] ** 2) / 600
-        data_dict['smoke'] = ((data_dict['smoke'] - 60) * 0.005) * 0.2
+        # data_dict['CO2'] = (data_dict['CO2'] ** 2) / 600
+        # data_dict['smoke'] = ((data_dict['smoke'] - 60) * 0.005) * 0.2
         pollution = Pollution(co2=data_dict['CO2'], smoke=data_dict['smoke'], noise=data_dict['noise'],
                               bat=data_dict['bat'], received=datetime.now(tz=pytz.utc))
         pollution.save()
