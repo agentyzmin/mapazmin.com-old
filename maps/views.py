@@ -21,6 +21,10 @@ def leaflet(request):
     return render(request, 'leaflet.html')
 
 
+def dynamic(request):
+    return render(request, 'dynamic.html')
+
+
 def svgswitcher(request):
     return render(request, 'svgswitcher.html')
 
@@ -118,7 +122,7 @@ def get_car_data(request):
 
 def get_sensor_json(request):
     result = []
-    for pollution in Pollution.objects.all():
+    for pollution in Pollution.objects.all().order_by('-received'):
         result.append({
             'id': pollution.id,
             'time': pollution.received,

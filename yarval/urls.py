@@ -22,6 +22,7 @@ import maps.views
 urlpatterns = [
     url(r'^$', maps.views.index, name='index'),
     url(r'^leaflet$', maps.views.leaflet, name='leaflet'),
+    url(r'^dynamic$', maps.views.dynamic, name='dynamic'),
     url(r'^svgswitcher$', maps.views.svgswitcher, name='svgswitcher'),
     url(r'^pedestrian$', maps.views.pedestrian, name='pedestrian'),
     url(r'^sensor$', maps.views.receive_sensor_data, name='deviceData'),

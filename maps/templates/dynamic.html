@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+          integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+            integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+            crossorigin=""></script>
+
+</head>
+<body>
+<style>
+    html, body {
+        height: 100%;
+    }
+
+    #mapid {
+        height: 100%;
+    }
+</style>
+
+<div id="mapid"></div>
+
+<script>
+    map = new L.Map('mapid', {renderer: L.canvas(), maxZoom: 19});
+
+    var OpenMapSurfer_Grayscale = L.tileLayer('http://korona.geog.uni-heidelberg.de/tiles/roadsg/x={x}&y={y}&z={z}', {
+        maxZoom: 18,
+        attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+
+    map.setView(new L.LatLng(50.450779, 30.510317), 16);
+    map.addLayer(OpenMapSurfer_Grayscale);
+
+    let circle = L.circle([50.450779, 30.510317], {
+        weight: 1,
+        color: '#f03',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 30
+    }).bindPopup("hello")
+        .addTo(map);
+
+    $.get('http://127.0.0.1:8000/sensor_json', function (data, status) {
+        latest_data = data['result'][0]['data'];
+        circle.bindPopup('CO2: ' + latest_data['CO2'] + '\nNoise: ' + latest_data['noise'] + '\nSmoke: ' + latest_data['smoke'])
+    })
+
+
+</script>
+
+</body>
+</html>

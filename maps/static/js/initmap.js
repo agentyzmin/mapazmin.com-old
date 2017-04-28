@@ -113,10 +113,9 @@ function loadBuildings(url, layerGroup) {
                 var a = "[";
                 for (var i = 1; i < this._latlngs[0].length; i++) {
                     a += '[' + this._latlngs[0][i - 1].lat + "," + this._latlngs[0][i - 1].lng + ',' + this._latlngs[0][i].lat + "," + this._latlngs[0][i].lng + ']'
-                    if (i + 1 != this._latlngs[0].length) a += ', ';
+                    if (i + 1 !== this._latlngs[0].length) a += ', ';
                 }
                 a += ']';
-                console.log(a);
             })
         });
         copyLayers(geoJSONlayer, layerGroup);
@@ -146,7 +145,7 @@ function loadYards(url, layerGroup) {
         var geoJSONlayer = L.geoJSON(geoJSON, {
             style: function (feature) {
                 var functionColor;
-                if (typeof COLORS[feature.properties.category] != 'undefined') {
+                if (typeof COLORS[feature.properties.category] !== 'undefined') {
                     functionColor = COLORS[feature.properties.category]
                 }
                 else {
@@ -186,7 +185,7 @@ function loadFacades(url, layerGroup) {
         var geoJSONlayer = L.geoJSON(geoJSON, {
             style: function (feature) {
                 var functionColor;
-                if (COLORS[feature.properties.category] != undefined) functionColor = COLORS[feature.properties.category];
+                if (COLORS[feature.properties.category] !== undefined) functionColor = COLORS[feature.properties.category];
                 else functionColor = '#000000';
                 return {
                     color: functionColor,
@@ -230,16 +229,13 @@ function loadNthFloorFunction(floor, geojson, layerGroup) {
             toDelete.push(layerGroups[index])
         }
     }
-    console.log(toDelete);
-    console.log(layerGroups);
     for (var index in toDelete) {
         layerGroups.splice(layerGroups.indexOf(toDelete[index]), 1);
     }
-    console.log(layerGroups);
     var geoJSONlayer = L.geoJSON(geojson, {
         style: function (feature) {
             var functionColor;
-            if (COLORS[feature.properties.floors[floor]] != undefined) {
+            if (COLORS[feature.properties.floors[floor]] !== undefined) {
                 functionColor = COLORS[feature.properties.floors[floor]];
             }
             else {
@@ -277,7 +273,7 @@ function loadNthFloorFunction(floor, geojson, layerGroup) {
             }
             // layer.bindPopup(text);
             layer.on('click', function (e) {
-                if (typeof selectedLayer != 'undefined') {
+                if (typeof selectedLayer !== 'undefined') {
                     selectedLayer.options.color = selectedLayer.options.fillColor;
                     selectedLayer.redraw();
                 }
