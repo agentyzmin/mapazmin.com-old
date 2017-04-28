@@ -48,7 +48,7 @@
     }).bindPopup("hello")
         .addTo(map);
 
-    $.get('http://127.0.0.1:8000/sensor_json', function (data, status) {
+    $.get('/sensor_json', function (data, status) {
         latest_data = data['result'][0]['data'];
         circle.bindPopup('CO2: ' + latest_data['CO2'] + '\nNoise: ' + latest_data['noise'] + '\nSmoke: ' + latest_data['smoke'])
     })
