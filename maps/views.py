@@ -88,18 +88,18 @@ def receive_car_data(request):
     try:
         data = request.POST['data']
         bat = request.GET['bat']
+        entries = parse_car_data(data)
+        time_received = datetime.now(tz=pytz.utc)
+        for entry in entries:
+            car_data = CarData(max_height=entry['max_height'],
+                               start_time=entry['start_time'],
+                               end_time=entry['end_time'],
+                               time_received=time_received,
+                               bat=bat)
+            car_data.save()
+        return HttpResponse()
     except:
         return JsonResponse({'error': 'No data sent'})
-    entries = parse_car_data(data)
-    time_received = datetime.now(tz=pytz.utc)
-    for entry in entries:
-        car_data = CarData(max_height=entry['max_height'],
-                           start_time=entry['start_time'],
-                           end_time=entry['end_time'],
-                           time_received=time_received,
-                           bat=bat)
-        car_data.save()
-    return HttpResponse()
 
 
 def get_sensor_data(request):
