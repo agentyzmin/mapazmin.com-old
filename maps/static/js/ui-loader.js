@@ -46,7 +46,7 @@ function loadFloorSwitch() {
     });
     floors.sort();
     var floorSwitcher = $('#floorSwitcher').html('');
-    var floorSwitcherSelect = $('<select class="form-control"></select>').css('width','80px');
+    var floorSwitcherSelect = $('<select class="form-control"></select>').css('width', '80px');
     floorSwitcher.append(floorSwitcherSelect);
     for (var index in floors) {
         floorSwitcherSelect.append($('<option value="' + floors[index] + '">' + floors[index] + '</option>'))
@@ -341,16 +341,24 @@ function buildingEditor() {
         if (Number(key) > maxFloor) maxFloor = Number(key);
     }
     var fields = $('<div id="fields"></div>');
-    var floorSelect = $('<select id="floorSelect" class="form-control"></select>').css('width','60px').css('display','inline-block').css('margin','10px');
+    var floorSelect = $('<select id="floorSelect" class="form-control"></select>').css('width', '60px').css('display', 'inline-block').css('margin', '10px');
     for (var i = 1; i < maxFloor + 2; i++) {
         floorSelect.append($('<option value="' + i + '">' + i + '</option>'))
     }
-    var categorySelect = $('<select id="categorySelect" class="form-control"></select>').css('width','110px').css('display','inline-block').css('margin','10px');
+    var categorySelect = $('<select id="categorySelect" class="form-control"></select>').css('width', '110px').css('display', 'inline-block').css('margin', '10px');
+    categorySelect.append($('<option value="-">-</option>'));
     for (var index in firstFloorLayerGroup.categories) {
         categorySelect.append($('<option value="' + firstFloorLayerGroup.categories[index] + '">' + i18n(firstFloorLayerGroup.categories[index]) + '</option>'))
     }
     var approveButton = $('<button class="btn btn-info">Додати</button>').click(function () {
-        selectedLayer.feature.properties.floors[Number($('#floorSelect').val())] = $('#categorySelect').val();
+        if ($('#categorySelect').val() === '-') {
+            if (Number($('#floorSelect').val()) in selectedLayer.feature.properties.floors) {
+                delete selectedLayer.feature.properties.floors[Number($('#floorSelect').val())]
+            }
+        }
+        else {
+            selectedLayer.feature.properties.floors[Number($('#floorSelect').val())] = $('#categorySelect').val();
+        }
         loadFloorSwitch();
         buildingEditor();
     });
@@ -373,6 +381,15 @@ function buildingEditor() {
     parent.append(info)
         .append(fields)
         .append(saveButton);
+    floorSelect.change(function () {
+        if (Number($('#floorSelect').val()) in selectedLayer.feature.properties.floors) {
+            categorySelect.val(selectedLayer.feature.properties.floors[Number($('#floorSelect').val())]);
+        }
+        else {
+            categorySelect.val('-')
+        }
+    });
+    floorSelect.change()
 }
 
 function i18n(string) {
