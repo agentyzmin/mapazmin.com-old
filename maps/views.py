@@ -65,16 +65,14 @@ def receive_sensor_data(request):
 
 
 def parse_car_data(raw_data):
-    raw_data = raw_data.translate('\n')
-    rows = raw_data.split(',')
-    base_time = rows[0]
+    rows = raw_data.translate('\n').split(',')
     result = []
-    for row in rows[1:]:
+    for row in rows:
         row_list = row.split('|')
         if len(row_list) < 4: continue
         max_height = row_list[1]
-        start_time = datetime.fromtimestamp((int(base_time) + int(row_list[2])) / 1000.0)
-        end_time = datetime.fromtimestamp((int(base_time) + int(row_list[3])) / 1000.0)
+        start_time = datetime.fromtimestamp(int(row_list[2]) / 1000.0)
+        end_time = datetime.fromtimestamp(int(row_list[3]) / 1000.0)
         result.append({
             'max_height': max_height,
             'start_time': start_time,
