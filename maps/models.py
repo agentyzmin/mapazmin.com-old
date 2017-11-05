@@ -46,4 +46,4 @@ class CarData(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     time_received = models.DateTimeField()
-    bat = models.IntegerField()
+    bat = models.FloatField()
